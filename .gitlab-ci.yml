@@ -36,9 +36,23 @@ maven-compile:
       - target/generated-sources/
     expire_in: 1 day
 
+# commented out by charlie and replaced with code from teams to solve chromium not installed issue
+#maven-package:
+#  stage: package
+#  script:
+#    - ./mvnw -ntp verify -Pprod -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
+#  artifacts:
+#    paths:
+#      - target/*.jar
+#      - target/classes
+#    expire_in: 1 day
+
 maven-package:
   stage: package
   script:
+    - echo "jhipster" | sudo -S apt-get update
+    - echo "jhipster" | sudo -S apt-get install -y chromium-browser
+    - echo `whereis chromium-browser`
     - ./mvnw -ntp verify -Pprod -DskipTests -Dmaven.repo.local=$MAVEN_USER_HOME
   artifacts:
     paths:
