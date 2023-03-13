@@ -1,0 +1,36 @@
+entity User {
+    id Long
+    username String required
+    email String required unique
+    password String required
+}
+
+entity Song {
+    id Long
+    artist String required
+    title String required
+}
+
+entity LikedSong {
+    id Long
+}
+
+entity DislikedSong {
+    id Long
+}
+
+entity MainPage {
+    id Long
+}
+
+relationship ManyToOne {
+    LikedSong {user(id)} to User
+    DislikedSong {user(id)} to User
+    LikedSong {song(id)} to Song
+    DislikedSong {song(id)} to Song
+}
+
+
+relationship OneToOne {
+    MainPage { user } to User
+}
