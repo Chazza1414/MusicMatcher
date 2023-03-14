@@ -1,36 +1,29 @@
-entity User {
-    id Long
-    username String required
-    email String required unique
-    password String required
-}
-
 entity Song {
-    id Long
+    id Long required
     artist String required
     title String required
 }
 
 entity LikedSong {
-    id Long
+    id Long required
+    chosen Boolean required
 }
 
 entity DislikedSong {
-    id Long
+    id Long required
+    chosen Boolean required
 }
 
 entity MainPage {
-    id Long
+    id Long required
 }
 
 relationship ManyToOne {
-    LikedSong {user(id)} to User
-    DislikedSong {user(id)} to User
-    LikedSong {song(id)} to Song
-    DislikedSong {song(id)} to Song
+    Song{mainPage(id)} to MainPage
 }
 
-
 relationship OneToOne {
-    MainPage { user } to User
+    MainPage to User
+    Song{likedSong(chosen)} to LikedSong{song(id)}
+    Song{dislikedSong(chosen)} to DislikedSong{song(id)}
 }

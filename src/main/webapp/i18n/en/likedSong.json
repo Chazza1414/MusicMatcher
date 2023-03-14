@@ -1,0 +1,25 @@
+{
+  "teamprojectApp": {
+    "likedSong": {
+      "home": {
+        "title": "Liked Songs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Liked Song",
+        "createOrEditLabel": "Create or edit a Liked Song",
+        "notFound": "No Liked Songs found"
+      },
+      "created": "A new Liked Song is created with identifier {{ param }}",
+      "updated": "A Liked Song is updated with identifier {{ param }}",
+      "deleted": "A Liked Song is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Liked Song {{ id }}?"
+      },
+      "detail": {
+        "title": "Liked Song"
+      },
+      "id": "Id",
+      "chosen": "Chosen",
+      "song": "Song"
+    }
+  }
+}

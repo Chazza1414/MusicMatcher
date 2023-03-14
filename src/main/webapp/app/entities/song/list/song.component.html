@@ -1,0 +1,118 @@
+<div>
+  <h2 id="page-heading" data-cy="SongHeading">
+    <span jhiTranslate="teamprojectApp.song.home.title">Songs</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="teamprojectApp.song.home.refreshListLabel">Refresh list</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-song"
+        [routerLink]="['/song/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="teamprojectApp.song.home.createLabel"> Create a new Song </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="songs?.length === 0">
+    <span jhiTranslate="teamprojectApp.song.home.notFound">No Songs found</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="songs && songs.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.id">Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="artist">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.artist">Artist</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="title">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.title">Title</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="likedSong.chosen">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.likedSong">Liked Song</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="dislikedSong.chosen">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.dislikedSong">Disliked Song</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="mainPage.id">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.mainPage">Main Page</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let song of songs; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/song', song.id, 'view']">{{ song.id }}</a>
+          </td>
+          <td>{{ song.artist }}</td>
+          <td>{{ song.title }}</td>
+          <td>
+            <div *ngIf="song.likedSong">
+              <a [routerLink]="['/liked-song', song.likedSong.id, 'view']">{{ song.likedSong.chosen }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="song.dislikedSong">
+              <a [routerLink]="['/disliked-song', song.dislikedSong.id, 'view']">{{ song.dislikedSong.chosen }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="song.mainPage">
+              <a [routerLink]="['/main-page', song.mainPage.id, 'view']">{{ song.mainPage.id }}</a>
+            </div>
+          </td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button type="submit" [routerLink]="['/song', song.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/song', song.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(song)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

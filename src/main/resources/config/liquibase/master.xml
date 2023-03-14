@@ -25,6 +25,7 @@
     <include file="config/liquibase/changelog/20230313211007_added_entity_constraints_LikedSong.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230313211008_added_entity_constraints_DislikedSong.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20230313211009_added_entity_constraints_MainPage.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230313211006_added_entity_constraints_Song.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>
