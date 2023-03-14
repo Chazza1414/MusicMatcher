@@ -1,7 +1,7 @@
-package uk.ac.bham.teamproject.web.rest.controller;
+package uk.ac.bham.teamproject.web.rest.backEnd.control;
 
-import uk.ac.bham.teamproject.web.rest.model;
-import uk.ac.bham.teamproject.web.rest.service;
+import uk.ac.bham.teamproject.web.rest.backEnd.model;
+import uk.ac.bham.teamproject.web.rest.backEnd.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
