@@ -1,0 +1,38 @@
+{
+  "applications": "*",
+  "changelogDate": "20230315120631",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "song",
+  "fields": [
+    {
+      "fieldName": "id",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "artist",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Song",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "mainPage",
+      "relationshipName": "mainPage",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

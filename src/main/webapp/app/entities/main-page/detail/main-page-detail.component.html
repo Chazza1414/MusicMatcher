@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="mainPage">
+      <h2 data-cy="mainPageDetailsHeading"><span jhiTranslate="teamprojectApp.mainPage.detail.title">Main Page</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="teamprojectApp.mainPage.id">Id</span></dt>
+        <dd>
+          <span>{{ mainPage.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.mainPage.user">User</span></dt>
+        <dd>
+          <span>{{ mainPage.user?.id }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/main-page', mainPage.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

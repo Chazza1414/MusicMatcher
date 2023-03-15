@@ -48,6 +48,8 @@ public class CacheConfiguration {
             createCache(cm, uk.ac.bham.teamproject.domain.User.class.getName());
             createCache(cm, uk.ac.bham.teamproject.domain.Authority.class.getName());
             createCache(cm, uk.ac.bham.teamproject.domain.User.class.getName() + ".authorities");
+            createCache(cm, uk.ac.bham.teamproject.domain.Song.class.getName());
+            createCache(cm, uk.ac.bham.teamproject.domain.MainPage.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

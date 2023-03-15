@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="song">
+      <h2 data-cy="songDetailsHeading"><span jhiTranslate="teamprojectApp.song.detail.title">Song</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="teamprojectApp.song.id">Id</span></dt>
+        <dd>
+          <span>{{ song.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.artist">Artist</span></dt>
+        <dd>
+          <span>{{ song.artist }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.title">Title</span></dt>
+        <dd>
+          <span>{{ song.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.mainPage">Main Page</span></dt>
+        <dd>
+          <div *ngIf="song.mainPage">
+            <a [routerLink]="['/main-page', song.mainPage.id, 'view']">{{ song.mainPage.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/song', song.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
