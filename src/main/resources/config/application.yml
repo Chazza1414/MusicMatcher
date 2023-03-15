@@ -92,6 +92,20 @@ management:
 
 spring:
   application:
+    output: #Aki added from here
+      ansi:
+        console-available: true
+
+      datasource:
+        url: jdbc:postgresql://localhost:5432/song_database
+        username: teamproject
+        password:
+      jpa:
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+          ddl-auto: update #to here
     name: teamproject
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
