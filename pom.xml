@@ -304,6 +304,11 @@
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.17.6</version>
+        </dependency>
         <!-- jhipster-needle-maven-add-dependency -->
     </dependencies>
 
@@ -931,11 +936,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
+
                         <configuration>
                             <testExcludes>
                                 <testExclude>uk/ac/bham/teamproject/config/PostgreSqlTestContainer.java</testExclude>
                             </testExcludes>
                         </configuration>
+
                     </plugin>
 
                 </plugins>
@@ -1026,6 +1033,7 @@
         </profile>
         <profile>
             <id>prod</id>
+
             <dependencies>
 
                 <dependency>
@@ -1037,12 +1045,14 @@
                 <dependency>
                     <groupId>org.postgresql</groupId>
                     <artifactId>postgresql</artifactId>
-                    <scope>runtime</scope>
+                    <version>42.5.1</version>
                 </dependency>
 
                 <dependency>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-jdbc</artifactId>
+                    <groupId>org.testcontainers</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>1.17.6</version>
+                    <scope>test</scope>
                 </dependency>
             </dependencies>
             <build>
