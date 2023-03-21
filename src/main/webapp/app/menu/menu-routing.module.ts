@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LikedSongsComponent } from './liked-songs/liked-songs.component';
-
-const menuRoutes: Routes = [
-  {
-    path: 'liked-songs',
-    component: LikedSongsComponent,
-  },
-];
+import { RouterModule } from '@angular/router';
+/* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
 @NgModule({
-  imports: [RouterModule.forChild(menuRoutes)],
+  imports: [
+    /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
+    RouterModule.forChild([
+      {
+        path: 'liked-songs',
+        loadChildren: () => import('./liked-songs/liked-songs.module').then(m => m.LikedSongsModule),
+      },
+    ]),
+  ],
 })
 export class MenuRoutingModule {}
