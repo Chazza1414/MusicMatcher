@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LikedSongsComponent } from './liked-songs.component';
+import { SettingsComponent } from './settings.component';
 
-describe('LikedSongsComponent', () => {
-  let component: LikedSongsComponent;
-  let fixture: ComponentFixture<LikedSongsComponent>;
+describe('SettingsComponent', () => {
+  let component: SettingsComponent;
+  let fixture: ComponentFixture<SettingsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LikedSongsComponent],
+      declarations: [SettingsComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LikedSongsComponent);
+    fixture = TestBed.createComponent(SettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    // @ts-ignore
     expect(component).toBeTruthy();
   });
 });
