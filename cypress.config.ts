@@ -17,7 +17,7 @@ export const defaultConfig = {
   e2e: {
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
-    async setupNodeEvents(on, config) {
+    async setupNodeEvents(on: Cypress.PluginEvents, config: Cypress.PluginConfigOptions) {
       return (await import('./src/test/javascript/cypress/plugins/index')).default(on, config);
     },
     baseUrl: 'http://localhost:8080/',

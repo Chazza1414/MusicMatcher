@@ -1,23 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LikedSongsComponent } from './liked-songs.component';
+import { MainPageComponent } from './main-page.component';
 
-describe('LikedSongsComponent', () => {
-  let component: LikedSongsComponent;
-  let fixture: ComponentFixture<LikedSongsComponent>;
+describe('MainPageComponent', () => {
+  let component: MainPageComponent;
+  let fixture: ComponentFixture<MainPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LikedSongsComponent],
+      declarations: [MainPageComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LikedSongsComponent);
+    fixture = TestBed.createComponent(MainPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    // @ts-ignore
     expect(component).toBeTruthy();
   });
 });

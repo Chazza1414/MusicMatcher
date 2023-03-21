@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./song/song.module').then(m => m.SongModule),
       },
       {
-        path: 'main-page',
+        path: 'main-page-entity',
         data: { pageTitle: 'teamprojectApp.mainPage.home.title' },
         loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule),
       },
