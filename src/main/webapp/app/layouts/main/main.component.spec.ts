@@ -72,7 +72,9 @@ describe('MainComponent', () => {
         routerEventsSubject.next(navigationEnd);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(defaultPageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(defaultPageTitle + ' translated');
       });
 
@@ -84,7 +86,9 @@ describe('MainComponent', () => {
         routerEventsSubject.next(navigationEnd);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(parentRoutePageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle + ' translated');
       });
 
@@ -97,7 +101,9 @@ describe('MainComponent', () => {
         routerEventsSubject.next(navigationEnd);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(childRoutePageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(childRoutePageTitle + ' translated');
       });
 
@@ -110,7 +116,9 @@ describe('MainComponent', () => {
         routerEventsSubject.next(navigationEnd);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(parentRoutePageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle + ' translated');
       });
     });
@@ -121,6 +129,7 @@ describe('MainComponent', () => {
         routerEventsSubject.next(navigationStart);
 
         // THEN
+        // @ts-ignore
         expect(titleService.setTitle).not.toHaveBeenCalled();
       });
     });
@@ -131,7 +140,9 @@ describe('MainComponent', () => {
         translateService.onLangChange.emit(langChangeEvent);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(defaultPageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(defaultPageTitle + ' translated');
       });
 
@@ -143,7 +154,9 @@ describe('MainComponent', () => {
         translateService.onLangChange.emit(langChangeEvent);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(parentRoutePageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle + ' translated');
       });
 
@@ -156,7 +169,9 @@ describe('MainComponent', () => {
         translateService.onLangChange.emit(langChangeEvent);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(childRoutePageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(childRoutePageTitle + ' translated');
       });
 
@@ -169,7 +184,9 @@ describe('MainComponent', () => {
         translateService.onLangChange.emit(langChangeEvent);
 
         // THEN
+        // @ts-ignore
         expect(translateService.get).toHaveBeenCalledWith(parentRoutePageTitle);
+        // @ts-ignore
         expect(titleService.setTitle).toHaveBeenCalledWith(parentRoutePageTitle + ' translated');
       });
     });
@@ -184,12 +201,14 @@ describe('MainComponent', () => {
       translateService.onLangChange.emit({ lang: 'lang1', translations: null });
 
       // THEN
+      // @ts-ignore
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang1');
 
       // WHEN
       translateService.onLangChange.emit({ lang: 'lang2', translations: null });
 
       // THEN
+      // @ts-ignore
       expect(document.querySelector('html')?.getAttribute('lang')).toEqual('lang2');
     });
   });
