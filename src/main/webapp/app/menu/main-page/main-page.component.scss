@@ -1,0 +1,26 @@
+html,
+body {
+  min-height: 100vh;
+}
+
+#left-column {
+  background-color: lightgreen;
+  width: 33%;
+  height: 60vh;
+}
+
+#center-column {
+  background-color: lightblue;
+  width: 33%;
+}
+
+#right-column {
+  background-color: lightpink;
+  width: 33%;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
