@@ -97,7 +97,7 @@ spring:
         console-available: true
 
       datasource:
-        url: jdbc:postgresql://teamproject-postgresql:5432/teamproject
+        url: jdbc:postgresql://localhost:5432/song_database
         username: teamproject
         password:
       jpa:
