@@ -7,6 +7,7 @@ import { DEBUG_INFO_ENABLED } from 'app/app.constants';
 import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
+import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,10 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access.service'
         {
           path: '',
           loadChildren: () => import(`./menu/menu-routing.module`).then(m => m.MenuRoutingModule),
+        },
+        {
+          path: 'gdpr',
+          component: GdprComponent,
         },
         navbarRoute,
         ...errorRoute,
