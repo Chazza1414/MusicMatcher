@@ -25,6 +25,9 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
+import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
+import { RouterModule } from '@angular/router';
+//import {footerRoute} from "./layouts/footer/footer.route";
 
 @NgModule({
   imports: [
