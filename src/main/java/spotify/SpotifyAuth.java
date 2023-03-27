@@ -12,7 +12,7 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.pkce.A
 
 public class SpotifyAuth {
 
-    private static final String clientId = "329042d8d77e4982bd5446ed1a21c6a8";
+    private static final String clientId = "420af6bafdcf44398328b920c4c7dd97";
     private static final String refreshToken =
         "b0KuPuLw77Z0hQhCsK-GTHoEx_kethtn357V7iqwEpCTIsLgqbBC_vQBTGC6M5rINl0FrqHK-D3cbOsMOlfyVKuQPvpyGcLcxAoLOTpYXc28nVwB7iBq2oKj9G9lHkFOUKn";
 
