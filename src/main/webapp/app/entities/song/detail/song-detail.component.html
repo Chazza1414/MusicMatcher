@@ -1,0 +1,48 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="song">
+      <h2 data-cy="songDetailsHeading"><span jhiTranslate="teamprojectApp.song.detail.title">Song</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ song.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.spotifySongId">Spotify Song Id</span></dt>
+        <dd>
+          <span>{{ song.spotifySongId }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.songName">Song Name</span></dt>
+        <dd>
+          <span>{{ song.songName }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.spotifyArtistId">Spotify Artist Id</span></dt>
+        <dd>
+          <span>{{ song.spotifyArtistId }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.artistName">Artist Name</span></dt>
+        <dd>
+          <span>{{ song.artistName }}</span>
+        </dd>
+        <dt><span jhiTranslate="teamprojectApp.song.user">User</span></dt>
+        <dd>
+          <span>{{ song.user?.login }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/song', song.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

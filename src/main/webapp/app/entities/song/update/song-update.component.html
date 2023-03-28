@@ -1,0 +1,128 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-song-heading" data-cy="SongCreateUpdateHeading" jhiTranslate="teamprojectApp.song.home.createOrEditLabel">
+        Create or edit a Song
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+          <label class="form-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="teamprojectApp.song.spotifySongId" for="field_spotifySongId">Spotify Song Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifySongId"
+            id="field_spotifySongId"
+            data-cy="spotifySongId"
+            formControlName="spotifySongId"
+          />
+          <div
+            *ngIf="
+              editForm.get('spotifySongId')!.invalid && (editForm.get('spotifySongId')!.dirty || editForm.get('spotifySongId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('spotifySongId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="teamprojectApp.song.songName" for="field_songName">Song Name</label>
+          <input type="text" class="form-control" name="songName" id="field_songName" data-cy="songName" formControlName="songName" />
+          <div *ngIf="editForm.get('songName')!.invalid && (editForm.get('songName')!.dirty || editForm.get('songName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('songName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="teamprojectApp.song.spotifyArtistId" for="field_spotifyArtistId">Spotify Artist Id</label>
+          <input
+            type="text"
+            class="form-control"
+            name="spotifyArtistId"
+            id="field_spotifyArtistId"
+            data-cy="spotifyArtistId"
+            formControlName="spotifyArtistId"
+          />
+          <div
+            *ngIf="
+              editForm.get('spotifyArtistId')!.invalid &&
+              (editForm.get('spotifyArtistId')!.dirty || editForm.get('spotifyArtistId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('spotifyArtistId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="teamprojectApp.song.artistName" for="field_artistName">Artist Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="artistName"
+            id="field_artistName"
+            data-cy="artistName"
+            formControlName="artistName"
+          />
+          <div *ngIf="editForm.get('artistName')!.invalid && (editForm.get('artistName')!.dirty || editForm.get('artistName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('artistName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" jhiTranslate="teamprojectApp.song.user" for="field_user">User</label>
+          <select class="form-control" id="field_user" data-cy="user" name="user" formControlName="user" [compareWith]="compareUser">
+            <option [ngValue]="null"></option>
+            <option [ngValue]="userOption" *ngFor="let userOption of usersSharedCollection">{{ userOption.login }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
