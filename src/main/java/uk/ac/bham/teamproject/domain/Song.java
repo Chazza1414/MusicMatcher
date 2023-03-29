@@ -1,113 +1,124 @@
 package uk.ac.bham.teamproject.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.domain.Persistable;
 
 /**
  * A Song.
  */
-@JsonIgnoreProperties(value = { "new" })
 @Entity
 @Table(name = "song")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Song implements Serializable, Persistable<String> {
+public class Song implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull
     @Id
-    @Column(name = "id", nullable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
-    @Column(name = "artist", nullable = false)
-    private String artist;
+    @Column(name = "spotify_song_id", nullable = false)
+    private String spotifySongId;
 
     @NotNull
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "song_name", nullable = false)
+    private String songName;
 
-    @Transient
-    private boolean isPersisted;
+    @NotNull
+    @Column(name = "spotify_artist_id", nullable = false)
+    private String spotifyArtistId;
+
+    @NotNull
+    @Column(name = "artist_name", nullable = false)
+    private String artistName;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
-    private MainPage mainPage;
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public Song id(String id) {
+    public Song id(Long id) {
         this.setId(id);
         return this;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getArtist() {
-        return this.artist;
+    public String getSpotifySongId() {
+        return this.spotifySongId;
     }
 
-    public Song artist(String artist) {
-        this.setArtist(artist);
+    public Song spotifySongId(String spotifySongId) {
+        this.setSpotifySongId(spotifySongId);
         return this;
     }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
+    public void setSpotifySongId(String spotifySongId) {
+        this.spotifySongId = spotifySongId;
     }
 
-    public String getTitle() {
-        return this.title;
+    public String getSongName() {
+        return this.songName;
     }
 
-    public Song title(String title) {
-        this.setTitle(title);
+    public Song songName(String songName) {
+        this.setSongName(songName);
         return this;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSongName(String songName) {
+        this.songName = songName;
     }
 
-    @Transient
-    @Override
-    public boolean isNew() {
-        return !this.isPersisted;
+    public String getSpotifyArtistId() {
+        return this.spotifyArtistId;
     }
 
-    public Song setIsPersisted() {
-        this.isPersisted = true;
+    public Song spotifyArtistId(String spotifyArtistId) {
+        this.setSpotifyArtistId(spotifyArtistId);
         return this;
     }
 
-    @PostLoad
-    @PostPersist
-    public void updateEntityState() {
-        this.setIsPersisted();
+    public void setSpotifyArtistId(String spotifyArtistId) {
+        this.spotifyArtistId = spotifyArtistId;
     }
 
-    public MainPage getMainPage() {
-        return this.mainPage;
+    public String getArtistName() {
+        return this.artistName;
     }
 
-    public void setMainPage(MainPage mainPage) {
-        this.mainPage = mainPage;
+    public Song artistName(String artistName) {
+        this.setArtistName(artistName);
+        return this;
     }
 
-    public Song mainPage(MainPage mainPage) {
-        this.setMainPage(mainPage);
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Song user(User user) {
+        this.setUser(user);
         return this;
     }
 
@@ -135,8 +146,10 @@ public class Song implements Serializable, Persistable<String> {
     public String toString() {
         return "Song{" +
             "id=" + getId() +
-            ", artist='" + getArtist() + "'" +
-            ", title='" + getTitle() + "'" +
+            ", spotifySongId='" + getSpotifySongId() + "'" +
+            ", songName='" + getSongName() + "'" +
+            ", spotifyArtistId='" + getSpotifyArtistId() + "'" +
+            ", artistName='" + getArtistName() + "'" +
             "}";
     }
 }

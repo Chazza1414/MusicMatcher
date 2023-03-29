@@ -6,12 +6,12 @@
     <!--
         Added the constraints for entity Song.
     -->
-    <changeSet id="20230315120631-2" author="jhipster">
+    <changeSet id="20230328144627-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="main_page_id"
+        <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="song"
-                                 constraintName="fk_song__main_page_id"
+                                 constraintName="fk_song__user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="main_page"/>
+                                 referencedTableName="jhi_user"/>
     </changeSet>
 </databaseChangeLog>

@@ -30,7 +30,7 @@ export class SongService {
     return this.http.patch<ISong>(`${this.resourceUrl}/${this.getSongIdentifier(song)}`, song, { observe: 'response' });
   }
 
-  find(id: string): Observable<EntityResponseType> {
+  find(id: number): Observable<EntityResponseType> {
     return this.http.get<ISong>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
@@ -39,11 +39,11 @@ export class SongService {
     return this.http.get<ISong[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  delete(id: string): Observable<HttpResponse<{}>> {
+  delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  getSongIdentifier(song: Pick<ISong, 'id'>): string {
+  getSongIdentifier(song: Pick<ISong, 'id'>): number {
     return song.id;
   }
 

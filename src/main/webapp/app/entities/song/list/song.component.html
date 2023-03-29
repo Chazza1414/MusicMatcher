@@ -34,25 +34,37 @@
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
           <th scope="col" jhiSortBy="id">
             <div class="d-flex">
-              <span jhiTranslate="teamprojectApp.song.id">Id</span>
+              <span jhiTranslate="global.field.id">ID</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="artist">
+          <th scope="col" jhiSortBy="spotifySongId">
             <div class="d-flex">
-              <span jhiTranslate="teamprojectApp.song.artist">Artist</span>
+              <span jhiTranslate="teamprojectApp.song.spotifySongId">Spotify Song Id</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="title">
+          <th scope="col" jhiSortBy="songName">
             <div class="d-flex">
-              <span jhiTranslate="teamprojectApp.song.title">Title</span>
+              <span jhiTranslate="teamprojectApp.song.songName">Song Name</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="mainPage.id">
+          <th scope="col" jhiSortBy="spotifyArtistId">
             <div class="d-flex">
-              <span jhiTranslate="teamprojectApp.song.mainPage">Main Page</span>
+              <span jhiTranslate="teamprojectApp.song.spotifyArtistId">Spotify Artist Id</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="artistName">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.artistName">Artist Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="user.login">
+            <div class="d-flex">
+              <span jhiTranslate="teamprojectApp.song.user">User</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -64,12 +76,12 @@
           <td>
             <a [routerLink]="['/song', song.id, 'view']">{{ song.id }}</a>
           </td>
-          <td>{{ song.artist }}</td>
-          <td>{{ song.title }}</td>
+          <td>{{ song.spotifySongId }}</td>
+          <td>{{ song.songName }}</td>
+          <td>{{ song.spotifyArtistId }}</td>
+          <td>{{ song.artistName }}</td>
           <td>
-            <div *ngIf="song.mainPage">
-              <a [routerLink]="['/main-page', song.mainPage.id, 'view']">{{ song.mainPage.id }}</a>
-            </div>
+            {{ song.user?.login }}
           </td>
           <td class="text-end">
             <div class="btn-group">

@@ -1,22 +1,27 @@
 {
   "applications": "*",
-  "changelogDate": "20230315120631",
+  "changelogDate": "20230328144627",
   "dto": "no",
   "embedded": false,
   "entityTableName": "song",
   "fields": [
     {
-      "fieldName": "id",
+      "fieldName": "spotifySongId",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "artist",
+      "fieldName": "songName",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "title",
+      "fieldName": "spotifyArtistId",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "artistName",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
     }
@@ -28,9 +33,9 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityField": "id",
-      "otherEntityName": "mainPage",
-      "relationshipName": "mainPage",
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
       "relationshipType": "many-to-one"
     }
   ],
