@@ -18,11 +18,9 @@ type SongFormDefaults = Pick<NewSong, 'id'>;
 
 type SongFormGroupContent = {
   id: FormControl<ISong['id'] | NewSong['id']>;
-  spotifySongId: FormControl<ISong['spotifySongId']>;
-  songName: FormControl<ISong['songName']>;
-  spotifyArtistId: FormControl<ISong['spotifyArtistId']>;
-  artistName: FormControl<ISong['artistName']>;
-  user: FormControl<ISong['user']>;
+  artist: FormControl<ISong['artist']>;
+  title: FormControl<ISong['title']>;
+  mainPage: FormControl<ISong['mainPage']>;
 };
 
 export type SongFormGroup = FormGroup<SongFormGroupContent>;
@@ -36,25 +34,19 @@ export class SongFormService {
     };
     return new FormGroup<SongFormGroupContent>({
       id: new FormControl(
-        { value: songRawValue.id, disabled: true },
+        { value: songRawValue.id, disabled: songRawValue.id !== null },
         {
           nonNullable: true,
           validators: [Validators.required],
         }
       ),
-      spotifySongId: new FormControl(songRawValue.spotifySongId, {
+      artist: new FormControl(songRawValue.artist, {
         validators: [Validators.required],
       }),
-      songName: new FormControl(songRawValue.songName, {
+      title: new FormControl(songRawValue.title, {
         validators: [Validators.required],
       }),
-      spotifyArtistId: new FormControl(songRawValue.spotifyArtistId, {
-        validators: [Validators.required],
-      }),
-      artistName: new FormControl(songRawValue.artistName, {
-        validators: [Validators.required],
-      }),
-      user: new FormControl(songRawValue.user),
+      mainPage: new FormControl(songRawValue.mainPage),
     });
   }
 
@@ -67,7 +59,7 @@ export class SongFormService {
     form.reset(
       {
         ...songRawValue,
-        id: { value: songRawValue.id, disabled: true },
+        id: { value: songRawValue.id, disabled: songRawValue.id !== null },
       } as any /* cast to workaround https://github.com/angular/angular/issues/46458 */
     );
   }

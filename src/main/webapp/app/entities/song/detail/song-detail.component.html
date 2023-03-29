@@ -10,29 +10,23 @@
       <jhi-alert></jhi-alert>
 
       <dl class="row-md jh-entity-details">
-        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dt><span jhiTranslate="teamprojectApp.song.id">Id</span></dt>
         <dd>
           <span>{{ song.id }}</span>
         </dd>
-        <dt><span jhiTranslate="teamprojectApp.song.spotifySongId">Spotify Song Id</span></dt>
+        <dt><span jhiTranslate="teamprojectApp.song.artist">Artist</span></dt>
         <dd>
-          <span>{{ song.spotifySongId }}</span>
+          <span>{{ song.artist }}</span>
         </dd>
-        <dt><span jhiTranslate="teamprojectApp.song.songName">Song Name</span></dt>
+        <dt><span jhiTranslate="teamprojectApp.song.title">Title</span></dt>
         <dd>
-          <span>{{ song.songName }}</span>
+          <span>{{ song.title }}</span>
         </dd>
-        <dt><span jhiTranslate="teamprojectApp.song.spotifyArtistId">Spotify Artist Id</span></dt>
+        <dt><span jhiTranslate="teamprojectApp.song.mainPage">Main Page</span></dt>
         <dd>
-          <span>{{ song.spotifyArtistId }}</span>
-        </dd>
-        <dt><span jhiTranslate="teamprojectApp.song.artistName">Artist Name</span></dt>
-        <dd>
-          <span>{{ song.artistName }}</span>
-        </dd>
-        <dt><span jhiTranslate="teamprojectApp.song.user">User</span></dt>
-        <dd>
-          <span>{{ song.user?.login }}</span>
+          <div *ngIf="song.mainPage">
+            <a [routerLink]="['/main-page', song.mainPage.id, 'view']">{{ song.mainPage.id }}</a>
+          </div>
         </dd>
       </dl>
 

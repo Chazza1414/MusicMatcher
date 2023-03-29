@@ -2,25 +2,16 @@ package uk.ac.bham.teamproject.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.UUID;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,34 +24,21 @@ import uk.ac.bham.teamproject.repository.SongRepository;
  * Integration tests for the {@link SongResource} REST controller.
  */
 @IntegrationTest
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class SongResourceIT {
 
-    private static final String DEFAULT_SPOTIFY_SONG_ID = "AAAAAAAAAA";
-    private static final String UPDATED_SPOTIFY_SONG_ID = "BBBBBBBBBB";
+    private static final String DEFAULT_ARTIST = "AAAAAAAAAA";
+    private static final String UPDATED_ARTIST = "BBBBBBBBBB";
 
-    private static final String DEFAULT_SONG_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_SONG_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_SPOTIFY_ARTIST_ID = "AAAAAAAAAA";
-    private static final String UPDATED_SPOTIFY_ARTIST_ID = "BBBBBBBBBB";
-
-    private static final String DEFAULT_ARTIST_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_ARTIST_NAME = "BBBBBBBBBB";
+    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
+    private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/songs";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
-    private static Random random = new Random();
-    private static AtomicLong count = new AtomicLong(random.nextInt() + (2 * Integer.MAX_VALUE));
-
     @Autowired
     private SongRepository songRepository;
-
-    @Mock
-    private SongRepository songRepositoryMock;
 
     @Autowired
     private EntityManager em;
@@ -77,11 +55,7 @@ class SongResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Song createEntity(EntityManager em) {
-        Song song = new Song()
-            .spotifySongId(DEFAULT_SPOTIFY_SONG_ID)
-            .songName(DEFAULT_SONG_NAME)
-            .spotifyArtistId(DEFAULT_SPOTIFY_ARTIST_ID)
-            .artistName(DEFAULT_ARTIST_NAME);
+        Song song = new Song().artist(DEFAULT_ARTIST).title(DEFAULT_TITLE);
         return song;
     }
 
@@ -92,11 +66,7 @@ class SongResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Song createUpdatedEntity(EntityManager em) {
-        Song song = new Song()
-            .spotifySongId(UPDATED_SPOTIFY_SONG_ID)
-            .songName(UPDATED_SONG_NAME)
-            .spotifyArtistId(UPDATED_SPOTIFY_ARTIST_ID)
-            .artistName(UPDATED_ARTIST_NAME);
+        Song song = new Song().artist(UPDATED_ARTIST).title(UPDATED_TITLE);
         return song;
     }
 
@@ -118,17 +88,15 @@ class SongResourceIT {
         List<Song> songList = songRepository.findAll();
         assertThat(songList).hasSize(databaseSizeBeforeCreate + 1);
         Song testSong = songList.get(songList.size() - 1);
-        assertThat(testSong.getSpotifySongId()).isEqualTo(DEFAULT_SPOTIFY_SONG_ID);
-        assertThat(testSong.getSongName()).isEqualTo(DEFAULT_SONG_NAME);
-        assertThat(testSong.getSpotifyArtistId()).isEqualTo(DEFAULT_SPOTIFY_ARTIST_ID);
-        assertThat(testSong.getArtistName()).isEqualTo(DEFAULT_ARTIST_NAME);
+        assertThat(testSong.getArtist()).isEqualTo(DEFAULT_ARTIST);
+        assertThat(testSong.getTitle()).isEqualTo(DEFAULT_TITLE);
     }
 
     @Test
     @Transactional
     void createSongWithExistingId() throws Exception {
         // Create the Song with an existing ID
-        song.setId(1L);
+        song.setId("existing_id");
 
         int databaseSizeBeforeCreate = songRepository.findAll().size();
 
@@ -144,10 +112,10 @@ class SongResourceIT {
 
     @Test
     @Transactional
-    void checkSpotifySongIdIsRequired() throws Exception {
+    void checkArtistIsRequired() throws Exception {
         int databaseSizeBeforeTest = songRepository.findAll().size();
         // set the field null
-        song.setSpotifySongId(null);
+        song.setArtist(null);
 
         // Create the Song, which fails.
 
@@ -161,44 +129,10 @@ class SongResourceIT {
 
     @Test
     @Transactional
-    void checkSongNameIsRequired() throws Exception {
+    void checkTitleIsRequired() throws Exception {
         int databaseSizeBeforeTest = songRepository.findAll().size();
         // set the field null
-        song.setSongName(null);
-
-        // Create the Song, which fails.
-
-        restSongMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(song)))
-            .andExpect(status().isBadRequest());
-
-        List<Song> songList = songRepository.findAll();
-        assertThat(songList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkSpotifyArtistIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = songRepository.findAll().size();
-        // set the field null
-        song.setSpotifyArtistId(null);
-
-        // Create the Song, which fails.
-
-        restSongMockMvc
-            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(song)))
-            .andExpect(status().isBadRequest());
-
-        List<Song> songList = songRepository.findAll();
-        assertThat(songList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    void checkArtistNameIsRequired() throws Exception {
-        int databaseSizeBeforeTest = songRepository.findAll().size();
-        // set the field null
-        song.setArtistName(null);
+        song.setTitle(null);
 
         // Create the Song, which fails.
 
@@ -214,6 +148,7 @@ class SongResourceIT {
     @Transactional
     void getAllSongs() throws Exception {
         // Initialize the database
+        song.setId(UUID.randomUUID().toString());
         songRepository.saveAndFlush(song);
 
         // Get all the songList
@@ -221,34 +156,16 @@ class SongResourceIT {
             .perform(get(ENTITY_API_URL + "?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(song.getId().intValue())))
-            .andExpect(jsonPath("$.[*].spotifySongId").value(hasItem(DEFAULT_SPOTIFY_SONG_ID)))
-            .andExpect(jsonPath("$.[*].songName").value(hasItem(DEFAULT_SONG_NAME)))
-            .andExpect(jsonPath("$.[*].spotifyArtistId").value(hasItem(DEFAULT_SPOTIFY_ARTIST_ID)))
-            .andExpect(jsonPath("$.[*].artistName").value(hasItem(DEFAULT_ARTIST_NAME)));
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllSongsWithEagerRelationshipsIsEnabled() throws Exception {
-        when(songRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restSongMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
-
-        verify(songRepositoryMock, times(1)).findAllWithEagerRelationships(any());
-    }
-
-    @SuppressWarnings({ "unchecked" })
-    void getAllSongsWithEagerRelationshipsIsNotEnabled() throws Exception {
-        when(songRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
-
-        restSongMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
-        verify(songRepositoryMock, times(1)).findAll(any(Pageable.class));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(song.getId())))
+            .andExpect(jsonPath("$.[*].artist").value(hasItem(DEFAULT_ARTIST)))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)));
     }
 
     @Test
     @Transactional
     void getSong() throws Exception {
         // Initialize the database
+        song.setId(UUID.randomUUID().toString());
         songRepository.saveAndFlush(song);
 
         // Get the song
@@ -256,11 +173,9 @@ class SongResourceIT {
             .perform(get(ENTITY_API_URL_ID, song.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(song.getId().intValue()))
-            .andExpect(jsonPath("$.spotifySongId").value(DEFAULT_SPOTIFY_SONG_ID))
-            .andExpect(jsonPath("$.songName").value(DEFAULT_SONG_NAME))
-            .andExpect(jsonPath("$.spotifyArtistId").value(DEFAULT_SPOTIFY_ARTIST_ID))
-            .andExpect(jsonPath("$.artistName").value(DEFAULT_ARTIST_NAME));
+            .andExpect(jsonPath("$.id").value(song.getId()))
+            .andExpect(jsonPath("$.artist").value(DEFAULT_ARTIST))
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE));
     }
 
     @Test
@@ -274,6 +189,7 @@ class SongResourceIT {
     @Transactional
     void putExistingSong() throws Exception {
         // Initialize the database
+        song.setId(UUID.randomUUID().toString());
         songRepository.saveAndFlush(song);
 
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
@@ -282,11 +198,7 @@ class SongResourceIT {
         Song updatedSong = songRepository.findById(song.getId()).get();
         // Disconnect from session so that the updates on updatedSong are not directly saved in db
         em.detach(updatedSong);
-        updatedSong
-            .spotifySongId(UPDATED_SPOTIFY_SONG_ID)
-            .songName(UPDATED_SONG_NAME)
-            .spotifyArtistId(UPDATED_SPOTIFY_ARTIST_ID)
-            .artistName(UPDATED_ARTIST_NAME);
+        updatedSong.artist(UPDATED_ARTIST).title(UPDATED_TITLE);
 
         restSongMockMvc
             .perform(
@@ -300,17 +212,15 @@ class SongResourceIT {
         List<Song> songList = songRepository.findAll();
         assertThat(songList).hasSize(databaseSizeBeforeUpdate);
         Song testSong = songList.get(songList.size() - 1);
-        assertThat(testSong.getSpotifySongId()).isEqualTo(UPDATED_SPOTIFY_SONG_ID);
-        assertThat(testSong.getSongName()).isEqualTo(UPDATED_SONG_NAME);
-        assertThat(testSong.getSpotifyArtistId()).isEqualTo(UPDATED_SPOTIFY_ARTIST_ID);
-        assertThat(testSong.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
+        assertThat(testSong.getArtist()).isEqualTo(UPDATED_ARTIST);
+        assertThat(testSong.getTitle()).isEqualTo(UPDATED_TITLE);
     }
 
     @Test
     @Transactional
     void putNonExistingSong() throws Exception {
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
-        song.setId(count.incrementAndGet());
+        song.setId(UUID.randomUUID().toString());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSongMockMvc
@@ -330,12 +240,12 @@ class SongResourceIT {
     @Transactional
     void putWithIdMismatchSong() throws Exception {
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
-        song.setId(count.incrementAndGet());
+        song.setId(UUID.randomUUID().toString());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSongMockMvc
             .perform(
-                put(ENTITY_API_URL_ID, count.incrementAndGet())
+                put(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(TestUtil.convertObjectToJsonBytes(song))
             )
@@ -350,7 +260,7 @@ class SongResourceIT {
     @Transactional
     void putWithMissingIdPathParamSong() throws Exception {
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
-        song.setId(count.incrementAndGet());
+        song.setId(UUID.randomUUID().toString());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSongMockMvc
@@ -366,6 +276,7 @@ class SongResourceIT {
     @Transactional
     void partialUpdateSongWithPatch() throws Exception {
         // Initialize the database
+        song.setId(UUID.randomUUID().toString());
         songRepository.saveAndFlush(song);
 
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
@@ -374,11 +285,7 @@ class SongResourceIT {
         Song partialUpdatedSong = new Song();
         partialUpdatedSong.setId(song.getId());
 
-        partialUpdatedSong
-            .spotifySongId(UPDATED_SPOTIFY_SONG_ID)
-            .songName(UPDATED_SONG_NAME)
-            .spotifyArtistId(UPDATED_SPOTIFY_ARTIST_ID)
-            .artistName(UPDATED_ARTIST_NAME);
+        partialUpdatedSong.artist(UPDATED_ARTIST).title(UPDATED_TITLE);
 
         restSongMockMvc
             .perform(
@@ -392,16 +299,15 @@ class SongResourceIT {
         List<Song> songList = songRepository.findAll();
         assertThat(songList).hasSize(databaseSizeBeforeUpdate);
         Song testSong = songList.get(songList.size() - 1);
-        assertThat(testSong.getSpotifySongId()).isEqualTo(UPDATED_SPOTIFY_SONG_ID);
-        assertThat(testSong.getSongName()).isEqualTo(UPDATED_SONG_NAME);
-        assertThat(testSong.getSpotifyArtistId()).isEqualTo(UPDATED_SPOTIFY_ARTIST_ID);
-        assertThat(testSong.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
+        assertThat(testSong.getArtist()).isEqualTo(UPDATED_ARTIST);
+        assertThat(testSong.getTitle()).isEqualTo(UPDATED_TITLE);
     }
 
     @Test
     @Transactional
     void fullUpdateSongWithPatch() throws Exception {
         // Initialize the database
+        song.setId(UUID.randomUUID().toString());
         songRepository.saveAndFlush(song);
 
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
@@ -410,11 +316,7 @@ class SongResourceIT {
         Song partialUpdatedSong = new Song();
         partialUpdatedSong.setId(song.getId());
 
-        partialUpdatedSong
-            .spotifySongId(UPDATED_SPOTIFY_SONG_ID)
-            .songName(UPDATED_SONG_NAME)
-            .spotifyArtistId(UPDATED_SPOTIFY_ARTIST_ID)
-            .artistName(UPDATED_ARTIST_NAME);
+        partialUpdatedSong.artist(UPDATED_ARTIST).title(UPDATED_TITLE);
 
         restSongMockMvc
             .perform(
@@ -428,17 +330,15 @@ class SongResourceIT {
         List<Song> songList = songRepository.findAll();
         assertThat(songList).hasSize(databaseSizeBeforeUpdate);
         Song testSong = songList.get(songList.size() - 1);
-        assertThat(testSong.getSpotifySongId()).isEqualTo(UPDATED_SPOTIFY_SONG_ID);
-        assertThat(testSong.getSongName()).isEqualTo(UPDATED_SONG_NAME);
-        assertThat(testSong.getSpotifyArtistId()).isEqualTo(UPDATED_SPOTIFY_ARTIST_ID);
-        assertThat(testSong.getArtistName()).isEqualTo(UPDATED_ARTIST_NAME);
+        assertThat(testSong.getArtist()).isEqualTo(UPDATED_ARTIST);
+        assertThat(testSong.getTitle()).isEqualTo(UPDATED_TITLE);
     }
 
     @Test
     @Transactional
     void patchNonExistingSong() throws Exception {
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
-        song.setId(count.incrementAndGet());
+        song.setId(UUID.randomUUID().toString());
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSongMockMvc
@@ -458,12 +358,12 @@ class SongResourceIT {
     @Transactional
     void patchWithIdMismatchSong() throws Exception {
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
-        song.setId(count.incrementAndGet());
+        song.setId(UUID.randomUUID().toString());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSongMockMvc
             .perform(
-                patch(ENTITY_API_URL_ID, count.incrementAndGet())
+                patch(ENTITY_API_URL_ID, UUID.randomUUID().toString())
                     .contentType("application/merge-patch+json")
                     .content(TestUtil.convertObjectToJsonBytes(song))
             )
@@ -478,7 +378,7 @@ class SongResourceIT {
     @Transactional
     void patchWithMissingIdPathParamSong() throws Exception {
         int databaseSizeBeforeUpdate = songRepository.findAll().size();
-        song.setId(count.incrementAndGet());
+        song.setId(UUID.randomUUID().toString());
 
         // If url ID doesn't match entity ID, it will throw BadRequestAlertException
         restSongMockMvc
@@ -494,6 +394,7 @@ class SongResourceIT {
     @Transactional
     void deleteSong() throws Exception {
         // Initialize the database
+        song.setId(UUID.randomUUID().toString());
         songRepository.saveAndFlush(song);
 
         int databaseSizeBeforeDelete = songRepository.findAll().size();

@@ -1,12 +1,10 @@
-import { IUser } from 'app/entities/user/user.model';
+import { IMainPage } from 'app/entities/main-page/main-page.model';
 
 export interface ISong {
-  id: number;
-  spotifySongId?: string | null;
-  songName?: string | null;
-  spotifyArtistId?: string | null;
-  artistName?: string | null;
-  user?: Pick<IUser, 'id' | 'login'> | null;
+  id: string;
+  artist?: string | null;
+  title?: string | null;
+  mainPage?: Pick<IMainPage, 'id'> | null;
 }
 
 export type NewSong = Omit<ISong, 'id'> & { id: null };

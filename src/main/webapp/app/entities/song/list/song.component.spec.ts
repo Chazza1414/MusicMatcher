@@ -48,7 +48,7 @@ describe('Song Management Component', () => {
     jest.spyOn(service, 'query').mockReturnValue(
       of(
         new HttpResponse({
-          body: [{ id: 123 }],
+          body: [{ id: 'ABC' }],
           headers,
         })
       )
@@ -61,12 +61,12 @@ describe('Song Management Component', () => {
 
     // THEN
     expect(service.query).toHaveBeenCalled();
-    expect(comp.songs?.[0]).toEqual(expect.objectContaining({ id: 123 }));
+    expect(comp.songs?.[0]).toEqual(expect.objectContaining({ id: 'ABC' }));
   });
 
   describe('trackId', () => {
     it('Should forward to songService', () => {
-      const entity = { id: 123 };
+      const entity = { id: 'ABC' };
       jest.spyOn(service, 'getSongIdentifier');
       const id = comp.trackId(0, entity);
       expect(service.getSongIdentifier).toHaveBeenCalledWith(entity);

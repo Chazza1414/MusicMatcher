@@ -17,12 +17,10 @@
       "detail": {
         "title": "Song"
       },
-      "id": "ID",
-      "spotifySongId": "Spotify Song Id",
-      "songName": "Song Name",
-      "spotifyArtistId": "Spotify Artist Id",
-      "artistName": "Artist Name",
-      "user": "User"
+      "id": "Id",
+      "artist": "Artist",
+      "title": "Title",
+      "mainPage": "Main Page"
     }
   }
 }

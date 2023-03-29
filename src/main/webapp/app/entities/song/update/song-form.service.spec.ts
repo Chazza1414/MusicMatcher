@@ -20,11 +20,9 @@ describe('Song Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            spotifySongId: expect.any(Object),
-            songName: expect.any(Object),
-            spotifyArtistId: expect.any(Object),
-            artistName: expect.any(Object),
-            user: expect.any(Object),
+            artist: expect.any(Object),
+            title: expect.any(Object),
+            mainPage: expect.any(Object),
           })
         );
       });
@@ -35,11 +33,9 @@ describe('Song Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            spotifySongId: expect.any(Object),
-            songName: expect.any(Object),
-            spotifyArtistId: expect.any(Object),
-            artistName: expect.any(Object),
-            user: expect.any(Object),
+            artist: expect.any(Object),
+            title: expect.any(Object),
+            mainPage: expect.any(Object),
           })
         );
       });

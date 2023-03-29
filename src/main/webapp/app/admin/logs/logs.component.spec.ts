@@ -29,11 +29,8 @@ describe('LogsComponent', () => {
 
   describe('OnInit', () => {
     it('should set all default values correctly', () => {
-      // @ts-ignore
       expect(comp.filter).toBe('');
-      // @ts-ignore
       expect(comp.orderProp).toBe('name');
-      // @ts-ignore
       expect(comp.ascending).toBe(true);
     });
 
@@ -54,9 +51,7 @@ describe('LogsComponent', () => {
       comp.ngOnInit();
 
       // THEN
-      // @ts-ignore
       expect(service.findAll).toHaveBeenCalled();
-      // @ts-ignore
       expect(comp.loggers?.[0]).toEqual(expect.objectContaining(log));
     });
   });
@@ -80,11 +75,8 @@ describe('LogsComponent', () => {
       comp.changeLevel('main', 'ERROR');
 
       // THEN
-      // @ts-ignore
       expect(service.changeLevel).toHaveBeenCalled();
-      // @ts-ignore
       expect(service.findAll).toHaveBeenCalled();
-      // @ts-ignore
       expect(comp.loggers?.[0]).toEqual(expect.objectContaining(log));
     });
   });
