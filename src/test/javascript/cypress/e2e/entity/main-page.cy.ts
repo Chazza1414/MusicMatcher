@@ -17,7 +17,7 @@ describe('MainPage e2e test', () => {
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const mainPageSample = {};
 
-  let mainPage;
+  let mainPage: string | undefined;
 
   beforeEach(() => {
     cy.login(username, password);
@@ -31,8 +31,10 @@ describe('MainPage e2e test', () => {
 
   afterEach(() => {
     if (mainPage) {
+      // @ts-ignore
       cy.authenticatedRequest({
         method: 'DELETE',
+        // @ts-ignore
         url: `/api/main-pages/${mainPage.id}`,
       }).then(() => {
         mainPage = undefined;
@@ -44,6 +46,7 @@ describe('MainPage e2e test', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('main-page');
     cy.wait('@entitiesRequest').then(({ response }) => {
+      // @ts-ignore
       if (response.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
@@ -68,6 +71,7 @@ describe('MainPage e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', mainPagePageUrlPattern);
@@ -106,6 +110,7 @@ describe('MainPage e2e test', () => {
         cy.getEntityDetailsHeading('mainPage');
         cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', mainPagePageUrlPattern);
@@ -117,6 +122,7 @@ describe('MainPage e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', mainPagePageUrlPattern);
@@ -127,6 +133,7 @@ describe('MainPage e2e test', () => {
         cy.getEntityCreateUpdateHeading('MainPage');
         cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', mainPagePageUrlPattern);
@@ -137,9 +144,11 @@ describe('MainPage e2e test', () => {
         cy.getEntityDeleteDialogHeading('mainPage').should('exist');
         cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(204);
         });
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', mainPagePageUrlPattern);
@@ -160,10 +169,13 @@ describe('MainPage e2e test', () => {
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
+        // @ts-ignore
         expect(response.statusCode).to.equal(201);
+        // @ts-ignore
         mainPage = response.body;
       });
       cy.wait('@entitiesRequest').then(({ response }) => {
+        // @ts-ignore
         expect(response.statusCode).to.equal(200);
       });
       cy.url().should('match', mainPagePageUrlPattern);

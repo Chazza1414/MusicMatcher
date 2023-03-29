@@ -17,7 +17,7 @@ describe('Song e2e test', () => {
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
   const songSample = { id: '5511b843-8709-49bb-b11d-0679986ae398', artist: 'USB', title: 'deposit Maine Checking' };
 
-  let song;
+  let song: string | undefined;
 
   beforeEach(() => {
     cy.login(username, password);
@@ -33,6 +33,7 @@ describe('Song e2e test', () => {
     if (song) {
       cy.authenticatedRequest({
         method: 'DELETE',
+        // @ts-ignore
         url: `/api/songs/${song.id}`,
       }).then(() => {
         song = undefined;
@@ -44,6 +45,7 @@ describe('Song e2e test', () => {
     cy.visit('/');
     cy.clickOnEntityMenuItem('song');
     cy.wait('@entitiesRequest').then(({ response }) => {
+      // @ts-ignore
       if (response.body.length === 0) {
         cy.get(entityTableSelector).should('not.exist');
       } else {
@@ -68,6 +70,7 @@ describe('Song e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', songPageUrlPattern);
@@ -106,6 +109,7 @@ describe('Song e2e test', () => {
         cy.getEntityDetailsHeading('song');
         cy.get(entityDetailsBackButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', songPageUrlPattern);
@@ -117,6 +121,7 @@ describe('Song e2e test', () => {
         cy.get(entityCreateSaveButtonSelector).should('exist');
         cy.get(entityCreateCancelButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', songPageUrlPattern);
@@ -127,6 +132,7 @@ describe('Song e2e test', () => {
         cy.getEntityCreateUpdateHeading('Song');
         cy.get(entityCreateSaveButtonSelector).click();
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', songPageUrlPattern);
@@ -137,9 +143,11 @@ describe('Song e2e test', () => {
         cy.getEntityDeleteDialogHeading('song').should('exist');
         cy.get(entityConfirmDeleteButtonSelector).click();
         cy.wait('@deleteEntityRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(204);
         });
         cy.wait('@entitiesRequest').then(({ response }) => {
+          // @ts-ignore
           expect(response.statusCode).to.equal(200);
         });
         cy.url().should('match', songPageUrlPattern);
@@ -166,10 +174,13 @@ describe('Song e2e test', () => {
       cy.get(entityCreateSaveButtonSelector).click();
 
       cy.wait('@postEntityRequest').then(({ response }) => {
+        // @ts-ignore
         expect(response.statusCode).to.equal(201);
+        // @ts-ignore
         song = response.body;
       });
       cy.wait('@entitiesRequest').then(({ response }) => {
+        // @ts-ignore
         expect(response.statusCode).to.equal(200);
       });
       cy.url().should('match', songPageUrlPattern);

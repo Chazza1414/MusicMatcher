@@ -1,0 +1,102 @@
+#left-column {
+  background-color: lightgreen;
+  width: 33%;
+  height: 80vh;
+}
+#center-column {
+  background-color: lightblue;
+  width: 33%;
+}
+#right-column {
+  background-color: lightpink;
+  width: 33%;
+}
+.row-1 {
+  width: 100%;
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+}
+#search-artist-song {
+  height: 90%;
+}
+#done {
+  height: 10%;
+}
+#done-button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  height: 80%;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Open Sans';
+  background: #2c3e50;
+  color: #ecf0f1;
+  line-height: 1.618em;
+}
+.tabs {
+  position: relative;
+  top: 0;
+  width: 100%;
+  background: #fff;
+  height: 100%;
+}
+.tabs::before,
+.tabs::after {
+  content: '';
+  display: table;
+}
+.tabs::after {
+  clear: both;
+}
+.tab {
+  float: left;
+  width: 50%;
+}
+.tab-switch {
+  display: none;
+}
+.tab-label {
+  position: relative;
+  display: block;
+  line-height: 2.75em;
+  height: 3em;
+  padding: 0 1.618em;
+  background: lightgrey;
+  color: #fff;
+  cursor: pointer;
+  top: 0;
+  transition: all 0.25s;
+}
+.tab-label:hover {
+  top: -0.25rem;
+  transition: top 0.25s;
+}
+.tab-content {
+  height: 100%;
+  position: relative;
+  left: 0;
+  padding: 1.618rem;
+  background: lightgrey;
+  opacity: 0;
+  transition: all 0.35s;
+}
+.tab-switch:checked + .tab-label {
+  background: #fff;
+  color: #2c3e50;
+  border-bottom: 0;
+  border-right: 0.125rem solid #fff;
+  transition: all 0.35s;
+  z-index: 1;
+  top: -0.0625rem;
+}
+.tab-switch:checked + label + .tab-content {
+  z-index: 2;
+  opacity: 1;
+  transition: all 0.35s;
+}

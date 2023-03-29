@@ -8,6 +8,7 @@ import { Authority } from 'app/config/authority.constants';
 
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
+import { InitialTrainingComponent } from './initial-training/initial-training.component';
 
 @NgModule({
   imports: [
@@ -36,6 +37,10 @@ import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
         {
           path: '',
           loadChildren: () => import(`./menu/menu-routing.module`).then(m => m.MenuRoutingModule),
+        },
+        {
+          path: 'training',
+          component: InitialTrainingComponent,
         },
         {
           path: 'gdpr',

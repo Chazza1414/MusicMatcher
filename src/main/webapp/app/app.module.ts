@@ -27,6 +27,7 @@ import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
 import { RouterModule } from '@angular/router';
+import { InitialTrainingComponent } from './initial-training/initial-training.component';
 //import {footerRoute} from "./layouts/footer/footer.route";
 
 @NgModule({

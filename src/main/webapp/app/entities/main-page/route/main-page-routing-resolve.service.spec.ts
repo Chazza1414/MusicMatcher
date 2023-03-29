@@ -51,7 +51,9 @@ describe('MainPage routing resolve service', () => {
       });
 
       // THEN
+      // @ts-ignore
       expect(service.find).toBeCalledWith(123);
+      // @ts-ignore
       expect(resultMainPage).toEqual({ id: 123 });
     });
 
@@ -66,7 +68,9 @@ describe('MainPage routing resolve service', () => {
       });
 
       // THEN
+      // @ts-ignore
       expect(service.find).not.toBeCalled();
+      // @ts-ignore
       expect(resultMainPage).toEqual(null);
     });
 
@@ -81,8 +85,11 @@ describe('MainPage routing resolve service', () => {
       });
 
       // THEN
+      // @ts-ignore
       expect(service.find).toBeCalledWith(123);
+      // @ts-ignore
       expect(resultMainPage).toEqual(undefined);
+      // @ts-ignore
       expect(mockRouter.navigate).toHaveBeenCalledWith(['404']);
     });
   });
