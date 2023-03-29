@@ -1,26 +1,34 @@
 import { ISong, NewSong } from './song.model';
 
 export const sampleWithRequiredData: ISong = {
-  id: 'f007993b-5e24-4af2-b6e0-453f46d843e6',
-  artist: 'Operations back-end',
-  title: 'Underpass',
+  id: 99772,
+  spotifySongId: 'Health',
+  songName: 'magenta Dynamic',
+  spotifyArtistId: 'Liaison experiences',
+  artistName: '24/7',
 };
 
 export const sampleWithPartialData: ISong = {
-  id: '61fe7b82-6b1a-441a-af3e-aad5ddb80b24',
-  artist: 'calculating',
-  title: 'Jewelery Solutions',
+  id: 25912,
+  spotifySongId: 'connecting cyan',
+  songName: 'Operations back-end',
+  spotifyArtistId: 'Underpass',
+  artistName: 'Tasty Shoals',
 };
 
 export const sampleWithFullData: ISong = {
-  id: '11500b02-78ab-4586-bb50-1fe728f3a4ec',
-  artist: 'synergize Berkshire',
-  title: 'vortals',
+  id: 13356,
+  spotifySongId: 'protocol archive',
+  songName: 'Integration Ruble',
+  spotifyArtistId: 'SCSI Afghanistan',
+  artistName: 'didactic',
 };
 
 export const sampleWithNewData: NewSong = {
-  artist: 'system Florida Automotive',
-  title: 'synthesizing cross-platform',
+  spotifySongId: 'Hat state Kids',
+  songName: 'clicks-and-mortar',
+  spotifyArtistId: 'Granite array vortals',
+  artistName: 'Frozen Towels',
   id: null,
 };
 

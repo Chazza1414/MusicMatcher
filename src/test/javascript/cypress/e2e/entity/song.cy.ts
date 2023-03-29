@@ -15,7 +15,12 @@ describe('Song e2e test', () => {
   const songPageUrlPattern = new RegExp('/song(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const songSample = { id: '5511b843-8709-49bb-b11d-0679986ae398', artist: 'USB', title: 'deposit Maine Checking' };
+  const songSample = {
+    spotifySongId: 'methodology tolerance',
+    songName: 'exuding Chicken',
+    spotifyArtistId: 'architecture firewall',
+    artistName: 'Kazakhstan',
+  };
 
   let song;
 
@@ -157,11 +162,13 @@ describe('Song e2e test', () => {
     });
 
     it('should create an instance of Song', () => {
-      cy.get(`[data-cy="id"]`).type('75d1c238-f5ed-41b6-8cce-5179c5780659').should('have.value', '75d1c238-f5ed-41b6-8cce-5179c5780659');
+      cy.get(`[data-cy="spotifySongId"]`).type('software back-end').should('have.value', 'software back-end');
 
-      cy.get(`[data-cy="artist"]`).type('tolerance').should('have.value', 'tolerance');
+      cy.get(`[data-cy="songName"]`).type('Coordinator bypassing').should('have.value', 'Coordinator bypassing');
 
-      cy.get(`[data-cy="title"]`).type('exuding Chicken').should('have.value', 'exuding Chicken');
+      cy.get(`[data-cy="spotifyArtistId"]`).type('neural Paradigm').should('have.value', 'neural Paradigm');
+
+      cy.get(`[data-cy="artistName"]`).type('South Motorway').should('have.value', 'South Motorway');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

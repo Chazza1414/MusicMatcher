@@ -1,0 +1,10 @@
+entity Song {
+    spotifySongId String required
+    songName String required
+    spotifyArtistId String required
+    artistName String required
+}
+
+relationship ManyToOne {
+    Song{user(login)} to User
+}

@@ -7,8 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { SongFormService, SongFormGroup } from './song-form.service';
 import { ISong } from '../song.model';
 import { SongService } from '../service/song.service';
-import { IMainPage } from 'app/entities/main-page/main-page.model';
-import { MainPageService } from 'app/entities/main-page/service/main-page.service';
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 @Component({
   selector: 'jhi-song-update',
@@ -18,18 +18,18 @@ export class SongUpdateComponent implements OnInit {
   isSaving = false;
   song: ISong | null = null;
 
-  mainPagesSharedCollection: IMainPage[] = [];
+  usersSharedCollection: IUser[] = [];
 
   editForm: SongFormGroup = this.songFormService.createSongFormGroup();
 
   constructor(
     protected songService: SongService,
     protected songFormService: SongFormService,
-    protected mainPageService: MainPageService,
+    protected userService: UserService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  compareMainPage = (o1: IMainPage | null, o2: IMainPage | null): boolean => this.mainPageService.compareMainPage(o1, o2);
+  compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ song }) => {
@@ -79,19 +79,14 @@ export class SongUpdateComponent implements OnInit {
     this.song = song;
     this.songFormService.resetForm(this.editForm, song);
 
-    this.mainPagesSharedCollection = this.mainPageService.addMainPageToCollectionIfMissing<IMainPage>(
-      this.mainPagesSharedCollection,
-      song.mainPage
-    );
+    this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, song.user);
   }
 
   protected loadRelationshipsOptions(): void {
-    this.mainPageService
+    this.userService
       .query()
-      .pipe(map((res: HttpResponse<IMainPage[]>) => res.body ?? []))
-      .pipe(
-        map((mainPages: IMainPage[]) => this.mainPageService.addMainPageToCollectionIfMissing<IMainPage>(mainPages, this.song?.mainPage))
-      )
-      .subscribe((mainPages: IMainPage[]) => (this.mainPagesSharedCollection = mainPages));
+      .pipe(map((res: HttpResponse<IUser[]>) => res.body ?? []))
+      .pipe(map((users: IUser[]) => this.userService.addUserToCollectionIfMissing<IUser>(users, this.song?.user)))
+      .subscribe((users: IUser[]) => (this.usersSharedCollection = users));
   }
 }
