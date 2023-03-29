@@ -14,7 +14,7 @@ describe('Song Management Detail Component', () => {
       providers: [
         {
           provide: ActivatedRoute,
-          useValue: { data: of({ song: { id: 'ABC' } }) },
+          useValue: { data: of({ song: { id: 123 } }) },
         },
       ],
     })
@@ -30,7 +30,7 @@ describe('Song Management Detail Component', () => {
       comp.ngOnInit();
 
       // THEN
-      expect(comp.song).toEqual(expect.objectContaining({ id: 'ABC' }));
+      expect(comp.song).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

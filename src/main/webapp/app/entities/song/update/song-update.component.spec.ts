@@ -9,8 +9,9 @@ import { of, Subject, from } from 'rxjs';
 import { SongFormService } from './song-form.service';
 import { SongService } from '../service/song.service';
 import { ISong } from '../song.model';
-import { IMainPage } from 'app/entities/main-page/main-page.model';
-import { MainPageService } from 'app/entities/main-page/service/main-page.service';
+
+import { IUser } from 'app/entities/user/user.model';
+import { UserService } from 'app/entities/user/user.service';
 
 import { SongUpdateComponent } from './song-update.component';
 
@@ -20,7 +21,7 @@ describe('Song Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let songFormService: SongFormService;
   let songService: SongService;
-  let mainPageService: MainPageService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +44,43 @@ describe('Song Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     songFormService = TestBed.inject(SongFormService);
     songService = TestBed.inject(SongService);
-    mainPageService = TestBed.inject(MainPageService);
+    userService = TestBed.inject(UserService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call MainPage query and add missing value', () => {
-      const song: ISong = { id: 'CBA' };
-      const mainPage: IMainPage = { id: 65173 };
-      song.mainPage = mainPage;
+    it('Should call User query and add missing value', () => {
+      const song: ISong = { id: 456 };
+      const user: IUser = { id: 93990 };
+      song.user = user;
 
-      const mainPageCollection: IMainPage[] = [{ id: 23496 }];
-      jest.spyOn(mainPageService, 'query').mockReturnValue(of(new HttpResponse({ body: mainPageCollection })));
-      const additionalMainPages = [mainPage];
-      const expectedCollection: IMainPage[] = [...additionalMainPages, ...mainPageCollection];
-      jest.spyOn(mainPageService, 'addMainPageToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const userCollection: IUser[] = [{ id: 13256 }];
+      jest.spyOn(userService, 'query').mockReturnValue(of(new HttpResponse({ body: userCollection })));
+      const additionalUsers = [user];
+      const expectedCollection: IUser[] = [...additionalUsers, ...userCollection];
+      jest.spyOn(userService, 'addUserToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ song });
       comp.ngOnInit();
 
-      expect(mainPageService.query).toHaveBeenCalled();
-      expect(mainPageService.addMainPageToCollectionIfMissing).toHaveBeenCalledWith(
-        mainPageCollection,
-        ...additionalMainPages.map(expect.objectContaining)
+      expect(userService.query).toHaveBeenCalled();
+      expect(userService.addUserToCollectionIfMissing).toHaveBeenCalledWith(
+        userCollection,
+        ...additionalUsers.map(expect.objectContaining)
       );
-      expect(comp.mainPagesSharedCollection).toEqual(expectedCollection);
+      expect(comp.usersSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
-      const song: ISong = { id: 'CBA' };
-      const mainPage: IMainPage = { id: 31024 };
-      song.mainPage = mainPage;
+      const song: ISong = { id: 456 };
+      const user: IUser = { id: 52993 };
+      song.user = user;
 
       activatedRoute.data = of({ song });
       comp.ngOnInit();
 
-      expect(comp.mainPagesSharedCollection).toContain(mainPage);
+      expect(comp.usersSharedCollection).toContain(user);
       expect(comp.song).toEqual(song);
     });
   });
@@ -88,7 +89,7 @@ describe('Song Management Update Component', () => {
     it('Should call update service on save for existing entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISong>>();
-      const song = { id: 'ABC' };
+      const song = { id: 123 };
       jest.spyOn(songFormService, 'getSong').mockReturnValue(song);
       jest.spyOn(songService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -111,7 +112,7 @@ describe('Song Management Update Component', () => {
     it('Should call create service on save for new entity', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISong>>();
-      const song = { id: 'ABC' };
+      const song = { id: 123 };
       jest.spyOn(songFormService, 'getSong').mockReturnValue({ id: null });
       jest.spyOn(songService, 'create').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
@@ -134,7 +135,7 @@ describe('Song Management Update Component', () => {
     it('Should set isSaving to false on error', () => {
       // GIVEN
       const saveSubject = new Subject<HttpResponse<ISong>>();
-      const song = { id: 'ABC' };
+      const song = { id: 123 };
       jest.spyOn(songService, 'update').mockReturnValue(saveSubject);
       jest.spyOn(comp, 'previousState');
       activatedRoute.data = of({ song });
@@ -153,13 +154,13 @@ describe('Song Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareMainPage', () => {
-      it('Should forward to mainPageService', () => {
+    describe('compareUser', () => {
+      it('Should forward to userService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(mainPageService, 'compareMainPage');
-        comp.compareMainPage(entity, entity2);
-        expect(mainPageService.compareMainPage).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(userService, 'compareUser');
+        comp.compareUser(entity, entity2);
+        expect(userService.compareUser).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });
