@@ -1,1 +1,72 @@
-<p>disliked-songs works!</p>
+<!DOCTYPE html>
+<html lang="en" dir = "ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DislikedSongs List</title>
+  <script src="https://kit.fontawesome.com/acdbfd0897.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="disliked-songs.component.scss">
+</head>
+<body>
+  <i class="fa-solid fa-skull"></i>   <!-- テスト！！！ -->
+  <div class="song-list">
+    <h2>Disliked Songs List</h2>
+    <div class="song-list-container">
+      <ul class="song-list-items">
+        <li class="song-item">
+          <div class="song-info">
+            <div class="song-info-title">Title</div>
+            <div class="song-info-time">Time</div>
+            <div class="song-info-artist">Artist</div>
+            <div class="song-info-album">Album</div>
+            <div class="song-info-genre">Genre</div>
+          </div>
+          <div class="song-actions">Actions</div>
+        </li>
+        <li class="song-item">
+          <div class="song-info">
+            <div class="song-info-title">Song Title 1</div>
+            <div class="song-info-time">01/01/2023</div>
+            <div class="song-info-artist">Artist 1</div>
+            <div class="song-info-album">Album 1</div>
+            <div class="song-info-genre">Classic</div>
+          </div>
+          <div class="song-actions">
+            <button class="play-button"><i class="fa-solid fa-circle-play"></i></button> <!-- Playボタン-->
+            <button class="add-to-liked-songs-button"><i class="fa-solid fa-heart-circle-plus"></i></button><!-- ハート-->
+            <i class="fa-solid fa-circle-play"></i><!--テスト-->
+            <i class="fa-solid fa-heart-circle-plus"></i><!--テスト-->
+          </div>
+        </li>
+        <li class="song-item">
+          <div class="song-info">
+            <div class="song-info-title">Song Title 2</div>
+            <div class="song-info-time">01/01/2023</div>
+            <div class="song-info-artist">Artist 2</div>
+            <div class="song-info-album">Album 2</div>
+            <div class="song-info-genre">Classic</div>
+          </div>
+          <div class="song-actions">
+            <button class="play-button"><i class="fas fa-play-circle"></i></button>
+            <button class="add-to-liked-songs-button"><i class="fa-solid fa-heart-circle-plus"></i></button>
+          </div>
+        </li>
+        <!-- Repeat the above code for each of the remaining dummy songs -->
+        <li class="song-item">
+          <div class="song-info">
+            <div class="song-info-title">Song Title 10</div>
+            <div class="song-info-time">01/01/2023</div>
+            <div class="song-info-artist">Artist 10</div>
+            <div class="song-info-album">Album 10</div>
+            <div class="song-info-genre">Classic</div>
+          </div>
+          <div class="song-actions">
+            <button class="play-button"><i class="fas fa-play-circle"></i></button>
+            <button class="add-to-liked-songs-button"><i class="fa-solid fa-heart-circle-plus"></i></button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

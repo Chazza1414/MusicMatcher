@@ -17,6 +17,7 @@ import uk.ac.bham.teamproject.web.rest.vm.LoginVM;
 /**
  * Controller to authenticate users.
  */
+@CrossOrigin(origins = "jdbc:postgresql://teamproject-postgresql:5432/teamproject") //Aki added
 @RestController
 @RequestMapping("/api")
 public class UserJWTController {
