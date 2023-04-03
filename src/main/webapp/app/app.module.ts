@@ -28,6 +28,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
 import { RouterModule } from '@angular/router';
 import { InitialTrainingComponent } from './initial-training/initial-training.component';
+import { InitialTrainingModule } from './initial-training/initial-training.module';
 //import {footerRoute} from "./layouts/footer/footer.route";
 
 @NgModule({
@@ -42,6 +43,7 @@ import { InitialTrainingComponent } from './initial-training/initial-training.co
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     TranslationModule,
+    InitialTrainingModule,
   ],
   providers: [
     Title,

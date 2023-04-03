@@ -1,21 +1,30 @@
 <form>
   <div class="row" id="page">
-    <div class="col-1" id="left-column"></div>
+    <div class="col-1 flex-container-column" id="left-column">
+      <div class="flex-container-column" id="search-genre">
+        <h2>Top Genres</h2>
+        <div class="scroll-box">
+          <div *ngFor="let genre of outGenreArray; let i = index">
+            <label class="flex-container-row">
+              <input type="checkbox" class="select-song" />&nbsp;&nbsp;
+              <div class="index">{{ i + 1 }}.</div>
+              <div class="song-data">{{ genre.name }}</div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="col-2" id="center-column"></div>
     <div class="col-3" id="right-column">
-      <div class="flex-container" id="search-artist-song">
-        <p>Search for Artists and Songs</p>
-        <div class="tabs">
-          <div class="tab">
-            <input type="radio" name="css-tabs" id="tab-1" checked class="tab-switch" />
-            <label for="tab-1" class="tab-label">Songs</label>
-            <div class="tab-content">
-              <input type="checkbox" class="song-radio" id="song-1" />
-            </div>
-          </div>
-          <div class="tab">
-            <input type="radio" name="css-tabs" id="tab-2" class="tab-switch" />
-            <label for="tab-2" class="tab-label">Artists</label>
+      <div class="flex-container-column" id="search-song">
+        <h2>Top Songs</h2>
+        <div class="scroll-box">
+          <div *ngFor="let song of outSongArray; let i = index">
+            <label class="flex-container-row">
+              <input type="checkbox" class="select-song" />&nbsp;&nbsp;
+              <div class="index">{{ i + 1 }}.</div>
+              <div class="song-data">{{ song.name }} by {{ song.artist }}</div>
+            </label>
           </div>
         </div>
       </div>
