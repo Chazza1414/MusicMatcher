@@ -1,10 +1,23 @@
 <link rel="stylesheet" type="text/css" href="main-page.component.scss" />
-<div class="row" id="page">
-  <div class="col-1" id="left-column">
-    <button class="round-button like-dislike" id="like-button">Like</button>
-    <button class="round-button like-dislike" id="dislike-button">Dislike</button>
+<div class="container">
+  <div class="top-row">
+    <div class="top-left">
+      <button class="round-button like-dislike" id="like-button">Like</button>
+    </div>
+    <div class="top-middle">
+      <img src="music-cover.jpg" alt="Music Cover" />
+      <!--this should be modified as a parameter, the music cover should be taken from Spotify-->
+    </div>
+    <div class="top-right">
+      <button class="round-button like-dislike" id="dislike-button">Dislike</button>
+    </div>
   </div>
-  <div class="col-2" id="center-column">
-    <p>Song Data Here</p>
+  <div class="bottom-row">
+    <div class="bottom-left"></div>
+    <div class="bottom-middle">
+      <h2>Song Name</h2>
+      <button class="play-button">Play</button>
+    </div>
+    <div class="bottom-right"></div>
   </div>
 </div>
