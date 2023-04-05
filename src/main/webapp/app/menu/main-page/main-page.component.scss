@@ -1,26 +1,86 @@
-html,
-body {
-  min-height: 100vh;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 2fr;
+  height: 100vh;
 }
 
-#left-column {
-  background-color: lightgreen;
-  width: 33%;
-  height: 60vh;
+.top-row {
+  grid-column: 1 / 4;
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-#center-column {
-  background-color: lightblue;
-  width: 33%;
-}
-
-#right-column {
-  background-color: lightpink;
-  width: 33%;
-}
-
-.button {
+.top-left,
+.top-right {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.round-button {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid black;
+  color: black;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin: 10px;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
+.top-middle {
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.bottom-row {
+  grid-column: 1 / 4;
+  grid-row: 2 / 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottom-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.play-button {
+  padding: 10px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  &:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+  }
 }
