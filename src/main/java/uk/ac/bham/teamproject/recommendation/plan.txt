@@ -1,0 +1,51 @@
+Functions:
+- Build user music profile
+- Get next recommended song
+
+
+Build User Music Profile:
+
+We will have a list of N songs, and hence their IDs, that the user has either selected in initial training
+or we have received from their imported playlists
+The API request to get all a user's playlists will return the IDs of all the songs in the playlist
+along with the genres associated with the songs and the artist
+We will then make a Spotify API request to: https://api.spotify.com/v1/audio-features along with
+a list of the IDs
+A maximum of 100 IDs can be submitted per request, so divide the list of song IDs into separate requests
+The song attributes that we will use to recommend a song are:
+- Acousticness
+- Danceability
+- Energy
+- Instrumentalness
+- Loudness
+- Speechiness
+- Tempo
+- Valence
+- Genre (gathered when importing songs from a user's playlist)
+Each of the above metrics will be tallied for all songs and divided by the number of songs to obtain an average
+The Spotify recommendation API endpoint will be used to get X songs
+Generate a list of songs from these that the user hasn't heard
+This is used because there is no feature to get a list of random songs
+The feature will allow us to slightly fine tune the random songs we get but will still allow for
+our machine learning algorithm
+Using the X songs, request detail about them using the audio-features endpoint
+Using the nearest neighbour in n dimensions algorithm found here: https://github.com/Jilocasin/nearest-neighbour
+Create a point for each song returned by the recommendation endpoint
+Create a point for the user's preferences
+Run the code for finding the nearest neighbour
+Return this song to the main page
+
+
+
+
+
+
+Get Next Recommended Song:
+
+
+
+
+Sources:
+
+https://github.com/ChrisOh431/Melrady/blob/main/src/app.js
+https://github.com/spotify/web-api-examples/blob/master/authentication/authorization_code/app.js

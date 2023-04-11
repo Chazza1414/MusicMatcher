@@ -41,7 +41,9 @@ describe('Alert Error Component', () => {
       // GIVEN
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: { status: 0 } });
       // THEN
-      expect(comp.alerts.length).toBe(1);
+
+      // @ts-ignore
+      expect(comp.alerts.length).toBe(1); // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('error.server.not.reachable');
     });
 
@@ -49,7 +51,8 @@ describe('Alert Error Component', () => {
       // GIVEN
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: { status: 404 } });
       // THEN
-      expect(comp.alerts.length).toBe(1);
+      // @ts-ignore
+      expect(comp.alerts.length).toBe(1); // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('error.url.not.found');
     });
 
@@ -58,8 +61,11 @@ describe('Alert Error Component', () => {
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: { error: { message: 'Error Message' } } });
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: { error: 'Second Error Message' } });
       // THEN
+      // @ts-ignore
       expect(comp.alerts.length).toBe(2);
+      // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('Error Message');
+      // @ts-ignore
       expect(comp.alerts[1].translationKey).toBe('Second Error Message');
     });
 
@@ -80,7 +86,9 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: response });
       // THEN
+      // @ts-ignore
       expect(comp.alerts.length).toBe(1);
+      // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('error.validation');
     });
 
@@ -94,7 +102,9 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: response });
       // THEN
+      // @ts-ignore
       expect(comp.alerts.length).toBe(1);
+      // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('Bad Request');
     });
 
@@ -116,7 +126,9 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: response });
       // THEN
+      // @ts-ignore
       expect(comp.alerts.length).toBe(1);
+      // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('error.Size');
     });
 
@@ -134,7 +146,9 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: response });
       // THEN
+      // @ts-ignore
       expect(comp.alerts.length).toBe(1);
+      // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('Error Message');
     });
 
@@ -153,7 +167,9 @@ describe('Alert Error Component', () => {
       });
       eventManager.broadcast({ name: 'teamprojectApp.httpError', content: response });
       // THEN
+      // @ts-ignore
       expect(comp.alerts.length).toBe(1);
+      // @ts-ignore
       expect(comp.alerts[0].translationKey).toBe('error.http.500');
     });
   });

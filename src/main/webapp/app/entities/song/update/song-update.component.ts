@@ -32,9 +32,14 @@ export class SongUpdateComponent implements OnInit {
   compareUser = (o1: IUser | null, o2: IUser | null): boolean => this.userService.compareUser(o1, o2);
 
   ngOnInit(): void {
+    //this function is executed on init of application i think
+    //subscribes to the observable object which has been created and names it 'song'
     this.activatedRoute.data.subscribe(({ song }) => {
+      //assign 'song' to the local value 'song'
       this.song = song;
+      //providing it isn't null
       if (song) {
+        //do the function
         this.updateForm(song);
       }
 
@@ -46,6 +51,7 @@ export class SongUpdateComponent implements OnInit {
     window.history.back();
   }
 
+  //this is called when the form to create a song is saved
   save(): void {
     this.isSaving = true;
     const song = this.songFormService.getSong(this.editForm);
@@ -78,7 +84,7 @@ export class SongUpdateComponent implements OnInit {
   protected updateForm(song: ISong): void {
     this.song = song;
     this.songFormService.resetForm(this.editForm, song);
-
+    //this adds the song in the variable 'song' if it doesn't already exist
     this.usersSharedCollection = this.userService.addUserToCollectionIfMissing<IUser>(this.usersSharedCollection, song.user);
   }
 

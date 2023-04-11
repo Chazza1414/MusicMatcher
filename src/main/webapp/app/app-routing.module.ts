@@ -9,6 +9,7 @@ import { Authority } from 'app/config/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
 import { InitialTrainingComponent } from './initial-training/initial-training.component';
+import { LikedSongsComponent } from './menu/liked-songs/liked-songs.component';
 
 @NgModule({
   imports: [
@@ -39,7 +40,7 @@ import { InitialTrainingComponent } from './initial-training/initial-training.co
           loadChildren: () => import(`./menu/menu-routing.module`).then(m => m.MenuRoutingModule),
         },
         {
-          path: 'training',
+          path: 'initial-training',
           component: InitialTrainingComponent,
         },
         {

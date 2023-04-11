@@ -17,13 +17,21 @@ describe('Song Form Service', () => {
       it('should create a new form with FormControl', () => {
         const formGroup = service.createSongFormGroup();
 
+        // @ts-ignore
         expect(formGroup.controls).toEqual(
+          // @ts-ignore
           expect.objectContaining({
+            // @ts-ignore
             id: expect.any(Object),
+            // @ts-ignore
             spotifySongId: expect.any(Object),
+            // @ts-ignore
             songName: expect.any(Object),
+            // @ts-ignore
             spotifyArtistId: expect.any(Object),
+            // @ts-ignore
             artistName: expect.any(Object),
+            // @ts-ignore
             user: expect.any(Object),
           })
         );
@@ -31,14 +39,21 @@ describe('Song Form Service', () => {
 
       it('passing ISong should create a new form with FormGroup', () => {
         const formGroup = service.createSongFormGroup(sampleWithRequiredData);
-
+        // @ts-ignore
         expect(formGroup.controls).toEqual(
+          // @ts-ignore
           expect.objectContaining({
+            // @ts-ignore
             id: expect.any(Object),
+            // @ts-ignore
             spotifySongId: expect.any(Object),
+            // @ts-ignore
             songName: expect.any(Object),
+            // @ts-ignore
             spotifyArtistId: expect.any(Object),
+            // @ts-ignore
             artistName: expect.any(Object),
+            // @ts-ignore
             user: expect.any(Object),
           })
         );
@@ -51,7 +66,7 @@ describe('Song Form Service', () => {
         const formGroup = service.createSongFormGroup(sampleWithNewData);
 
         const song = service.getSong(formGroup) as any;
-
+        // @ts-ignore
         expect(song).toMatchObject(sampleWithNewData);
       });
 
@@ -59,7 +74,7 @@ describe('Song Form Service', () => {
         const formGroup = service.createSongFormGroup();
 
         const song = service.getSong(formGroup) as any;
-
+        // @ts-ignore
         expect(song).toMatchObject({});
       });
 
@@ -67,27 +82,27 @@ describe('Song Form Service', () => {
         const formGroup = service.createSongFormGroup(sampleWithRequiredData);
 
         const song = service.getSong(formGroup) as any;
-
+        // @ts-ignore
         expect(song).toMatchObject(sampleWithRequiredData);
       });
     });
 
     describe('resetForm', () => {
       it('passing ISong should not enable id FormControl', () => {
-        const formGroup = service.createSongFormGroup();
+        const formGroup = service.createSongFormGroup(); // @ts-ignore
         expect(formGroup.controls.id.disabled).toBe(true);
 
         service.resetForm(formGroup, sampleWithRequiredData);
-
+        // @ts-ignore
         expect(formGroup.controls.id.disabled).toBe(true);
       });
 
       it('passing NewSong should disable id FormControl', () => {
-        const formGroup = service.createSongFormGroup(sampleWithRequiredData);
+        const formGroup = service.createSongFormGroup(sampleWithRequiredData); // @ts-ignore
         expect(formGroup.controls.id.disabled).toBe(true);
 
         service.resetForm(formGroup, { id: null });
-
+        // @ts-ignore
         expect(formGroup.controls.id.disabled).toBe(true);
       });
     });

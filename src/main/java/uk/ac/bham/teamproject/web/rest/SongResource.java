@@ -186,4 +186,12 @@ public class SongResource {
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
     }
+
+    //charlie functions below
+    @GetMapping("TBC")
+    public ResponseEntity<Song> getNextSongRecommendation() {
+        Song song;
+        return null;
+        //return ResponseUtil.wrapOrNotFound(song);
+    }
 }

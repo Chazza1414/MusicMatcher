@@ -77,6 +77,7 @@ export class SongComponent implements OnInit {
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
+    //the this.songs is the end of the chain of function calls as the html file uses the songs array directly
     this.songs = this.refineData(dataFromBody);
   }
 
