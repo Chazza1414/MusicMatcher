@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script type="text/javascript" src="SpotifyAuth.js"></script>
+    <script type="text/javascript" src="spotifyServer.js"></script>
   </head>
   <body>
     <form>
@@ -21,15 +21,17 @@
           </div>
         </div>
         <div class="col-2" id="center-column">
-          <div class="flex-container-row" id="info">
-            <h2>Select Playist</h2>
-            <p>Log into Spotify and choose playlists to help train the recommendation algorithm</p>
-
-            <p>Select your favourite genres or songs from the global top 50</p>
+          <div class="flex-container-column" id="info">
+            <div><h2>Select Playist</h2></div>
+            <div><p>Log into Spotify and choose playlists to help train the recommendation algorithm</p></div>
+            <div><p>Select your favourite genres or songs from the global top 50</p></div>
+            <div>
+              <p id="test-text">{{ outTextVar }}</p>
+            </div>
           </div>
           <div id="spotify-container">
             <a href="/spotify-login">
-              <button (click)="importPlaylists()" id="spotify-login-button">Load Spotify Playlists</button>
+              <button (click)="runScript()" id="spotify-login-button">Load Spotify Playlists</button>
             </a>
           </div>
         </div>
