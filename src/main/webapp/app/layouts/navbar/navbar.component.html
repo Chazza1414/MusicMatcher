@@ -1,9 +1,7 @@
 <nav data-cy="navbar" class="navbar navbar-dark navbar-expand-md bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-      <span class="logo-img"></span>
-      <span jhiTranslate="global.title" class="navbar-title">Teamproject</span>
-      <span class="navbar-version">{{ version }}</span>
+      <span class="navbar-title">Music Matcher</span>
     </a>
     <a
       class="navbar-toggler d-lg-none"
@@ -61,7 +59,7 @@
             <li>
               <a
                 class="dropdown-item"
-                routerLink="training"
+                routerLink="initial-training"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
