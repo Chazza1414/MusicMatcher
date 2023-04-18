@@ -26,6 +26,10 @@ import { RouterModule } from '@angular/router';
         path: 'settings',
         loadChildren: () => import('./settings/settings.module').then(m => m.SettingsModule),
       },
+      // {
+      //   path: 'initial-training',
+      //   loadChildren: () => import('./../initial-training/initial-training.module').then(m => m.InitialTrainingModule),
+      // },
     ]),
   ],
 })

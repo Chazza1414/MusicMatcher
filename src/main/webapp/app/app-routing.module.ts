@@ -9,7 +9,7 @@ import { Authority } from 'app/config/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
 import { InitialTrainingComponent } from './initial-training/initial-training.component';
-import { LikedSongsComponent } from './menu/liked-songs/liked-songs.component';
+import { CloseComponent } from './initial-training/close/close.component';
 
 @NgModule({
   imports: [
@@ -39,13 +39,21 @@ import { LikedSongsComponent } from './menu/liked-songs/liked-songs.component';
           path: '',
           loadChildren: () => import(`./menu/menu-routing.module`).then(m => m.MenuRoutingModule),
         },
+        // {
+        //   path: '',
+        //   loadChildren: () => import(`./initial-training/initial-training-routing.module`).then(m => m.InitialTrainingRoutingModule),
+        // },
+        {
+          path: 'gdpr',
+          component: GdprComponent,
+        },
         {
           path: 'initial-training',
           component: InitialTrainingComponent,
         },
         {
-          path: 'gdpr',
-          component: GdprComponent,
+          path: 'close',
+          component: CloseComponent,
         },
         navbarRoute,
         ...errorRoute,

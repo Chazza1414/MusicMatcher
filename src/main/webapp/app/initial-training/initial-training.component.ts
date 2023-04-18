@@ -1,17 +1,27 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-//import {writeFileSync} from 'fs'
+import { Router } from '@angular/router';
+import { SpotifyWebApi } from 'spotify-web-api-ts';
+
+//import {AccessTokenService} from "./access-token.service";
 import { HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { request } from 'express';
 //import querystring from "querystring";
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
 var client_secret = 'ca5438707e4149f2bbb229a876d06107'; // Your secret
 var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
 var scope = 'user-read-private user-read-email playlist-read-private';
+var apiUrl = '/api/spotify/auth';
+var returnCode = '';
 
-//var spotApp = angular.module('example', )
+var spotifyApi = new SpotifyWebApi({
+  clientId: client_id,
+  clientSecret: client_secret,
+  redirectUri: redirect_uri,
+});
 
 export interface song {
   name: string;
@@ -91,7 +101,8 @@ for (var i = 0; i < 16; i++) {
 })
 @Injectable()
 export class InitialTrainingComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) //private accessTokenService: AccessTokenService
+  {}
 
   getUrlReady(state: string): string {
     var url = new URL('https://accounts.spotify.com/authorize?');
@@ -139,9 +150,82 @@ export class InitialTrainingComponent implements OnInit {
     });
   }
 
+  async getAlbum(accessToken: any): Promise<any> {
+    const spotify = new SpotifyWebApi({ accessToken: accessToken });
+    const { artists } = await spotify.albums.getAlbum('1uzfGk9vxMXfaZ2avqwxod');
+    return artists;
+  }
+
+  openWindow() {
+    window.location.href = this.getUrlReady(state);
+  }
+
+  getAccessToken() {
+    //this.outTextVar = this.outTextVar + "loaded";
+    var accessToken = '';
+
+    let params = new HttpParams();
+    params = params.append('testParam', returnCode);
+
+    //returnData = this.http.get<String>(apiUrl);
+    const req = this.http.get('/api/spotify/auth', { responseType: 'text', params });
+
+    req.subscribe(token => {
+      //this.outTextVar = this.outTextVar + token;
+
+      accessToken = token;
+      spotifyApi.setAccessToken(token);
+
+      let params2 = new HttpParams();
+      params2 = params2.append('limit', 20);
+
+      // const apiCall = this.http.get("https://api.spotify.com/v1/me/playlists",
+      //   {headers: {Authorization: 'Bearer ' + token}});
+
+      // apiCall.subscribe(playlists => {
+      //   this.outTextVar = this.outTextVar + playlists.toString();
+      // });
+
+      spotifyApi.playlists.getMyPlaylists().then(
+        data => {
+          for (let i = 0; i < data.items.length; i++) {
+            this.outTextVar = this.outTextVar + data.items[i].name;
+          }
+          //this.outTextVar = this.outTextVar + data.items[0].name;
+        },
+        error => {
+          this.outTextVar = this.outTextVar + error;
+        }
+      );
+      // this.getAlbum(accessToken).then(data => {
+      //   this.outTextVar = this.outTextVar + data.name;
+      // });
+    });
+
+    // Get Elvis' albums
+
+    //this.outTextVar = this.outTextVar +
+
+    // this.http.get<String>(apiUrl).subscribe({
+    //   next: data => {
+    //     returnData = data.toString();
+    //   },
+    //   error: error => {
+    //     returnData = error.message;
+    //     console.error('There was an error!', error);
+    //   }
+    // });
+
+    //this.outTextVar = this.outTextVar + returnData;
+  }
+
   runScript() {
     //document.body.removeChild(script);
     window.open('http://localhost:3000/spotify-login', 'tryAuth', 'height=800,width=400');
+  }
+
+  windowClosed(url: String) {
+    this.outTextVar = this.outTextVar + 'comes back with: ' + url;
   }
 
   importPlaylists() {
@@ -160,7 +244,7 @@ export class InitialTrainingComponent implements OnInit {
     //   //console.log(data);
     // });
 
-    this.outTextVar = this.outTextVar + 'function called\n';
+    //this.outTextVar = this.outTextVar + 'function called\n';
 
     var spotifyAuthWindow = window.open(this.getUrlReady(state), 'spotifyAuth', 'height=800,width=400');
 
@@ -171,6 +255,7 @@ export class InitialTrainingComponent implements OnInit {
     if (spotifyAuthWindow) {
       if (spotifyAuthWindow) {
         currentUrl = spotifyAuthWindow.location.href;
+        //this.outTextVar = "do we get here?" + currentUrl;
         //this.outTextVar = this.outTextVar + currentUrl.toString();
       } else {
         this.outTextVar = this.outTextVar + 'window is null 2';
@@ -178,23 +263,25 @@ export class InitialTrainingComponent implements OnInit {
 
       //this.outTextVar = this.outTextVar + "wrong";
 
-      code = currentUrl.split('code=')[1];
-      refreshToken = code.split('&')[0];
-      //this.outTextVar = "do we get here?";
+      //code = currentUrl.split('code=')[1];
+      //refreshToken = code.split('&')[0];
+
+      //this.outTextVar = this.outTextVar + "refresh token = " + refreshToken;
+
       //this.outTextVar = this.outTextVar + "code" + code;
       //this.outTextVar = this.outTextVar + "refresh = " + refreshToken;
       //this.outTextVar = this.outTextVar + "state = " + code.split('&state=')[1];
 
-      if (code.split('&state=')[1] != state) {
-        //this.outTextVar = this.outTextVar + "state = " + code.split('&state=')[1];
-        //this.outTextVar = this.outTextVar + "state = " + state;
-        //this.outTextVar = this.outTextVar + "error";
-        throw EvalError;
-      }
+      //if (code.split('&state=')[1] != state) {
+      //this.outTextVar = this.outTextVar + "state = " + code.split('&state=')[1];
+      //this.outTextVar = this.outTextVar + "state = " + state;
+      //this.outTextVar = this.outTextVar + "error";
+      //throw EvalError;
+      //}
     } else {
       this.outTextVar = 'window is null';
     }
-
+    /*
     //this.outTextVar = "do we get here? mk";
 
     var accessUrl = new URL('https://accounts.spotify.com/api/token?');
@@ -244,6 +331,8 @@ export class InitialTrainingComponent implements OnInit {
       },
       complete: () => (this.outTextVar = this.outTextVar + 'completed'),
     });
+
+     */
   }
 
   getAllSongs(): void {
@@ -255,8 +344,26 @@ export class InitialTrainingComponent implements OnInit {
   outGenreArray: genre[] = genreArray;
 
   ngOnInit(): void {
-    const script = document.createElement('script') as HTMLScriptElement;
-    script.src = './spotifyServer.js';
-    document.body.appendChild(script);
+    //const script = document.createElement('script') as HTMLScriptElement;
+    //script.src = './spotifyServer.js';
+    //document.body.appendChild(script);
+
+    if (window.location.href.split('code=')[1].split('state=')[0] != null) {
+      returnCode = window.location.href.split('code=')[1].split('&state=')[0];
+
+      //this.outTextVar = this.outTextVar + returnCode;
+
+      this.getAccessToken();
+      // if (firstSplit.split("state=")[1] == state){
+      //   this.outTextVar = this.outTextVar + "correct";
+      // }
+      // else {
+      //   this.outTextVar = this.outTextVar + state + " != " + firstSplit.split("state=")[1];
+      // }
+
+      //this.outTextVar = this.outTextVar + window.location.href.split("code=")[1];
+    } else {
+      this.outTextVar = this.outTextVar + 'wrong';
+    }
   }
 }

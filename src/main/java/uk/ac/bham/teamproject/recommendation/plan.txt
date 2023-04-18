@@ -23,11 +23,13 @@ The song attributes that we will use to recommend a song are:
 - Valence
 - Genre (gathered when importing songs from a user's playlist)
 Each of the above metrics will be tallied for all songs and divided by the number of songs to obtain an average
-The Spotify recommendation API endpoint will be used to get X songs
-Generate a list of songs from these that the user hasn't heard
+The Spotify recommendation API endpoint will be used to get X songs using the minimum 3 seed values
+We will select a random artist and random song from the users songs and a genre that is in their top 3?
 This is used because there is no feature to get a list of random songs
+This returns a list of songs that are slightly similar to what the user likes
 The feature will allow us to slightly fine tune the random songs we get but will still allow for
 our machine learning algorithm
+We will make sure that the songs returned by the api aren't already in the table for songs
 Using the X songs, request detail about them using the audio-features endpoint
 Using the nearest neighbour in n dimensions algorithm found here: https://github.com/Jilocasin/nearest-neighbour
 Create a point for each song returned by the recommendation endpoint

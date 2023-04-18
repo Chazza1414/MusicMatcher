@@ -25,9 +25,6 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
-import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
-import { RouterModule } from '@angular/router';
-import { InitialTrainingComponent } from './initial-training/initial-training.component';
 import { InitialTrainingModule } from './initial-training/initial-training.module';
 //import {footerRoute} from "./layouts/footer/footer.route";
 
@@ -38,12 +35,12 @@ import { InitialTrainingModule } from './initial-training/initial-training.modul
     HomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     AppRoutingModule,
+    //InitialTrainingModule,
     // Set this to true to enable service worker (PWA)
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     TranslationModule,
-    InitialTrainingModule,
   ],
   providers: [
     Title,
