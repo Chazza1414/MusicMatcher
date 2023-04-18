@@ -1,1 +1,61 @@
-<p>profile works!</p>
+<!-- For Profile Purpose-->
+<div class="pBox"></div>
+<div class="sBox2">
+  <label for="uname">Username:</label>
+  <input class="uPBox" type="text" id="uname" name="Username" /><br /><br />
+  <label for="password">Password:</label>
+  <input class="uPBox" type="text" id="password" name="*******" /><br /><br />
+  <button class="eButton" type="button">Edit</button>
+</div>
+
+<!-- Navigation to Liked Song Page -->
+<div class="vertical">
+  <p class="fontDesign recentSongPos">Recent Liked Song</p>
+  <div class="hoverItem">
+    <a routerLink="/liked-songs">
+      <button class="lButton lButtonPos" aria-hidden="true">To Liked Song Page ></button>
+    </a>
+  </div>
+  <div class="pBox f1Pos"></div>
+  <div class="pBox f2Pos"></div>
+  <div class="pBox f3Pos"></div>
+  <p class="fontDesign tPos1">Top Song For You</p>
+  <div class="pBox f4Pos"></div>
+  <div class="pBox f5Pos"></div>
+  <div class="pBox f6Pos"></div>
+</div>
+
+<!-- Second line For Navigation to Disliked Song Page-->
+<div class="vertical2">
+  <p class="fontDesign recentDisliked">Recent Disliked Song</p>
+  <div class="hoverItem">
+    <a routerLink="/disliked-songs">
+      <button class="lButton lButtonPos">To Disliked Song Page ></button>
+    </a>
+  </div>
+  <div class="pBox f1Pos"></div>
+  <div class="pBox f2Pos"></div>
+  <div class="pBox f3Pos"></div>
+
+  <!-- Artist Container-->
+  <p class="fontDesign tPos2">Top Artist For You</p>
+  <div class="pBox f4Pos"></div>
+
+  <div class="pBox f5Pos"></div>
+
+  <div class="pBox f6Pos"></div>
+</div>
+
+<!-- Charts -->
+
+<div class="horizontal">
+  <div class="artistChart">
+    <p class="aLetter">Favorite Artist</p>
+    <canvas id="myChart"></canvas>
+  </div>
+
+  <div class="songChart">
+    <p class="sLetter">Favorite Song</p>
+    <canvas id="genreChart"></canvas>
+  </div>
+</div>
