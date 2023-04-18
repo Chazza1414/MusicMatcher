@@ -13,6 +13,9 @@ import spotify.GetListOfCurrentUsersPlaylists;
 @Transactional
 public class SpotifyController {
 
+    /*
+    Endpoint for authenticating user for Spotify API
+     */
     @GetMapping("/auth")
     public String getMyResource(@RequestParam("testParam") String param1) {
         //return ResponseEntity.ok(AuthorizationCode.main(authCode));

@@ -78,8 +78,11 @@ body {
   right: 0px;
 }
 .index {
-  width: 1.5em;
+  width: 2em;
 }
 div {
   color: black;
+}
+#playlist-container {
+  max-height: 400px;
 }
