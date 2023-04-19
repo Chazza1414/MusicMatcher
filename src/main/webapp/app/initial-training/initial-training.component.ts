@@ -141,7 +141,5 @@ export class InitialTrainingComponent implements OnInit {
     } else {
       this.outTextVar = this.outTextVar + 'Error: token not received';
     }
-
-    this.outTextVar = this.outTextVar + client_secret;
   }
 }
