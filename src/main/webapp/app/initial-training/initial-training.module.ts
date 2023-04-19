@@ -7,9 +7,10 @@ import { initialTrainingRoute } from './initial-training.route';
 import { CloseComponent } from './close/close.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [InitialTrainingComponent, CloseComponent],
-  imports: [RouterModule.forChild([initialTrainingRoute]), SharedModule, BrowserModule, CommonModule, HttpClientModule],
+  imports: [RouterModule.forChild([initialTrainingRoute]), SharedModule, BrowserModule, CommonModule, HttpClientModule, FormsModule],
 })
 export class InitialTrainingModule {}

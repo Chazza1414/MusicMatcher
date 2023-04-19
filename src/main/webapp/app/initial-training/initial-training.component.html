@@ -17,21 +17,21 @@
             </div>
           </div>
         </div>
-        <div class="col-2" id="center-column">
-          <div class="flex-container-column" id="info">
-            <div><h2>Select Playlist</h2></div>
+        <div class="col-2" id="center-column" [ngSwitch]="outPlaylistArray.length == 0">
+          <div><h2>Select Playlist</h2></div>
+          <div>
+            <h4 id="test-text">{{ outTextVar }}</h4>
+          </div>
+          <div class="flex-container-column" id="info" *ngSwitchCase="true">
             <div><p>Log into Spotify and choose playlists to help train the recommendation algorithm</p></div>
             <div><p>Select your favourite genres or songs from the global top 50</p></div>
-            <div>
-              <p id="test-text">{{ outTextVar }}</p>
-            </div>
           </div>
-          <div id="playlist-container" class="flex-container-column">
-            <h2>Your Playlists</h2>
+          <div id="playlist-container" class="flex-container-column" *ngSwitchCase="false">
+            <h3>Your Playlists</h3>
             <div class="scroll-box">
-              <div *ngFor="let playlist of outPlaylistArray; let i = index">
+              <div *ngFor="let playlist of outPlaylistArray; let i = index" [(ngModel)]="playlistItem">
                 <label class="flex-container-row">
-                  <input type="checkbox" class="select-song" />&nbsp;&nbsp;
+                  <input type="checkbox" class="select-song" id="playlist-item" [value]="" />&nbsp;&nbsp;
                   <div class="index">{{ i + 1 }}.</div>
                   <div class="song-data">{{ playlist.name }}</div>
                 </label>
@@ -40,7 +40,7 @@
           </div>
           <div id="spotify-container">
             <a>
-              <button (click)="openWindow()" id="spotify-login-button">Load Spotify Playlists</button>
+              <button (click)="openWindow()" id="spotify-login-button" *ngSwitchCase="true">Load Spotify Playlists</button>
             </a>
           </div>
         </div>

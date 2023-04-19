@@ -32,59 +32,8 @@ export interface playlist {
 
 export var playlistArray: playlist[] = [];
 
-export var songArray: song[] = [
-  /*
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-  { name: 'test name', artist: 'test artist' },
-   */
-];
-export var genreArray: genre[] = [
-  /*
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-  { name: 'test genre' },
-   */
-];
+export var songArray: song[] = [];
+export var genreArray: genre[] = [];
 
 var textVar = '';
 
@@ -103,6 +52,15 @@ for (var i = 0; i < 16; i++) {
 @Injectable()
 export class InitialTrainingComponent implements OnInit {
   constructor(private http: HttpClient) {}
+
+  selectAllPlaylists() {
+    //this.playlistItem = true;
+    // for (let playlist of this.outPlaylistArray) {
+    //   playlist.playlistItem = !playlist.playlistItem;
+    // }
+    //document.getElementById('playlist-item')
+    //var checkbox = document.querySelector("input[type='checkbox']");
+  }
 
   getUrlReady(state: string): string {
     var url = new URL('https://accounts.spotify.com/authorize?');
@@ -166,10 +124,14 @@ export class InitialTrainingComponent implements OnInit {
     });
   }
 
+  submitForm(event: Event) {}
+
   outTextVar = textVar;
   outSongArray: song[] = songArray;
   outGenreArray: genre[] = genreArray;
   outPlaylistArray: playlist[] = playlistArray;
+
+  playlistItem: boolean = true;
 
   ngOnInit(): void {
     if (window.location.href.split('code=')[1].split('state=')[0] != null) {
