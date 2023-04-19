@@ -1,6 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { RecommendService } from './recommend.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
@@ -16,24 +16,27 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri: redirect_uri,
 });
 
-export interface song {
+interface song {
   name: string;
   id: string;
+  checked: boolean;
 }
 
-export interface genre {
+interface genre {
   name: string;
+  checked: boolean;
 }
 
-export interface playlist {
+interface playlist {
   name: string;
   id: string;
+  checked: boolean;
 }
 
-export var playlistArray: playlist[] = [];
+var playlistArray: playlist[] = [];
 
-export var songArray: song[] = [];
-export var genreArray: genre[] = [];
+var songArray: song[] = [];
+var genreArray: genre[] = [];
 
 var textVar = '';
 
@@ -51,7 +54,7 @@ for (var i = 0; i < 16; i++) {
 })
 @Injectable()
 export class InitialTrainingComponent implements OnInit {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private recommendService: RecommendService) {}
 
   selectAllPlaylists() {
     //this.playlistItem = true;
@@ -98,7 +101,7 @@ export class InitialTrainingComponent implements OnInit {
         data => {
           //this is iterating through each playlist and getting the name
           for (let i = 0; i < data.items.length; i++) {
-            playlistArray.push({ name: data.items[i].name, id: data.items[i].id });
+            playlistArray.push({ name: data.items[i].name, id: data.items[i].id, checked: false });
           }
         },
         error => {
@@ -107,10 +110,10 @@ export class InitialTrainingComponent implements OnInit {
       );
 
       //get global top 50 playlist
-      spotifyApi.playlists.getPlaylist('37i9dQZEVXbMDoHDwVN2tF').then(data => {
+      spotifyApi.playlists.getPlaylist('37i9dQZEVXbNG2KDcFcKOF').then(data => {
         for (let i = 0; i < data.tracks.total; i++) {
           //this.outTextVar = this.outTextVar + data.tracks.items[i].track.name;
-          songArray.push({ name: data.tracks.items[i].track.name, id: data.tracks.items[i].track.id });
+          songArray.push({ name: data.tracks.items[i].track.name, id: data.tracks.items[i].track.id, checked: false });
         }
       });
 
@@ -118,13 +121,18 @@ export class InitialTrainingComponent implements OnInit {
       spotifyApi.browse.getAvailableGenreSeeds().then(data => {
         for (let i = 0; i < data.length; i++) {
           //this.outTextVar = this.outTextVar + data.tracks.items[i].track.name;
-          genreArray.push({ name: data[i] });
+          genreArray.push({ name: data[i], checked: false });
         }
       });
     });
   }
 
-  submitForm(event: Event) {}
+  submitForm() {
+    let selectedGenres = this.outGenreArray.filter(opt => opt.checked);
+    let selectedPlaylists = this.outPlaylistArray.filter(opt => opt.checked);
+    let selectedSongs = this.outSongArray.filter(opt => opt.checked);
+    this.outTextVar = this.outTextVar + 'submitted';
+  }
 
   outTextVar = textVar;
   outSongArray: song[] = songArray;

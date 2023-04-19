@@ -9,7 +9,12 @@
             <div class="scroll-box">
               <div *ngFor="let genre of outGenreArray; let i = index">
                 <label class="flex-container-row">
-                  <input type="checkbox" class="select-song" />&nbsp;&nbsp;
+                  <input
+                    type="checkbox"
+                    class="select-song"
+                    [checked]="genre.checked"
+                    (change)="genre.checked = !genre.checked"
+                  />&nbsp;&nbsp;
                   <div class="index">{{ i + 1 }}.</div>
                   <div class="song-data">{{ genre.name }}</div>
                 </label>
@@ -29,9 +34,15 @@
           <div id="playlist-container" class="flex-container-column" *ngSwitchCase="false">
             <h3>Your Playlists</h3>
             <div class="scroll-box">
-              <div *ngFor="let playlist of outPlaylistArray; let i = index" [(ngModel)]="playlistItem">
+              <div *ngFor="let playlist of outPlaylistArray; let i = index">
                 <label class="flex-container-row">
-                  <input type="checkbox" class="select-song" id="playlist-item" [value]="" />&nbsp;&nbsp;
+                  <input
+                    type="checkbox"
+                    class="select-song"
+                    id="playlist-item"
+                    [checked]="playlist.checked"
+                    (change)="playlist.checked = !playlist.checked"
+                  />&nbsp;&nbsp;
                   <div class="index">{{ i + 1 }}.</div>
                   <div class="song-data">{{ playlist.name }}</div>
                 </label>
@@ -50,7 +61,7 @@
             <div class="scroll-box">
               <div *ngFor="let song of outSongArray; let i = index">
                 <label class="flex-container-row">
-                  <input type="checkbox" class="select-song" />&nbsp;&nbsp;
+                  <input type="checkbox" class="select-song" [checked]="song.checked" (change)="song.checked = !song.checked" />&nbsp;&nbsp;
                   <div class="index">{{ i + 1 }}.</div>
                   <div class="song-data">{{ song.name }}</div>
                 </label>
@@ -58,7 +69,7 @@
             </div>
           </div>
           <div id="done">
-            <input class="row-1" id="done-button" type="submit" content="Done" />
+            <input class="row-1" id="done-button" type="submit" content="Done" (click)="submitForm()" />
           </div>
         </div>
       </div>
