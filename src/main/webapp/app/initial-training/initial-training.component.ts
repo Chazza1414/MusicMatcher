@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { SpotifyWebApi } from 'spotify-web-api-ts';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
-var client_secret = 'ca5438707e4149f2bbb229a876d06107'; // Your secret
+var client_secret = 'e54bd430c6a6428e8355dba28e1f7a9f'; // Your secret
 var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
 var scope = 'user-read-private user-read-email playlist-read-private';
 var apiUrl = '/api/spotify/auth';
@@ -139,7 +139,9 @@ export class InitialTrainingComponent implements OnInit {
 
       this.getAccessToken();
     } else {
-      this.outTextVar = this.outTextVar + 'wrong';
+      this.outTextVar = this.outTextVar + 'Error: token not received';
     }
+
+    this.outTextVar = this.outTextVar + client_secret;
   }
 }

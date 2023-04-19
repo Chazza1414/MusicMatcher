@@ -9,7 +9,6 @@ import { Authority } from 'app/config/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 import { GdprComponent } from './layouts/footer/gdpr/gdpr.component';
 import { InitialTrainingComponent } from './initial-training/initial-training.component';
-import { CloseComponent } from './initial-training/close/close.component';
 
 @NgModule({
   imports: [
@@ -50,10 +49,6 @@ import { CloseComponent } from './initial-training/close/close.component';
         {
           path: 'initial-training',
           component: InitialTrainingComponent,
-        },
-        {
-          path: 'close',
-          component: CloseComponent,
         },
         navbarRoute,
         ...errorRoute,
