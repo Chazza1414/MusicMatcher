@@ -1,3 +1,4 @@
+/*
 body {
   margin: 0;
   width: 100vw;
@@ -56,4 +57,111 @@ label:active:after {
 }
 input:checked + label + .background {
   background: #242424;
+}
+
+ */
+
+/* reset default margin and padding for body and section */
+body,
+section {
+  margin: 0;
+  padding: 0;
+}
+
+/* add black line between each section */
+section:not(:last-child) {
+  border-bottom: 1px solid black;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+/* style for the header and main sections */
+header {
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+main {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* style for the switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: black;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* style for volume control */
+.volume {
+  display: flex;
+  align-items: center;
+}
+
+.volume img {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+}
+
+.volume input[type='range'] {
+  width: 100%;
+}
+
+/* style for text size radio buttons */
+form label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+/* style for the version */
+p {
+  font-size: 30px;
+  color: black;
+  text-align: center;
+  margin-top: 10px;
 }

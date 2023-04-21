@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,5 +11,56 @@
   <body>
     <input type="checkbox" id="darkmode-toggle" />
     <label for="darkmode-toggle"> </label>
+  </body>
+</html>
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Setting</title>
+    <link rel="stylesheet" href="settings.component.scss" />
+  </head>
+  <body>
+    <header>
+      <h1>Setting</h1>
+    </header>
+    <main>
+      <section>
+        <h2>High Contrast Mode</h2>
+        <label class="switch">
+          <input type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </section>
+      <section>
+        <h2>Text Size</h2>
+        <form>
+          <label><input type="radio" name="text-size" value="small" />Small</label>
+          <label><input type="radio" name="text-size" value="medium" />Medium</label>
+          <label><input type="radio" name="text-size" value="large" />Large</label>
+          <label><input type="radio" name="text-size" value="extreme-large" />Extreme Large</label>
+        </form>
+      </section>
+      <section>
+        <h2>Audio Description</h2>
+        <label class="switch">
+          <input type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </section>
+      <section>
+        <h2>Volume</h2>
+        <div class="volume">
+          <img src="sound.png" alt="sound icon" />
+          <input type="range" min="0" max="100" value="50" />
+        </div>
+      </section>
+      <section>
+        <h2>Version</h2>
+        <p>1.0</p>
+      </section>
+    </main>
   </body>
 </html>
