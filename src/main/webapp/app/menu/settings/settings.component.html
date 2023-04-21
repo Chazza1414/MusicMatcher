@@ -1,38 +1,14 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <h1>Settings Pages</h1>
     <title>Settings Page</title>
+
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="settings.component.scss" />
   </head>
   <body>
-    <h1>Settings Page</h1>
-
-    <h2>High Contrast Mode</h2>
-    <button onclick="toggleHighContrast()">On/Off</button>
-
-    <h2>Text Size</h2>
-    <button onclick="setTextSize('small')">Small</button>
-    <button onclick="setTextSize('medium')">Medium</button>
-    <button onclick="setTextSize('large')">Large</button>
-    <button onclick="setTextSize('extra-large')">Extra Large</button>
-
-    <h2>Volume Control</h2>
-    <input type="range" min="0" max="100" value="50" onchange="setVolume(this.value)" />
-
-    <script>
-      function toggleHighContrast() {
-        // toggle high contrast mode on/off
-        // implement your logic here
-      }
-
-      function setTextSize(size) {
-        // set text size to the given size
-        // implement your logic here
-      }
-
-      function setVolume(value) {
-        // set volume to the given value
-        // implement your logic here
-      }
-    </script>
+    <input type="checkbox" id="darkmode-toggle" />
+    <label for="darkmode-toggle"> </label>
   </body>
 </html>
