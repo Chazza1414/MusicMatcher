@@ -38,6 +38,10 @@ Run the code for finding the nearest neighbour
 Return this song to the main page
 
 
+ALSO GET THE LIKED SONGS PLAYLIST FROM SPOTIFY
+im going to need to store all attributes of a song attached to each song
+we will no longer use genre as a way to find the nearest neighbour
+
 
 
 
