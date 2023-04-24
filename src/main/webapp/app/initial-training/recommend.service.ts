@@ -12,6 +12,8 @@ var spotifyApi = new SpotifyWebApi({
 
 const maxIds: number = 50;
 
+const recSongLimit: number = 10;
+
 const seedGenreArray: string[] = [
   'acoustic',
   'afrobeat',
@@ -170,7 +172,12 @@ interface musicProfile {
   genres: string[];
 }
 
-let userMusicProfile: musicProfile = {
+interface songProfile {
+  songId: string;
+  attributes: musicProfile;
+}
+
+const emptyMusicProfile: musicProfile = {
   acousticness: 0,
   danceability: 0,
   energy: 0,
@@ -181,6 +188,16 @@ let userMusicProfile: musicProfile = {
   valence: 0,
   genres: [],
 };
+
+const emptySong: NewSong = {
+  id: null,
+  spotifySongId: '',
+  spotifyArtistId: '',
+  songName: '',
+  artistName: '',
+};
+
+let userMusicProfile: musicProfile = emptyMusicProfile;
 
 @Injectable({
   providedIn: 'root',
@@ -222,14 +239,77 @@ export class RecommendService {
 
     userMusicProfile.genres = userMusicProfile.genres.concat(useableGenreArray);
 
-    let songRec = await this.getSeedSongs(
+    let songRecs = await this.getSeedSongs(
       accessToken,
       outSongArray[this.getRandomInInterval(outSongArray.length)].spotifySongId,
       outSongArray[this.getRandomInInterval(outSongArray.length)].spotifyArtistId,
       useableGenreArray[this.getRandomInInterval(useableGenreArray.length)]
     );
 
+    //console.log(songRecs);
+
+    let recSongIds: string[] = [];
+    for (let i = 0; i < recSongLimit; i++) {
+      //console.log(songRecs.tracks[i].id);
+      recSongIds.push(songRecs.tracks[i].id);
+    }
+
+    let recSongFeatures: musicProfile[] = [];
+
+    for (let i = 0; i < recSongLimit; i++) {
+      // recSongFeatures.push(await this.getSongAttributes(accessToken,
+      //   [{id: null, spotifySongId: recSongIds[i], songName: "", artistName: "", spotifyArtistId: ""}],
+      //   emptyMusicProfile));
+      //   console.log("accousticness"+recSongFeatures[i].acousticness);
+
+      //let tempMusicProfile: musicProfile = emptyMusicProfile;
+
+      //console.log(tempMusicProfile);
+
+      let data = await this.getOneSongAttribute(accessToken, recSongIds[i]);
+      try {
+        //console.log(JSON.stringify(data));
+        //console.log("acou accum 000 "+ data.audio_features[0].acousticness);
+        // tempMusicProfile.acousticness = data.audio_features[0].acousticness;
+        // tempMusicProfile.danceability = data.audio_features[0].danceability;
+        // tempMusicProfile.energy = data.audio_features[0].energy;
+        // tempMusicProfile.instrumentalness = data.audio_features[0].instrumentalness;
+        // tempMusicProfile.loudness = data.audio_features[0].loudness;
+        // tempMusicProfile.speechiness = data.audio_features[0].speechiness;
+        // tempMusicProfile.tempo = data.audio_features[0].tempo;
+        // tempMusicProfile.valence = data.audio_features[0].valence;
+        recSongFeatures.push({
+          acousticness: data.audio_features[0].acousticness,
+          danceability: data.audio_features[0].danceability,
+          energy: data.audio_features[0].energy,
+          instrumentalness: data.audio_features[0].instrumentalness,
+          loudness: data.audio_features[0].loudness,
+          speechiness: data.audio_features[0].speechiness,
+          tempo: data.audio_features[0].tempo,
+          valence: data.audio_features[0].valence,
+          genres: [],
+        });
+        //console.log(tempMusicProfile);
+      } catch (e) {
+        console.log('Error building music profile: ' + e);
+      }
+      //recSongFeatures.push(tempMusicProfile);
+    }
+
+    // for (let i = 0; i < recSongLimit; i++) {
+    //   //console.log(recSongIds[i]);
+    //   console.log(recSongFeatures[i]);
+    // }
+
     userMusicProfile = await this.getSongAttributes(accessToken, outSongArray, userMusicProfile);
+
+    let songProfiles: songProfile[] = [];
+
+    for (let i = 0; i < recSongLimit; i++) {
+      songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
+    }
+
+    console.log('rec' + this.getBestRecommendation(songProfiles).songId);
 
     return outSongArray;
   }
@@ -278,6 +358,7 @@ export class RecommendService {
     for (let i = 0; i < playlists.length; i++) {
       const data = await this.getOnePlaylistSongs(accessToken, playlists[i].id);
       for (let j = 0; j < data.tracks.total; j++) {
+        //issue here cannot fetch more than 100 songs
         try {
           newSongs.push({
             id: null,
@@ -315,25 +396,33 @@ export class RecommendService {
 
     let songIdString: string = '';
 
-    for (let i = 0; i < songIds.length; i = i + maxIds) {
+    for (let j = 0; j < songIds.length; j = j + maxIds) {
       songIdString = '';
-      if (i + maxIds < songIds.length) {
-        songIdString = songIds.slice(i, i + maxIds).join();
+      if (songIds.length == 1) {
+        //console.log("one");
+        songIdString = songIds[0];
+      } else if (j + maxIds < songIds.length) {
+        songIdString = songIds.slice(j, j + maxIds).join();
       } else {
-        songIdString = songIds.slice(i, songIds.length - 1).join();
+        songIdString = songIds.slice(j, songIds.length - 1).join();
       }
 
+      //console.log("song id:" + songIdString);
+
       const data = await this.getOneSongAttribute(accessToken, songIdString);
-      for (let i = 0; i < data.audio_features.length; i++) {
-        console.log(data.audio_features.length);
-        userMusicProfile.acousticness += data.audio_features[i].acousticness;
-        userMusicProfile.danceability += data.audio_features[i].danceability;
-        userMusicProfile.energy += data.audio_features[i].energy;
-        userMusicProfile.instrumentalness += data.audio_features[i].instrumentalness;
-        userMusicProfile.loudness += data.audio_features[i].loudness;
-        userMusicProfile.speechiness += data.audio_features[i].speechiness;
-        userMusicProfile.tempo += data.audio_features[i].tempo;
-        userMusicProfile.valence += data.audio_features[i].valence;
+      //console.log("audio features length" + data.audio_features.length);
+      try {
+        //console.log("acou accum 000 "+data.audio_features[0].acousticness);
+        userMusicProfile.acousticness += data.audio_features[0].acousticness;
+        userMusicProfile.danceability += data.audio_features[0].danceability;
+        userMusicProfile.energy += data.audio_features[0].energy;
+        userMusicProfile.instrumentalness += data.audio_features[0].instrumentalness;
+        userMusicProfile.loudness += data.audio_features[0].loudness;
+        userMusicProfile.speechiness += data.audio_features[0].speechiness;
+        userMusicProfile.tempo += data.audio_features[0].tempo;
+        userMusicProfile.valence += data.audio_features[0].valence;
+      } catch (e) {
+        console.log('Error building music profile: ' + e);
       }
     }
 
@@ -345,6 +434,15 @@ export class RecommendService {
     userMusicProfile.speechiness = userMusicProfile.speechiness / songIds.length;
     userMusicProfile.tempo = userMusicProfile.tempo / songIds.length;
     userMusicProfile.valence = userMusicProfile.valence / songIds.length;
+
+    // console.log("acou:" + userMusicProfile.acousticness);
+    // console.log("danc:" + userMusicProfile.danceability);
+    // console.log("ener:" + userMusicProfile.energy);
+    // console.log("inst:" + userMusicProfile.instrumentalness);
+    // console.log("loud:" + userMusicProfile.loudness);
+    // console.log("spee:" + userMusicProfile.speechiness);
+    // console.log("temp:" + userMusicProfile.tempo);
+    // console.log("vale:" + userMusicProfile.valence);
 
     return userMusicProfile;
   }
@@ -404,8 +502,49 @@ export class RecommendService {
     artistId: string | null | undefined,
     genre: string
   ): Promise<any> {
-    let newUrl = 'https://api.spotify.com/v1/recommendations?seed_artists=' + artistId + '&seed_genres=' + genre + '&seed_tracks=' + songId;
+    let newUrl =
+      'https://api.spotify.com/v1/recommendations?limit=' +
+      recSongLimit +
+      '&seed_artists=' +
+      artistId +
+      '&seed_genres=' +
+      genre +
+      '&seed_tracks=' +
+      songId;
     let result = await fetch(newUrl, { method: 'GET', headers: { Authorization: 'Bearer ' + accessToken } });
     return await result.json();
+  }
+
+  getBestRecommendation(songProfiles: songProfile[]): songProfile {
+    let nearestDistance: number = 1000000;
+    let nearestSong: songProfile = { songId: '', attributes: emptyMusicProfile };
+
+    for (let i = 0; i < songProfiles.length; i++) {
+      let distance: number = this.euclidDistance(songProfiles[i].attributes, userMusicProfile);
+
+      if (nearestDistance > distance) {
+        nearestDistance = distance;
+        nearestSong = songProfiles[i];
+      }
+    }
+
+    return nearestSong;
+  }
+
+  euclidDistance(songAttributes: musicProfile, userMusicProfile: musicProfile): number {
+    let sum: number = 0;
+
+    for (let i = 0; i < 8; i++) {
+      sum += (songAttributes.acousticness + userMusicProfile.acousticness) ** 2;
+      sum += (songAttributes.valence + userMusicProfile.valence) ** 2;
+      sum += (songAttributes.tempo + userMusicProfile.tempo) ** 2;
+      sum += (songAttributes.energy + userMusicProfile.energy) ** 2;
+      sum += (songAttributes.speechiness + userMusicProfile.speechiness) ** 2;
+      sum += (songAttributes.loudness + userMusicProfile.loudness) ** 2;
+      sum += (songAttributes.instrumentalness + userMusicProfile.instrumentalness) ** 2;
+      sum += (songAttributes.danceability + userMusicProfile.danceability) ** 2;
+    }
+
+    return Math.sqrt(sum);
   }
 }

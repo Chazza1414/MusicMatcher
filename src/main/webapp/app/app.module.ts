@@ -26,6 +26,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 import { InitialTrainingModule } from './initial-training/initial-training.module';
+import { InitialTrainingComponent } from './initial-training/initial-training.component';
 //import {footerRoute} from "./layouts/footer/footer.route";
 
 @NgModule({
@@ -47,6 +48,7 @@ import { InitialTrainingModule } from './initial-training/initial-training.modul
     { provide: LOCALE_ID, useValue: 'en' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
+    InitialTrainingComponent,
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],

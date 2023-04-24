@@ -175,6 +175,10 @@ export class InitialTrainingComponent implements OnInit {
     // })
   }
 
+  returnToken(): string {
+    return this.outAccessToken;
+  }
+
   outTextVar = textVar;
   outSongArray: song[] = songArray;
   outGenreArray: genre[] = genreArray;

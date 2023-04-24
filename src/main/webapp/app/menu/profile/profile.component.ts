@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+import { InitialTrainingComponent } from '../../initial-training/initial-training.component';
 
 Chart.register(...registerables);
+
 @Component({
   selector: 'jhi-profile',
   templateUrl: './profile.component.html',
