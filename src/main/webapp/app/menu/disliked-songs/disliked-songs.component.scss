@@ -1,0 +1,124 @@
+html, body {
+  height: 100%;
+  background-color: #0d122b;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0d122b;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  padding: 20px 0;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #3a3f4b;
+}
+.song-list-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #0d122b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  border-radius: 5px;
+}
+
+
+
+
+.song-list-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #3a3f4b;
+  padding: 15px 0;
+}
+
+.song-list-items {
+  list-style: none;
+  padding: 0;
+}
+
+.song-item {
+  padding: 0;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.song-info > div {
+  margin-right: 16px;
+}
+
+.song-info-title {
+  width: 20%;
+  font-weight: bold;
+  text-align: left;
+}
+
+.song-info-time,
+.song-info-artist,
+.song-info-album,
+.song-info-genre {
+  width: 16%;
+  text-align: left;
+}
+.song-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.song-table th,
+.song-table td {
+  text-align: left;
+  padding: 15px 0;
+}
+
+.song-table th {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+}
+
+.song-actions {
+  /*width: 12%;*/
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.play-button {
+  color: whitesmoke;
+  font-size: 24px; // Increase the font size to make the icon bigger
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.add-to-liked-songs-button {
+  color: #e90ff1;
+  font-size: 24px; // Increase the font size to make the icon bigger
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.play-button:hover {
+  color: blue;
+}
+
+.add-to-liked-songs-button:hover {
+  color: #ffffff;
+}
