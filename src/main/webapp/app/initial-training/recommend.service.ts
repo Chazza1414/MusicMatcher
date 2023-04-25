@@ -205,7 +205,7 @@ let userMusicProfile: musicProfile = emptyMusicProfile;
 export class RecommendService {
   constructor() {}
 
-  async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<NewSong[]> {
+  async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<string> {
     var outSongArray: NewSong[] = [];
 
     let playlistSongsArray = await this.getAllPlaylistSongs(accessToken, playlists);
@@ -311,7 +311,7 @@ export class RecommendService {
 
     console.log('rec' + this.getBestRecommendation(songProfiles).songId);
 
-    return outSongArray;
+    return this.getBestRecommendation(songProfiles).songId;
   }
 
   async getSongJson(accessToken: string, songString: string): Promise<any> {

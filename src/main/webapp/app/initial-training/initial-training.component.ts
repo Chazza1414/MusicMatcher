@@ -15,6 +15,7 @@ var apiUrl = '/api/spotify/auth';
 var returnCode = '';
 var accessToken = '';
 let refreshToken: string = '';
+let songRec: string = '';
 
 //instance of the spotify api node from: https://github.com/thelinmichael/spotify-web-api-node
 var spotifyApi = new SpotifyWebApi({
@@ -195,7 +196,7 @@ export class InitialTrainingComponent implements OnInit {
     //console.log("HELLO");
     //this.outTextVar = this.outTextVar + 'submitted';
 
-    let songArray = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
+    songRec = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
     for (let i = 0; i < songArray.length; i++) {
       //this.outTextVar = this.outTextVar + songArray[i].songName;
     }
@@ -208,6 +209,10 @@ export class InitialTrainingComponent implements OnInit {
 
   returnRefreshToken(): string {
     return refreshToken;
+  }
+
+  returnSongRec(): string {
+    return songRec;
   }
 
   outTextVar = textVar;
