@@ -86,7 +86,7 @@ export class InitialTrainingComponent implements OnInit {
 
   async accessToken() {}
 
-  async getRefreshToken() {
+  getRefreshToken() {
     //returns refresh token
     let params = new HttpParams();
     params = params.append('code', returnCode);
@@ -206,16 +206,14 @@ export class InitialTrainingComponent implements OnInit {
     // })
   }
 
-  returnToken(): string {
-    return this.outAccessToken;
+  returnRefreshToken(): string {
+    return refreshToken;
   }
 
   outTextVar = textVar;
   outSongArray: song[] = songArray;
   outGenreArray: genre[] = genreArray;
   outPlaylistArray: playlist[] = playlistArray;
-  outAccessToken: string = accessToken;
-  outRefreshToken: string = refreshToken;
 
   playlistItem: boolean = true;
 
