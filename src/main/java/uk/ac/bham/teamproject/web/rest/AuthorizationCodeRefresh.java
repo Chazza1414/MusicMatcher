@@ -1,62 +1,57 @@
 package uk.ac.bham.teamproject.web.rest;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
-import java.util.logging.Logger;
 import org.apache.hc.core5.http.ParseException;
 import se.michaelthelin.spotify.SpotifyApi;
-import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
-import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
+import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRefreshRequest;
 
-public class AuthorizationCode {
+public class AuthorizationCodeRefresh {
 
     private static final String clientId = "420af6bafdcf44398328b920c4c7dd97";
     private static final String clientSecret = "e54bd430c6a6428e8355dba28e1f7a9f";
-    private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:9000/initial-training");
-    private static String code = "";
 
-    public static String authorizationCode_Sync(String authCode) {
+    //private static String refreshToken = "";
+
+    //returns access token
+    public static String authorizationCodeRefresh_Sync(String token) {
         try {
             SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
-                .setRedirectUri(redirectUri)
+                .setRefreshToken(token)
                 .build();
-            AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(authCode).build();
 
-            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
+            AuthorizationCodeRefreshRequest authorizationCodeRefreshRequest = spotifyApi.authorizationCodeRefresh().build();
+
+            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRefreshRequest.execute();
 
             // Set access and refresh token for further "spotifyApi" object usage
             spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
             System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
-            System.out.println("Access token: " + authorizationCodeCredentials.getAccessToken());
-            //return authorizationCodeCredentials.getAccessToken();
-
-            //this returns the refresh token now
-            return authorizationCodeCredentials.getRefreshToken();
+            System.out.println(authorizationCodeCredentials.getAccessToken());
+            return authorizationCodeCredentials.getAccessToken();
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            return "Error: " + e.getMessage();
+            System.out.println("Error: " + e.getMessage());
+            return "error here: " + e.getMessage();
         }
     }
-    //    public static void authorizationCode_Async() {
+    //    public static void authorizationCodeRefresh_Async() {
     //        try {
-    //            final CompletableFuture<AuthorizationCodeCredentials> authorizationCodeCredentialsFuture = authorizationCodeRequest.executeAsync();
+    //            final CompletableFuture<AuthorizationCodeCredentials> authorizationCodeCredentialsFuture = authorizationCodeRefreshRequest.executeAsync();
     //
     //            // Thread free to do other tasks...
     //
     //            // Example Only. Never block in production code.
     //            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeCredentialsFuture.join();
     //
-    //            // Set access and refresh token for further "spotifyApi" object usage
+    //            // Set access token for further "spotifyApi" object usage
     //            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-    //            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
     //
     //            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
     //        } catch (CompletionException e) {

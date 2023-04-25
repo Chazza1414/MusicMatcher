@@ -50,10 +50,12 @@ public class SongResource {
     @PostMapping("/songs")
     public ResponseEntity<Song> createSong(@Valid @RequestBody Song song) throws URISyntaxException {
         log.debug("REST request to save Song : {}", song);
+        log.error("\n\n\n\n\n" + song);
         if (song.getId() != null) {
             throw new BadRequestAlertException("A new song cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Song result = songRepository.save(song);
+        System.out.println(song);
         return ResponseEntity
             .created(new URI("/api/songs/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))

@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { RecommendService } from './recommend.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts';
 import { ISong, NewSong } from '../entities/song/song.model';
+import { SongUpdateComponent } from '../entities/song/update/song-update.component';
+import { SongService } from '../entities/song/service/song.service';
 //import * as angSpot from 'angular-spotify';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
@@ -12,13 +14,18 @@ var scope = 'user-read-private user-read-email playlist-read-private';
 var apiUrl = '/api/spotify/auth';
 var returnCode = '';
 var accessToken = '';
+let refreshToken: string = '';
 
+//instance of the spotify api node from: https://github.com/thelinmichael/spotify-web-api-node
 var spotifyApi = new SpotifyWebApi({
   clientId: client_id,
   clientSecret: client_secret,
   redirectUri: redirect_uri,
 });
 
+//the below three interfaces are used for the 3 front end columns
+// the name is displayed and the id is passed to relevant functions for use
+// the checked value is used to determine if the checkbox has been selected
 interface song {
   name: string;
   id: string;
@@ -59,15 +66,7 @@ for (var i = 0; i < 16; i++) {
 export class InitialTrainingComponent implements OnInit {
   constructor(private http: HttpClient, private recommendService: RecommendService) {}
 
-  selectAllPlaylists() {
-    //this.playlistItem = true;
-    // for (let playlist of this.outPlaylistArray) {
-    //   playlist.playlistItem = !playlist.playlistItem;
-    // }
-    //document.getElementById('playlist-item')
-    //var checkbox = document.querySelector("input[type='checkbox']");
-  }
-
+  //creates a URL for the user to log into spotify
   getUrlReady(state: string): string {
     var url = new URL('https://accounts.spotify.com/authorize?');
 
@@ -80,26 +79,81 @@ export class InitialTrainingComponent implements OnInit {
     return url.toString();
   }
 
+  //redirects the user to the URL provided for spotify log in
   openWindow() {
     window.location.href = this.getUrlReady(state);
   }
 
-  async querySongs(accessToken: string, songArray: string[]): Promise<any> {
-    let songString = '';
-    if (songArray.length == 0) {
-      return 'failed';
-    }
-    songString += songArray[0];
-    for (let i = 1; i < songArray.length; i++) {
-      songString += '%2C' + songArray[i];
-    }
-    const newUrl = 'https://api.spotify.com/v1/tracks?ids=' + songString;
-    const result = await fetch(newUrl, { method: 'GET', headers: { Authorization: 'Bearer ' + accessToken } });
+  async accessToken() {}
 
-    return await result.json();
+  async getRefreshToken() {
+    //returns refresh token
+    let params = new HttpParams();
+    params = params.append('code', returnCode);
+
+    //create the http get request to our api endpoint
+    const req = this.http.get('/api/spotify/refreshtoken', { responseType: 'text', params });
+
+    try {
+      req.subscribe(data => {
+        console.log('refresh token: ' + data);
+        refreshToken = data;
+
+        try {
+          //let params2 = new HttpParams();
+          params = params.delete('code');
+          params = params.append('refreshtoken', data);
+          //params2 = params.append('refreshtoken', data);
+
+          //console.log("params" + params);
+
+          //create the http get request to our api endpoint
+          const req2 = this.http.get('/api/spotify/accesstoken', { responseType: 'text', params });
+
+          req2.subscribe(data => {
+            console.log('access token: ' + data);
+
+            accessToken = data;
+
+            spotifyApi.setAccessToken(accessToken);
+
+            this.loadDataToSelect();
+          });
+        } catch (e) {
+          console.log('error: ' + e);
+        }
+      });
+    } catch (e) {
+      console.log('error: ' + e);
+    }
   }
 
   //this function is called by the button press to import playlists
+
+  loadDataToSelect() {
+    spotifyApi.setAccessToken(accessToken);
+
+    this.getUserPlaylists();
+
+    //get global top 50 playlist
+    spotifyApi.playlists.getPlaylist('37i9dQZEVXbNG2KDcFcKOF').then(data => {
+      for (let i = 0; i < data.tracks.total; i++) {
+        //this.outTextVar = this.outTextVar + JSON.stringify(data.tracks.items[i]);
+        songArray.push({ name: data.tracks.items[i].track.name, id: data.tracks.items[i].track.id, checked: false });
+      }
+    });
+
+    //get available seed genres
+    spotifyApi.browse.getAvailableGenreSeeds().then(data => {
+      for (let i = 0; i < data.length; i++) {
+        //this.outTextVar = this.outTextVar + data.tracks.items[i].track.name;
+        genreArray.push({ name: data[i], checked: false });
+      }
+    });
+
+    //spotifyApi.tracks.getTrack(id)
+  }
+
   getAccessToken() {
     //create parameters that we want returned to us
     let params = new HttpParams();
@@ -109,51 +163,28 @@ export class InitialTrainingComponent implements OnInit {
     const req = this.http.get(apiUrl, { responseType: 'text', params });
 
     //request is executed when subscribe is called
+    //return value 'token' is the access token
     req.subscribe(token => {
-      //this.outTextVar = this.outTextVar + "your access token=" + token;
-
       spotifyApi.setAccessToken(token);
       accessToken = token;
 
-      //use the spotify api dependency to make calls easily, see top of file for creation of object
-      spotifyApi.playlists.getMyPlaylists(/* add parameters in here*/).then(
-        data => {
-          //this is iterating through each playlist and getting the name
-          for (let i = 0; i < data.items.length; i++) {
-            playlistArray.push({ name: data.items[i].name, id: data.items[i].id, checked: false });
-          }
-        },
-        error => {
-          //this.outTextVar = this.outTextVar + error;
-        }
-      );
-
-      //get global top 50 playlist
-      spotifyApi.playlists.getPlaylist('37i9dQZEVXbNG2KDcFcKOF').then(data => {
-        for (let i = 0; i < data.tracks.total; i++) {
-          //this.outTextVar = this.outTextVar + JSON.stringify(data.tracks.items[i]);
-          songArray.push({ name: data.tracks.items[i].track.name, id: data.tracks.items[i].track.id, checked: false });
-        }
-      });
-
-      spotifyApi.users.getMe();
-
-      //just use normal http requests
-
-      //this.querySongs(token, ["454I78HEySdcHE8fcVabTb", "6rAXHPd18PZ6W8m9EectzH"]).then(data => {
-      //this.outTextVar = this.outTextVar + JSON.stringify(data);
-      //this.outTextVar = this.outTextVar + data.tracks[0].artists[0].name;
-      //this.outTextVar = this.outTextVar + JSON.parse(data.tracks[0].artists)[0].name;
-      //});
-
-      //get available seed genres
-      spotifyApi.browse.getAvailableGenreSeeds().then(data => {
-        for (let i = 0; i < data.length; i++) {
-          //this.outTextVar = this.outTextVar + data.tracks.items[i].track.name;
-          genreArray.push({ name: data[i], checked: false });
-        }
-      });
+      //get the login in user's playlists
     });
+  }
+
+  getUserPlaylists() {
+    //use the spotify api dependency to make calls easily, see top of file for creation of object
+    spotifyApi.playlists.getMyPlaylists(/* add parameters in here*/).then(
+      data => {
+        //this is iterating through each playlist and getting the name
+        for (let i = 0; i < data.items.length; i++) {
+          playlistArray.push({ name: data.items[i].name, id: data.items[i].id, checked: false });
+        }
+      },
+      error => {
+        console.log('error occured getting user playlists: ' + error);
+      }
+    );
   }
 
   async submitForm() {
@@ -184,16 +215,30 @@ export class InitialTrainingComponent implements OnInit {
   outGenreArray: genre[] = genreArray;
   outPlaylistArray: playlist[] = playlistArray;
   outAccessToken: string = accessToken;
+  outRefreshToken: string = refreshToken;
 
   playlistItem: boolean = true;
 
   ngOnInit(): void {
-    if (window.location.href.split('code=')[1].split('state=')[0] != null) {
-      returnCode = window.location.href.split('code=')[1].split('&state=')[0];
+    console.log(window.location.href);
 
-      this.getAccessToken();
-    } else {
-      this.outTextVar = this.outTextVar + 'Error: token not received';
+    if (window.location.href.includes('code=')) {
+      returnCode = window.location.href.split('code=')[1].split('&state=')[0];
+      this.getRefreshToken();
+      //console.log("are we here");
+
+      //this.getAccessToken();
     }
+
+    // if (window.location.href != undefined && window.location.href.split('code=')[1].split('state=')[0] != null) {
+    //   returnCode = window.location.href.split('code=')[1].split('&state=')[0];
+    //
+    //   this.getRefreshToken();
+    //   console.log("are we here");
+    //
+    //   //this.getAccessToken();
+    // } else {
+    //   this.outTextVar = this.outTextVar + 'Error: token not received';
+    // }
   }
 }
