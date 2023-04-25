@@ -1,13 +1,13 @@
 html, body {
   height: 100%;
-  background-color: #0d122b;
+  background-color: transparent;
   margin: 0;
   padding: 0;
 }
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #0d122b;
+  background-color: transparent;
   color: #fff;
   margin: 0;
   padding: 0;
@@ -18,21 +18,24 @@ body {
 h2 {
   text-align: center;
   font-size: 2rem;
-  padding: 20px 0;
-  margin-bottom: 1rem;
+  padding: 10px 0;
+  margin-bottom: 0.5rem;
   border-bottom: 1px solid #3a3f4b;
 }
 .song-list-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #0d122b;
+  background-color: transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 5px;
 }
 .scrollable-table {
   max-height: 400px; /* Adjust the value */
   overflow-y: auto;
+}
+.song-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light gray close to white */
 }
 
 .song-list-item {
@@ -80,7 +83,7 @@ h2 {
 .song-table {
   width: 100%;
   border-collapse: collapse;
-  color: white;
+  color: black;
 }
 
 .song-table th,
@@ -103,7 +106,7 @@ h2 {
 }
 
 .play-button {
-  color: whitesmoke;
+  color: #0d122b;
   font-size: 24px; // Increase the font size to make the icon bigger
   cursor: pointer;
   margin-right: 20px;
@@ -124,3 +127,4 @@ h2 {
 .add-to-liked-songs-button:hover {
   color: #ffffff;
 }
+
