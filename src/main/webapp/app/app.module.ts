@@ -27,6 +27,8 @@ import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 import { InitialTrainingModule } from './initial-training/initial-training.module';
 import { InitialTrainingComponent } from './initial-training/initial-training.component';
+import { SongUpdateComponent } from './entities/song/update/song-update.component';
+import { SongService } from './entities/song/service/song.service';
 //import {footerRoute} from "./layouts/footer/footer.route";
 
 @NgModule({
@@ -49,6 +51,8 @@ import { InitialTrainingComponent } from './initial-training/initial-training.co
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
     InitialTrainingComponent,
+    SongUpdateComponent,
+    SongService,
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],

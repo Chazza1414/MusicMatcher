@@ -19,6 +19,7 @@ export class SongService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(song: NewSong): Observable<EntityResponseType> {
+    console.log('create function in song service: ' + song);
     return this.http.post<ISong>(this.resourceUrl, song, { observe: 'response' });
   }
 

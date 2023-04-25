@@ -52,6 +52,7 @@ export class SongUpdateComponent implements OnInit {
   }
 
   //this is called when the form to create a song is saved
+  //if id is null it creates a new song for us
   save(): void {
     this.isSaving = true;
     const song = this.songFormService.getSong(this.editForm);
