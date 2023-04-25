@@ -48,8 +48,8 @@
 img {
   display: block;
   margin: auto;
-  max-width: 1000px;
-  max-height: 1000px;
+  max-width: 500px;
+  max-height: 500px;
 }
 
 .bottom-row {
@@ -78,6 +78,11 @@ img {
 
 h2 {
   margin-bottom: 10px;
+  font-size: xx-large;
+}
+
+h3 {
+  font-size: large;
 }
 
 .play-button {
