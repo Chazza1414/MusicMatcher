@@ -16,6 +16,9 @@ export class DislikedSongsComponent {
   currentlyPlayingIndex: number | null = null;
   private dislikedSongsSubscription: Subscription;
 
+  currentSong: ISong | null = null;
+  progress: number = 0;
+
   isPlaying(index: number): boolean {
     return this.currentlyPlayingIndex === index;
   }
@@ -53,13 +56,30 @@ export class DislikedSongsComponent {
     this.dislikedSongsSubscription.unsubscribe();
   }
 
-  onPlayButtonClick(index: number): void {
-    if (this.currentlyPlayingIndex === index) {
+  onPlayButtonClick(index?: number | null): void {
+    if (index === undefined || index === null) {
       this.currentlyPlayingIndex = null;
+      this.currentSong = null;
+    } else if (this.currentlyPlayingIndex === index) {
+      this.currentlyPlayingIndex = null;
+      this.currentSong = null;
     } else {
       this.currentlyPlayingIndex = index;
+      this.currentSong = this.songs[index];
+    }
+    this.progress = 0; // Initialize progress to 0
+    // Update progress with a fake value for demonstration purposes
+    if (this.currentSong) {
+      setInterval(() => {
+        this.progress += 1;
+        if (this.progress > 100) {
+          this.progress = 0;
+        }
+      }, 500);
     }
   }
+
+
 
   onAddToLikedSongsButtonClick(song: ISong): void {
     this.songService.addLikedSong(song);

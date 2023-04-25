@@ -30,8 +30,13 @@ h2 {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 5px;
 }
+.table-header {
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+}
+
 .scrollable-table {
-  max-height: 400px; /* Adjust the value */
+  max-height: 500px; /* Adjust the value */
   overflow-y: auto;
 }
 .song-table tbody tr:nth-child(even) {
@@ -73,7 +78,7 @@ h2 {
   text-align: left;
 }
 
-.song-info-time,
+.song-info-duration,
 .song-info-artist,
 .song-info-album,
 .song-info-genre {
@@ -128,3 +133,61 @@ h2 {
   color: #ffffff;
 }
 
+.now-playing {
+  position: fixed;
+  bottom: 20px; /* Adjust this value to change the distance from the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 600px;
+}
+
+.song-info {
+  display: flex;
+  align-items: center;
+}
+
+.song-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.song-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.song-artist {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.song-popup-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.progress-container {
+  width: 50%;
+}
+
+.playing-progress {
+  width: 100%;
+}
