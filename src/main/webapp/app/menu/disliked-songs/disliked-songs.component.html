@@ -1,200 +1,46 @@
-<!DOCTYPE html>
-<html lang="en" dir = "ltr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DislikedSongs List</title>
-  <!--
-  <link href="/fontawesome/css/fontawesome.css" rel="stylesheet">
-  <link href="/fontawesome/css/brands.css" rel="stylesheet">
-  <link href="/fontawesome/css/solid.css" rel="stylesheet">
--->
-<!--
-  <script src="https://kit.fontawesome.com/acdbfd0897.js" crossorigin="anonymous"></script>
--->
-  <link rel="stylesheet" href="disliked-songs.component.scss">
-</head>
-<body>
-
 <div class="song-list">
   <h2>Disliked Songs List</h2>
   <div class="song-list-container">
-    <table class="song-table">
-      <thead>
-      <tr>
-        <th class="song-info-title">Title</th>
-        <th class="song-info-time">Time</th>
-        <th class="song-info-artist">Artist</th>
-        <th class="song-info-album">Album</th>
-        <th class="song-info-genre">Genre</th>
-        <th class="song-actions">Actions</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 1</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 1</td>
-        <td class="song-info-album">Album 1</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 0"
-            (click)="onPlayButtonClick(0)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 0"
-            (click)="onPlayButtonClick(0)"
-          ></i> <!--turns into stop icon when clicked-->
-
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 2</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 2</td>
-        <td class="song-info-album">Album 2</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 1"
-            (click)="onPlayButtonClick(1)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 1"
-            (click)="onPlayButtonClick(1)"
-          ></i>
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 3</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 3</td>
-        <td class="song-info-album">Album 3</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 2"
-            (click)="onPlayButtonClick(2)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 2"
-            (click)="onPlayButtonClick(2)"
-          ></i>
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 4</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 4</td>
-        <td class="song-info-album">Album 4</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 3"
-            (click)="onPlayButtonClick(3)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 3"
-            (click)="onPlayButtonClick(3)"
-          ></i>
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 5</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 5</td>
-        <td class="song-info-album">Album 5</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 4"
-            (click)="onPlayButtonClick(4)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 4"
-            (click)="onPlayButtonClick(4)"
-          ></i>
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 6</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 6</td>
-        <td class="song-info-album">Album 6</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 5"
-            (click)="onPlayButtonClick(5)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 5"
-            (click)="onPlayButtonClick(5)"
-          ></i>
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      <tr class="song-item">
-        <td class="song-info-title">Song Title 7</td>
-        <td class="song-info-time">01/01/2023</td>
-        <td class="song-info-artist">Artist 7</td>
-        <td class="song-info-album">Album 7</td>
-        <td class="song-info-genre">Classic</td>
-        <td class="song-actions">
-
-          <i
-            class="fas fa-play-circle play-button"
-            *ngIf="currentlyPlayingIndex !== 6"
-            (click)="onPlayButtonClick(6)"
-          ></i>
-          <!-- Use currentlyPlayingIndex to show the stop icon when the song is playing -->
-          <i
-            class="fas fa-stop-circle play-button"
-            *ngIf="currentlyPlayingIndex === 6"
-            (click)="onPlayButtonClick(6)"
-          ></i>
-          <i class="fa-solid fa-heart-circle-plus add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick()"></i>
-
-        </td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="scrollable-table"> <!-- make it scrollable-->
+      <table class="song-table">
+        <thead>
+        <tr>
+          <th class="song-info-title">Title</th>
+          <th class="song-info-time">Time</th>
+          <th class="song-info-artist">Artist</th>
+          <th class="song-info-album">Album</th>
+          <th class="song-info-genre">Genre</th>
+          <th class="song-actions">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let song of songs; let i = index">
+          <tr class="song-item">
+            <td class="song-info-title">{{ song.songName }}</td>
+            <td class="song-info-time">N/A</td>
+            <td class="song-info-artist">{{ song.artistName }}</td>
+            <td class="song-info-album">N/A</td>
+            <td class="song-info-genre">N/A</td>
+            <td class="song-actions">
+              <i
+                class="fas fa-play-circle play-button"
+                *ngIf="!isPlaying(i)"
+                (click)="onPlayButtonClick(i)"
+              ></i>
+              <i
+                class="fas fa-stop-circle play-button"
+                *ngIf="isPlaying(i)"
+                (click)="onPlayButtonClick(i)"
+              ></i>
+              <i
+                class="fa-solid fa-heart-circle-plus add-to-liked-songs-button"
+                (click)="onAddToLikedSongsButtonClick(song)"
+              ></i>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-</body>
-</html>
