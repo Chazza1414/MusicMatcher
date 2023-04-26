@@ -1,28 +1,48 @@
+.page-container {
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #left-column {
-  background-color: lightgreen;
+  background-color: #c7fdff;
   width: 33%;
   height: 80vh;
+  margin-right: 5px;
 }
 #center-column {
-  background-color: lightblue;
+  background-color: #c7fdff;
   width: 33%;
 }
 #right-column {
-  background-color: lightpink;
+  background-color: #c7fdff;
   width: 33%;
+  margin-left: 5px;
 }
 .row-1 {
   width: 100%;
+  border-radius: 20px;
+  position: relative;
+  top: 10px;
+}
+.column-container {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  border: 0.5px solid black;
+  height: 80vh;
 }
 .flex-container-column {
   display: flex;
   flex-direction: column;
+  border-radius: 20px;
 }
 .flex-container-row {
   display: flex;
   flex-direction: row;
   border: 0.5px solid black;
-  margin: 1px;
 }
 #search-song {
   height: 500px;
@@ -44,14 +64,16 @@
 }
 body {
   font-family: 'Open Sans';
-  background: #2c3e50;
+  background: white;
   color: #ecf0f1;
   line-height: 1.618em;
 }
 .scroll-box {
   background-color: lightgrey;
-  border: 0.5px solid black;
+  //border: 0.5px solid lightgrey;
   overflow-y: auto;
+  position: relative;
+  top: 10px;
 }
 .checkbox-container {
   border: 0.5px solid black;
@@ -85,4 +107,45 @@ div {
 }
 #playlist-container {
   max-height: 400px;
+}
+
+.big-btn {
+  color: #fff;
+  background-color: #7c25f8;
+  font-size: 14px;
+  line-height: 1;
+  border-radius: 500px;
+  padding: 18px 48px 16px;
+  transition-property: background-color;
+  transition-duration: 0.3s;
+  border-width: 0;
+  letter-spacing: 2px;
+  min-width: 160px;
+  text-transform: uppercase;
+  white-space: normal;
+  cursor: pointer;
+  position: relative;
+}
+
+.big-btn:hover {
+  background-color: #6207e3;
+}
+
+#page {
+  border-radius: 20px;
+}
+.h2 {
+  horiz-align: center;
+}
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 10px;
 }
