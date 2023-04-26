@@ -1,14 +1,7 @@
-html, body {
-  height: 100%;
-  background-color: #0d122b;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: Arial, sans-serif;
-  background-color: #0d122b;
-  color: #fff;
+  background-color: transparent;
+  color: white;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -18,21 +11,30 @@ body {
 h2 {
   text-align: center;
   font-size: 2rem;
-  padding: 20px 0;
-  margin-bottom: 1rem;
+  padding: 10px 0;
+  margin-bottom: 0.5rem;
   border-bottom: 1px solid #3a3f4b;
 }
 .song-list-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #0d122b;
+  background-color: transparent;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   border-radius: 5px;
 }
+.table-header {
+  overflow: hidden;
+  border-bottom: 1px solid #eee;
+}
 
-
-
+.scrollable-table {
+  max-height: 500px; /* Adjust the value */
+  overflow-y: auto;
+}
+.song-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Light gray close to white */
+}
 
 .song-list-item {
   display: flex;
@@ -49,6 +51,7 @@ h2 {
 }
 
 .song-item {
+  line-height: 1.5;
   padding: 0;
 }
 
@@ -79,6 +82,7 @@ h2 {
 .song-table {
   width: 100%;
   border-collapse: collapse;
+  color: black;
 }
 
 .song-table th,
@@ -89,7 +93,7 @@ h2 {
 
 .song-table th {
   font-weight: bold;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid black;
 }
 
 .song-actions {
@@ -101,17 +105,23 @@ h2 {
 }
 
 .play-button {
-  color: whitesmoke;
+  color: #0d122b;
   font-size: 24px; // Increase the font size to make the icon bigger
   cursor: pointer;
-  margin-right: 20px;
+  margin-left: 0px;
+  margin-right: 25px;
 }
 
+.heart-container {
+  display: inline-block;
+  width: 20px; // Adjust this value according to the width of the heart icon
+  text-align: center;
+}
 .add-to-liked-songs-button {
-  color: #e90ff1;
+  color: #0d122b;
   font-size: 24px; // Increase the font size to make the icon bigger
   cursor: pointer;
-  margin-right: 10px;
+  margin-right: 15px;
   margin-left: 10px;
 }
 
@@ -120,5 +130,63 @@ h2 {
 }
 
 .add-to-liked-songs-button:hover {
-  color: #ffffff;
+  color: blue;
 }
+
+.now-playing {
+  position: fixed;
+  bottom: 20px; /* Adjust this value to change the distance from the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  max-width: 600px;
+}
+
+.song-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+.song-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.song-artist {
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.song-popup-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.progress-container {
+  width: 50%;
+}
+
+.playing-progress {
+  width: 100%;
+}
+.transparent {
+  opacity: 0;
+} //makes heart icon transparent after clicked
+

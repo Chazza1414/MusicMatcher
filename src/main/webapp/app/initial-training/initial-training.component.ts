@@ -212,6 +212,10 @@ export class InitialTrainingComponent implements OnInit {
     return refreshToken;
   }
 
+  returnAccessToken(): string {
+    return accessToken;
+  }
+
   returnSongRec(): string {
     return songRec;
   }
@@ -220,6 +224,7 @@ export class InitialTrainingComponent implements OnInit {
   outSongArray: song[] = songArray;
   outGenreArray: genre[] = genreArray;
   outPlaylistArray: playlist[] = playlistArray;
+  outAccessToken: string = accessToken;
 
   playlistItem: boolean = true;
 

@@ -46,8 +46,10 @@
 }
 
 img {
-  max-width: 100px;
-  max-height: 100px;
+  display: block;
+  margin: auto;
+  max-width: 500px;
+  max-height: 500px;
 }
 
 .bottom-row {
@@ -66,11 +68,26 @@ img {
   margin-bottom: 20px;
 }
 
+.bottom-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 h2 {
   margin-bottom: 10px;
+  font-size: xx-large;
+}
+
+h3 {
+  font-size: large;
 }
 
 .play-button {
+  display: block;
+  margin: auto;
   padding: 10px 20px;
   background-color: black;
   color: white;

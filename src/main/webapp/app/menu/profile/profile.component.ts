@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 import { InitialTrainingComponent } from '../../initial-training/initial-training.component';
 
-Chart.register(...registerables);
+//For present user account
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/auth/account.model';
+import { Router } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { SpotifyWebApi } from 'spotify-web-api-ts';
 
 @Component({
   selector: 'jhi-profile',
@@ -10,9 +17,32 @@ Chart.register(...registerables);
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  constructor() {}
+  account: Account | null = null;
+
+  private readonly destroy$ = new Subject<void>();
+
+  constructor(private accountService: AccountService, private router: Router, private InitialComponent: InitialTrainingComponent) {}
+
+  //Fetch user's profile from Spotify
+  async fetchProfile(token: string): Promise<any> {
+    const result = await fetch('https://api.spotify.com/v1/me', {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    return await result.json();
+  }
+  populateUI(profile: any) {
+    if (profile.images[0]) {
+      const profileImage = new Image(106, 106);
+      profileImage.src = profile.images[0].url;
+      document.getElementById('avatar')!.appendChild(profileImage);
+    }
+    document.getElementById('imgUrl')!.innerText = profile.images[0]?.url ?? '(no profile image)';
+  }
 
   ngOnInit(): void {
+    this.fetchProfile(this.InitialComponent.outAccessToken).then(data => this.populateUI(data));
+
     var myChart = new Chart('myChart', {
       type: 'pie',
       data: {
@@ -58,5 +88,14 @@ export class ProfileComponent implements OnInit {
         },
       },
     });
+
+    this.accountService
+      .getAuthenticationState()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(account => (this.account = account));
+  }
+
+  login(): void {
+    this.router.navigate(['/login']);
   }
 }
