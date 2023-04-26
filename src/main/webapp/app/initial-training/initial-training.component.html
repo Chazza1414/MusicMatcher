@@ -2,10 +2,10 @@
 <html>
   <body>
     <form>
-      <div class="row" id="page">
-        <div class="col-1 flex-container-column" id="left-column">
+      <div class="page-container row" id="page" [ngSwitch]="outPlaylistArray.length == 0">
+        <div class="column-container" id="left-column" *ngSwitchCase="false">
           <div class="flex-container-column" id="search-genre">
-            <h2>Top Genres</h2>
+            <div class="text-container"><h2>Top Genres</h2></div>
             <div class="scroll-box">
               <div *ngFor="let genre of outGenreArray; let i = index">
                 <label class="flex-container-row">
@@ -22,8 +22,8 @@
             </div>
           </div>
         </div>
-        <div class="col-2" id="center-column" [ngSwitch]="outPlaylistArray.length == 0">
-          <div><h2>Select Playlist</h2></div>
+        <div class="column-container" id="center-column">
+          <div class="text-container"><h2>Select Playlist</h2></div>
           <div>
             <h4 id="test-text">{{ outTextVar }}</h4>
           </div>
@@ -32,7 +32,7 @@
             <div><p>Select your favourite genres or songs from the global top 50</p></div>
           </div>
           <div id="playlist-container" class="flex-container-column" *ngSwitchCase="false">
-            <h3>Your Playlists</h3>
+            <div class="text-container"><h3>Your Playlists</h3></div>
             <div class="scroll-box">
               <div *ngFor="let playlist of outPlaylistArray; let i = index">
                 <label class="flex-container-row">
@@ -49,17 +49,17 @@
               </div>
             </div>
           </div>
-          <div id="spotify-container">
+          <div id="spotify-container" class="button-container">
             <a>
-              <button (click)="openWindow()" id="spotify-login-button" *ngSwitchCase="true">Load Spotify Playlists</button>
+              <button (click)="openWindow()" class="big-btn" id="spotify-login-button" *ngSwitchCase="true">Log in with Spotify</button>
             </a>
           </div>
         </div>
-        <div class="col-3" id="right-column">
+        <div class="column-container" id="right-column" *ngSwitchCase="false">
           <div class="flex-container-column" id="search-song">
-            <h2>Top Songs</h2>
+            <div class="text-container"><h2>Top Songs</h2></div>
             <div class="scroll-box">
-              <div *ngFor="let song of outSongArray; let i = index">
+              <div *ngFor="let song of outSongArray; let i = index; let even = even" [ngClass]="{ even: even }">
                 <label class="flex-container-row">
                   <input type="checkbox" class="select-song" [checked]="song.checked" (change)="song.checked = !song.checked" />&nbsp;&nbsp;
                   <div class="index">{{ i + 1 }}.</div>

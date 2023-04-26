@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { enableProdMode, Injectable } from '@angular/core';
 import { SpotifyWebApi } from 'spotify-web-api-ts';
 import { ISong, NewSong } from '../entities/song/song.model';
+import { isDevMode } from '@angular/core';
+import { environment } from '@ng-bootstrap/ng-bootstrap/environment';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
-var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
+//var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
+var redirect_uri = 'https://musicmatcher.bham.team/initial-training';
 
 var spotifyApi = new SpotifyWebApi({
   clientId: client_id,
