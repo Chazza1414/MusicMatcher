@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InitialTrainingComponent } from '../../initial-training/initial-training.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { waitForAsync } from '@angular/core/testing';
 
 //let accessToken: string = '';
 let refreshToken: string = '';
@@ -8,6 +9,7 @@ let image: string = '';
 let artist: string = '';
 let title: string = '';
 let previewUrl: string = '';
+//let counter: number = 0;
 
 @Component({
   selector: 'jhi-main-page',
@@ -29,6 +31,7 @@ export class MainPageComponent implements OnInit {
 
   async getRecom(accessToken: string) {
     let previewUrl: string = '';
+    let collected: boolean = false;
     console.log(this.initComp.returnSongRec());
     //console.log("Refresh token: " + refreshToken);
     console.log('accessToken is from getRecom: ' + accessToken);
@@ -49,6 +52,10 @@ export class MainPageComponent implements OnInit {
     previewUrl = data.preview_url;
     //previewUrl = 'https://p.scdn.co/mp3-preview/8589bc33c59716cb36846da5615fee1f3b6a615e?cid=420af6bafdcf44398328b920c4c7dd97'
     console.log('Preview url is: ' + previewUrl);
+
+    collected = true;
+
+    return collected;
   }
 
   async getAccessToken(refreshToken: string): Promise<string> {
@@ -86,6 +93,27 @@ export class MainPageComponent implements OnInit {
   outTitle: string = '';
   outPreview: string = '';*/
 
+  dataLoaded: Promise<boolean> = this.isDataLoaded();
+
+  async isDataLoaded() {
+    let counter: number = 0;
+    let allAssign: boolean = false;
+
+    this.outImage = image;
+    counter++;
+    this.outArtist = artist;
+    counter++;
+    this.outTitle = title;
+    counter++;
+    this.outPreview = 'https://p.scdn.co/mp3-preview/1d1ee7f7728856cbf44b2957b85fdfd69a83904b?cid=420af6bafdcf44398328b920c4c7dd97';
+    counter++;
+
+    if (counter == 4) allAssign = true;
+    console.log('data loaded');
+
+    return allAssign;
+  }
+
   ngOnInit(): void {
     //let accessToken = "";
     //this.getRefreshToken();
@@ -96,6 +124,10 @@ export class MainPageComponent implements OnInit {
     // });
     let accessToken = this.initComp.returnAccessToken();
     this.getRecom(accessToken);
+    //let dataCollected: Promise<boolean> = this.getRecom(accessToken)
+    //waitForAsync(this.getRecom);
+    this.isDataLoaded();
+    //this.isDataLoaded();
 
     /*this.outImage = image;
     this.outArtist = artist;
