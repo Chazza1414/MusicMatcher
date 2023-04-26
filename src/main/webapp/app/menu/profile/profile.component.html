@@ -1,20 +1,24 @@
 <!-- For Profile Purpose-->
-<div class="pBox"></div>
-<div class="sBox2">
-  <label for="uname">Username:</label>
-  <input class="uPBox" type="text" id="uname" name="Username" /><br /><br />
-  <label for="password">Password:</label>
-  <input class="uPBox" type="text" id="password" name="*******" /><br /><br />
-  <button class="eButton" type="button">Edit</button>
+<div class="pBox" id="avatar"></div>
+<div class="sBox2" [ngSwitch]="account !== null">
+  <div *ngSwitchCase="true">
+    <label for="username">Username:</label>
+    <span class="uPBox" id="username" *ngIf="account" jhiTranslate="profile.logged.message" [translateValues]="{ username: account.login }">
+      :{{ account.login }}</span
+    ><br /><br />
+    <label for="email" jhiTranslate="profile.logged.e-message">Email:</label>
+    <span class="uPBox" id="email" *ngIf="account" jhiTranslate="profile.logged.email" [translateValues]="{ email: account.email }">
+      {{ account.login }}
+    </span>
+    <button class="eButton" type="button" routerLink="/account/settings">Edit</button>
+  </div>
 </div>
 
 <!-- Navigation to Liked Song Page -->
 <div class="vertical">
   <p class="fontDesign recentSongPos">Recent Liked Song</p>
   <div class="hoverItem">
-    <a routerLink="/liked-songs">
-      <button class="lButton lButtonPos" aria-hidden="true">To Liked Song Page ></button>
-    </a>
+    <button class="lButton lButtonPos" aria-hidden="true" routerLink="/liked-songs">To Liked Song Page ></button>
   </div>
   <div class="pBox f1Pos"></div>
   <div class="pBox f2Pos"></div>
@@ -29,9 +33,7 @@
 <div class="vertical2">
   <p class="fontDesign recentDisliked">Recent Disliked Song</p>
   <div class="hoverItem">
-    <a routerLink="/disliked-songs">
-      <button class="lButton lButtonPos">To Disliked Song Page ></button>
-    </a>
+    <button class="lButton lButtonPos" routerLink="/disliked-songs">To Disliked Song Page ></button>
   </div>
   <div class="pBox f1Pos"></div>
   <div class="pBox f2Pos"></div>

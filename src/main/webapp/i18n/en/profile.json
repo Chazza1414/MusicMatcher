@@ -1,0 +1,9 @@
+{
+  "profile": {
+    "logged": {
+      "message": "{{username}}",
+      "email": "{{email}}",
+      "e-message": "Email:"
+    }
+  }
+}

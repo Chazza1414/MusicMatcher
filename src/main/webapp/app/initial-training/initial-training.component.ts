@@ -223,6 +223,7 @@ export class InitialTrainingComponent implements OnInit {
   outSongArray: song[] = songArray;
   outGenreArray: genre[] = genreArray;
   outPlaylistArray: playlist[] = playlistArray;
+  outAccessToken: string = accessToken;
 
   playlistItem: boolean = true;
 
