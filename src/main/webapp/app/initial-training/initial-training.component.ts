@@ -211,6 +211,10 @@ export class InitialTrainingComponent implements OnInit {
     return refreshToken;
   }
 
+  returnAccessToken(): string {
+    return accessToken;
+  }
+
   returnSongRec(): string {
     return songRec;
   }

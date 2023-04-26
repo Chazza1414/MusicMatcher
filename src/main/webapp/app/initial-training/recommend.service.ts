@@ -309,7 +309,7 @@ export class RecommendService {
       songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
     }
 
-    console.log('rec' + this.getBestRecommendation(songProfiles).songId);
+    console.log('rec ' + this.getBestRecommendation(songProfiles).songId);
 
     return this.getBestRecommendation(songProfiles).songId;
   }
