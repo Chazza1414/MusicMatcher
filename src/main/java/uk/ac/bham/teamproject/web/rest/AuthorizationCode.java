@@ -17,7 +17,7 @@ public class AuthorizationCode {
 
     private static final String clientId = "420af6bafdcf44398328b920c4c7dd97";
     private static final String clientSecret = "e54bd430c6a6428e8355dba28e1f7a9f";
-    private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:9000/initial-training");
+    private static final URI redirectUri = SpotifyHttpManager.makeUri("https://musicmatcher.bham.team/initial-training");
     private static String code = "";
 
     public static String authorizationCode_Sync(String authCode) {
