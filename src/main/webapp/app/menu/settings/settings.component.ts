@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit {
 }
 
  */
-
+/*
 import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
 
 @Component({
@@ -59,6 +59,40 @@ export class SettingsComponent implements OnInit {
       this.renderer.setStyle(rootElement, '--background-color', highContrastColor);
     } else {
       this.renderer.setStyle(rootElement, '--background-color', defaultColor);
+    }
+  }
+}
+
+ */
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'jhi-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
+})
+export class SettingsComponent implements OnInit {
+  highContrast = false;
+
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  toggleHighContrastMode(enableHighContrast: boolean): void {
+    this.highContrast = enableHighContrast;
+    const highContrastColor = '#00008b';
+    const defaultColor = 'white';
+
+    const appBody = document.getElementById('app-body');
+
+    if (appBody) {
+      if (enableHighContrast) {
+        appBody.style.setProperty('--background-color', highContrastColor);
+        appBody.style.setProperty('--text-color', defaultColor);
+      } else {
+        appBody.style.setProperty('--background-color', defaultColor);
+        appBody.style.setProperty('--text-color', '#333');
+      }
     }
   }
 }
