@@ -17,6 +17,8 @@ h4 {
 :root {
   --background-color: #fff;
   --text-color: #333;
+  --secondary-color: #964b00;
+  --third-color: #050a30;
 }
 
 body {
@@ -58,7 +60,7 @@ Browser Upgrade Prompt
 ========================================================================== */
 .browserupgrade {
   margin: 0.2em 0;
-  background: #ccc;
+  background: #333333;
   color: #000;
   padding: 0.2em 0;
 }
@@ -108,7 +110,7 @@ Generic styles
 }
 
 .form-control {
-  background-color: #fff;
+  background-color: #333333;
 }
 
 .readonly {

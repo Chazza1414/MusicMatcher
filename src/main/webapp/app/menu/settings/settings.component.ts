@@ -1,41 +1,64 @@
-import { Component, OnInit } from '@angular/core';
+/*
+
+import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'jhi-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss'],
 })
+export class SettingsComponent implements OnInit {
+  constructor(private renderer: Renderer2, private el: ElementRef) {
+  }
 
-/*export class SettingComponent {
-  darkMode = false;
+  ngOnInit(): void {
+    const highContrastToggle = this.el.nativeElement.querySelector('#highContrastToggle');
+    highContrastToggle.addEventListener('change', (event: Event) => this.toggleHighContrastMode((event.target as HTMLInputElement).checked));
+  }
 
-  toggleDarkMode(checked: boolean) {
-    this.darkMode = checked;
+  toggleHighContrastMode(checked: boolean): void {
+    // Define the deep blue color for high contrast mode
+    const highContrastColor = '#00008b';
+
+// Get the :root element to change the --background-color variable
+    const rootElement = this.el.nativeElement.closest(':root');
+
     if (checked) {
-      document.documentElement.style.setProperty('--background-color', '#1a1a1a');
-      document.documentElement.style.setProperty('--text-color', '#fff');
+      // Set background color to deep blue when high contrast mode is on
+      this.renderer.setStyle(rootElement, 'var(--background-color)', highContrastColor);
     } else {
-      document.documentElement.style.setProperty('--background-color', '#fff');
-      document.documentElement.style.setProperty('--text-color', '#333');
+      // Reset the background color to its initial value when high contrast mode is off
+      this.renderer.removeStyle(rootElement, 'var(--background-color)');
     }
-  }
-
-  toggleHighContrast() {
-    // implement your logic here
-  }
-
-  setTextSize(size: string) {
-    // implement your logic here
-  }
-
-  setVolume(value: number) {
-    // implement your logic here
   }
 }
 
  */
+
+import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
+
+@Component({
+  selector: 'jhi-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss'],
+})
 export class SettingsComponent implements OnInit {
-  constructor() {}
+  highContrast = false;
+
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit(): void {}
+
+  toggleHighContrastMode(enableHighContrast: boolean): void {
+    this.highContrast = enableHighContrast;
+    const highContrastColor = '#00008b';
+    const defaultColor = 'white';
+    const rootElement = this.el.nativeElement.closest(':root');
+
+    if (enableHighContrast) {
+      this.renderer.setStyle(rootElement, '--background-color', highContrastColor);
+    } else {
+      this.renderer.setStyle(rootElement, '--background-color', defaultColor);
+    }
+  }
 }
