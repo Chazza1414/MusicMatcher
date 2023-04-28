@@ -19,8 +19,8 @@ public class SpotifyController {
 
     //this returns the refresh token
     @GetMapping("/refreshtoken")
-    public String getRefreshToken(@RequestParam("code") String code) {
-        return AuthorizationCode.authorizationCode_Sync(code);
+    public String getRefreshToken(@RequestParam("code") String code, @RequestParam("redirect_uri") String redirect_uri) {
+        return AuthorizationCode.authorizationCode_Sync(code, redirect_uri);
     }
 
     //this returns the access token

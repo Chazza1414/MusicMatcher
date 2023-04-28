@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.logging.Logger;
 import org.apache.hc.core5.http.ParseException;
+import org.springframework.core.env.Environment;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
@@ -17,16 +18,17 @@ public class AuthorizationCode {
 
     private static final String clientId = "420af6bafdcf44398328b920c4c7dd97";
     private static final String clientSecret = "e54bd430c6a6428e8355dba28e1f7a9f";
-    //private static final URI redirectUri = SpotifyHttpManager.makeUri("https://musicmatcher.bham.team/initial-training");
-    private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:9000/initial-training");
-    private static String code = "";
 
-    public static String authorizationCode_Sync(String authCode) {
+    //private static final URI redirectUri = SpotifyHttpManager.makeUri("https://musicmatcher.bham.team/initial-training");
+    //private static final URI redirectUri = SpotifyHttpManager.makeUri("http://localhost:9000/initial-training");
+    //private static String code = "";
+
+    public static String authorizationCode_Sync(String authCode, String redirectUri) {
         try {
             SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
-                .setRedirectUri(redirectUri)
+                .setRedirectUri(SpotifyHttpManager.makeUri(redirectUri))
                 .build();
             AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(authCode).build();
 
