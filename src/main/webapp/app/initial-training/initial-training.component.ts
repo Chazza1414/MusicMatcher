@@ -93,6 +93,11 @@ export class InitialTrainingComponent implements OnInit {
   async accessToken() {}
 
   getRefreshToken() {
+    if (!isDevMode()) {
+      redirect_uri = 'https://musicmatcher.bham.team/initial-training';
+      console.log('in prod mode');
+    }
+
     //returns refresh token
     let params = new HttpParams();
     params = params.append('code', returnCode);
