@@ -62,6 +62,8 @@ public class SecurityConfiguration {
             .headers()
                 .contentSecurityPolicy(jHipsterProperties.getSecurity().getContentSecurityPolicy())
             //.and()
+            .and()
+                .contentSecurityPolicy("connect-src https://musicmatcher.bham.team/;")
                 //.contentSecurityPolicy("default-src 'self'; connect-src 'self' https://api.spotify.com;")
             .and()
                 .contentSecurityPolicy("connect-src https://api.spotify.com/;")
