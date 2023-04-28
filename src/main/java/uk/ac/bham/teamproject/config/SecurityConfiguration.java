@@ -64,6 +64,8 @@ public class SecurityConfiguration {
             //.and()
                 //.contentSecurityPolicy("default-src 'self'; connect-src 'self' https://api.spotify.com;")
             .and()
+                .contentSecurityPolicy("connect-src https://api.spotify.com/;")
+            .and()
                 .referrerPolicy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN)
             .and()
                 .permissionsPolicy().policy("camera=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), sync-xhr=()")
