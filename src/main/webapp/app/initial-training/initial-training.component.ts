@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, Injectable, isDevMode, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { RecommendService } from './recommend.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts';
@@ -83,6 +83,10 @@ export class InitialTrainingComponent implements OnInit {
 
   //redirects the user to the URL provided for spotify log in
   openWindow() {
+    if (!isDevMode()) {
+      redirect_uri = 'https://musicmatcher.bham.team/initial-training';
+    }
+
     window.location.href = this.getUrlReady(state);
   }
 
@@ -92,6 +96,7 @@ export class InitialTrainingComponent implements OnInit {
     //returns refresh token
     let params = new HttpParams();
     params = params.append('code', returnCode);
+    params = params.append('redirect_uri', redirect_uri);
 
     //create the http get request to our api endpoint
     const req = this.http.get('/api/spotify/refreshtoken', { responseType: 'text', params });

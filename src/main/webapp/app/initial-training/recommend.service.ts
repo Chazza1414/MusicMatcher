@@ -173,6 +173,7 @@ interface musicProfile {
   tempo: number;
   valence: number;
   genres: string[];
+  songTotal: number;
 }
 
 interface songProfile {
@@ -190,6 +191,7 @@ const emptyMusicProfile: musicProfile = {
   tempo: 0,
   valence: 0,
   genres: [],
+  songTotal: 0,
 };
 
 const emptySong: NewSong = {
@@ -211,6 +213,12 @@ export class RecommendService {
   async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<string> {
     var outSongArray: NewSong[] = [];
 
+    console.log('dev mode' + isDevMode());
+
+    if (!isDevMode()) {
+      redirect_uri = 'https://musicmatcher.bham.team/initial-training';
+    }
+
     let playlistSongsArray = await this.getAllPlaylistSongs(accessToken, playlists);
     userMusicProfile.genres = this.getGenres(genres);
     spotifyApi.setAccessToken(accessToken);
@@ -225,7 +233,8 @@ export class RecommendService {
 
     let genreArray = await this.getAllArtistGenres(accessToken, playlistSongsArray.concat(outSongArray));
 
-    genreArray = [...new Set(genreArray)];
+    //the below line used to not allow multiple of one genre in the list
+    //genreArray = [...new Set(genreArray)];
 
     let useableGenreArray: string[] = [];
 
@@ -260,27 +269,8 @@ export class RecommendService {
     let recSongFeatures: musicProfile[] = [];
 
     for (let i = 0; i < recSongLimit; i++) {
-      // recSongFeatures.push(await this.getSongAttributes(accessToken,
-      //   [{id: null, spotifySongId: recSongIds[i], songName: "", artistName: "", spotifyArtistId: ""}],
-      //   emptyMusicProfile));
-      //   console.log("accousticness"+recSongFeatures[i].acousticness);
-
-      //let tempMusicProfile: musicProfile = emptyMusicProfile;
-
-      //console.log(tempMusicProfile);
-
       let data = await this.getOneSongAttribute(accessToken, recSongIds[i]);
       try {
-        //console.log(JSON.stringify(data));
-        //console.log("acou accum 000 "+ data.audio_features[0].acousticness);
-        // tempMusicProfile.acousticness = data.audio_features[0].acousticness;
-        // tempMusicProfile.danceability = data.audio_features[0].danceability;
-        // tempMusicProfile.energy = data.audio_features[0].energy;
-        // tempMusicProfile.instrumentalness = data.audio_features[0].instrumentalness;
-        // tempMusicProfile.loudness = data.audio_features[0].loudness;
-        // tempMusicProfile.speechiness = data.audio_features[0].speechiness;
-        // tempMusicProfile.tempo = data.audio_features[0].tempo;
-        // tempMusicProfile.valence = data.audio_features[0].valence;
         recSongFeatures.push({
           acousticness: data.audio_features[0].acousticness,
           danceability: data.audio_features[0].danceability,
@@ -291,6 +281,7 @@ export class RecommendService {
           tempo: data.audio_features[0].tempo,
           valence: data.audio_features[0].valence,
           genres: [],
+          songTotal: 1,
         });
         //console.log(tempMusicProfile);
       } catch (e) {
@@ -312,7 +303,7 @@ export class RecommendService {
       songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
     }
 
-    console.log('rec ' + this.getBestRecommendation(songProfiles).songId);
+    console.log('rec = ' + this.getBestRecommendation(songProfiles).songId);
 
     return this.getBestRecommendation(songProfiles).songId;
   }
@@ -342,7 +333,7 @@ export class RecommendService {
           artistName: data.tracks[j].artists[0].name,
         });
       }
-      console.log('length' + data.tracks.length);
+      //console.log('length' + data.tracks.length);
       return newSongs;
     } catch (reason: any) {
       console.error(reason);
@@ -424,28 +415,22 @@ export class RecommendService {
         userMusicProfile.speechiness += data.audio_features[0].speechiness;
         userMusicProfile.tempo += data.audio_features[0].tempo;
         userMusicProfile.valence += data.audio_features[0].valence;
+        userMusicProfile.songTotal += 1;
       } catch (e) {
         console.log('Error building music profile: ' + e);
       }
     }
 
-    userMusicProfile.acousticness = userMusicProfile.acousticness / songIds.length;
-    userMusicProfile.danceability = userMusicProfile.danceability / songIds.length;
-    userMusicProfile.energy = userMusicProfile.energy / songIds.length;
-    userMusicProfile.instrumentalness = userMusicProfile.instrumentalness / songIds.length;
-    userMusicProfile.loudness = userMusicProfile.loudness / songIds.length;
-    userMusicProfile.speechiness = userMusicProfile.speechiness / songIds.length;
-    userMusicProfile.tempo = userMusicProfile.tempo / songIds.length;
-    userMusicProfile.valence = userMusicProfile.valence / songIds.length;
+    userMusicProfile.acousticness = userMusicProfile.acousticness / userMusicProfile.songTotal;
+    userMusicProfile.danceability = userMusicProfile.danceability / userMusicProfile.songTotal;
+    userMusicProfile.energy = userMusicProfile.energy / userMusicProfile.songTotal;
+    userMusicProfile.instrumentalness = userMusicProfile.instrumentalness / userMusicProfile.songTotal;
+    userMusicProfile.loudness = userMusicProfile.loudness / userMusicProfile.songTotal;
+    userMusicProfile.speechiness = userMusicProfile.speechiness / userMusicProfile.songTotal;
+    userMusicProfile.tempo = userMusicProfile.tempo / userMusicProfile.songTotal;
+    userMusicProfile.valence = userMusicProfile.valence / userMusicProfile.songTotal;
 
-    // console.log("acou:" + userMusicProfile.acousticness);
-    // console.log("danc:" + userMusicProfile.danceability);
-    // console.log("ener:" + userMusicProfile.energy);
-    // console.log("inst:" + userMusicProfile.instrumentalness);
-    // console.log("loud:" + userMusicProfile.loudness);
-    // console.log("spee:" + userMusicProfile.speechiness);
-    // console.log("temp:" + userMusicProfile.tempo);
-    // console.log("vale:" + userMusicProfile.valence);
+    console.log('music profile' + userMusicProfile.songTotal);
 
     return userMusicProfile;
   }
