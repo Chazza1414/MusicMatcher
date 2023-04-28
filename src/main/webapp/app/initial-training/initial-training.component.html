@@ -19,10 +19,10 @@
             <div class="text-container"><h2>Top Genres</h2></div>
             <div class="scroll-box">
               <div *ngFor="let genre of outGenreArray; let i = index">
-                <label class="flex-container-row">
+                <label class="checkbox-item" [style.background-color]="genre.checked ? 'bisque' : 'white'">
                   <input
                     type="checkbox"
-                    class="select-song"
+                    class="select-item"
                     [checked]="genre.checked"
                     (change)="genre.checked = !genre.checked"
                   />&nbsp;&nbsp;
@@ -46,10 +46,10 @@
             <div class="text-container"><h3>Your Playlists</h3></div>
             <div class="scroll-box">
               <div *ngFor="let playlist of outPlaylistArray; let i = index">
-                <label class="flex-container-row">
+                <label class="checkbox-item" [style.background-color]="playlist.checked ? 'bisque' : 'white'">
                   <input
                     type="checkbox"
-                    class="select-song"
+                    class="select-item"
                     id="playlist-item"
                     [checked]="playlist.checked"
                     (change)="playlist.checked = !playlist.checked"
@@ -71,8 +71,8 @@
             <div class="text-container"><h2>Top Songs</h2></div>
             <div class="scroll-box">
               <div *ngFor="let song of outSongArray; let i = index; let even = even" [ngClass]="{ even: even }">
-                <label class="flex-container-row">
-                  <input type="checkbox" class="select-song" [checked]="song.checked" (change)="song.checked = !song.checked" />&nbsp;&nbsp;
+                <label class="checkbox-item" [style.background-color]="song.checked ? 'bisque' : 'white'">
+                  <input type="checkbox" class="select-item" [checked]="song.checked" (change)="song.checked = !song.checked" />&nbsp;&nbsp;
                   <div class="index">{{ i + 1 }}.</div>
                   <div class="song-data">{{ song.name }}</div>
                 </label>
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div id="done">
-            <input class="row-1" id="done-button" type="submit" content="Done" (click)="submitForm()" />
+            <input class="button-30" id="done-button" type="submit" content="Done" (click)="submitForm()" />
           </div>
         </div>
       </div>

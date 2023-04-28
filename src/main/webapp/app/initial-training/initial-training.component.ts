@@ -208,6 +208,8 @@ export class InitialTrainingComponent implements OnInit {
     //this.outTextVar = this.outTextVar + 'submitted';
 
     songRec = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
+
+    //window.location.href = "/main-page";
     for (let i = 0; i < songArray.length; i++) {
       //this.outTextVar = this.outTextVar + songArray[i].songName;
     }
