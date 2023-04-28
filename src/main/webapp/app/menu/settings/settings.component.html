@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Setting</title>
-    <link rel="stylesheet" href="settings.component.scss" />
-  </head>
-  <body>
-    <div [ngClass]="{ 'high-contrast': highContrast }">
-      <header>
-        <h1>Setting</h1>
-      </header>
-      <main>
-        <section>
-          <h2>Theme</h2>
-          <button (click)="toggleHighContrastMode(false)">Default</button>
-          <button (click)="toggleHighContrastMode(true)">High Contrast</button>
-        </section>
-        <section>
-          <h2>Text Size</h2>
-          <form>
-            <div>
-              <label><input type="radio" name="text-size" value="small" />Small</label>
-              <label><input type="radio" name="text-size" value="medium" />Medium</label>
-              <label><input type="radio" name="text-size" value="large" />Large</label>
-              <label><input type="radio" name="text-size" value="extreme-large" />Extreme Large</label>
+  <div class="text-size-container" [ngClass]="selectedTextSize">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Setting</title>
+      <link rel="stylesheet" href="settings.component.scss" />
+    </head>
+    <body>
+      <div [ngClass]="{ 'high-contrast': highContrast }">
+        <header>
+          <h1 class="section-title">Settings</h1>
+        </header>
+        <main>
+          <section>
+            <h2 class="section-title">High Contrast Mode</h2>
+            <button (click)="toggleHighContrastMode(false)">Default</button>
+            <button (click)="toggleHighContrastMode(true)">High Contrast</button>
+          </section>
+          <section>
+            <h2 class="section-title">Text Size</h2>
+            <form>
+              <div>
+                <label>Select text size:</label>
+                <div>
+                  <input [(ngModel)]="selectedTextSize" type="radio" value="small" name="textSize" /> Small
+                  <input [(ngModel)]="selectedTextSize" type="radio" value="medium" name="textSize" /> Medium
+                  <input [(ngModel)]="selectedTextSize" type="radio" value="large" name="textSize" /> Large
+                  <input [(ngModel)]="selectedTextSize" type="radio" value="extreme-large" name="textSize" /> Extreme Large
+                </div>
+              </div>
+              <button (click)="setTextSize()">Set</button>
+            </form>
+          </section>
+          <section>
+            <h2 class="section-title">Audio Description</h2>
+            <label class="switch">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </section>
+          <section>
+            <h2 class="section-title">Volume</h2>
+            <div class="volume">
+              <img src="sound.jpg" alt="sound icon" />
+              <input type="range" min="0" max="100" value="50" />
             </div>
-
-            <div>
-              <input type="button" value="Set" id="SetButton" />
-            </div>
-          </form>
-        </section>
-        <section>
-          <h2>Audio Description</h2>
-          <label class="switch">
-            <input type="checkbox" />
-            <span class="slider"></span>
-          </label>
-        </section>
-        <section>
-          <h2>Volume</h2>
-          <div class="volume">
-            <img src="sound.jpg" alt="sound icon" />
-            <input type="range" min="0" max="100" value="50" />
-          </div>
-        </section>
-        <section>
-          <h2>Version</h2>
-          <p>1.0</p>
-        </section>
-      </main>
-    </div>
-  </body>
+          </section>
+          <section>
+            <h2 class="section-title">Version</h2>
+            <p>1.0</p>
+          </section>
+        </main>
+      </div>
+    </body>
+  </div>
 </html>

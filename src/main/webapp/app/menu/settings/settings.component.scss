@@ -102,3 +102,41 @@ p {
   text-align: center;
   margin-top: 10px;
 }
+
+.title {
+  font-size: 1.5rem; // Increase the font size
+  font-weight: bold; // Make the font bolder
+}
+
+.section-title {
+  font-size: 1.5rem; // Increase the font size
+  font-weight: bold; // Make the font bolder
+}
+
+.text-size-container {
+  font-size: 1rem;
+}
+
+.text-size-container.small {
+  font-size: 0.8rem;
+}
+
+.text-size-container.small .section-title {
+  font-size: 1.2rem;
+}
+
+.text-size-container.large {
+  font-size: 1.2rem;
+}
+
+.text-size-container.large .section-title {
+  font-size: 1.8rem;
+}
+
+.text-size-container.extreme-large {
+  font-size: 1.5rem;
+}
+
+.text-size-container.extreme-large .section-title {
+  font-size: 2.25rem;
+}

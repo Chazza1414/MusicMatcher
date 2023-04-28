@@ -1,70 +1,5 @@
-/*
-
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
-
-@Component({
-  selector: 'jhi-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
-})
-export class SettingsComponent implements OnInit {
-  constructor(private renderer: Renderer2, private el: ElementRef) {
-  }
-
-  ngOnInit(): void {
-    const highContrastToggle = this.el.nativeElement.querySelector('#highContrastToggle');
-    highContrastToggle.addEventListener('change', (event: Event) => this.toggleHighContrastMode((event.target as HTMLInputElement).checked));
-  }
-
-  toggleHighContrastMode(checked: boolean): void {
-    // Define the deep blue color for high contrast mode
-    const highContrastColor = '#00008b';
-
-// Get the :root element to change the --background-color variable
-    const rootElement = this.el.nativeElement.closest(':root');
-
-    if (checked) {
-      // Set background color to deep blue when high contrast mode is on
-      this.renderer.setStyle(rootElement, 'var(--background-color)', highContrastColor);
-    } else {
-      // Reset the background color to its initial value when high contrast mode is off
-      this.renderer.removeStyle(rootElement, 'var(--background-color)');
-    }
-  }
-}
-
- */
-/*
-import { Component, OnInit, Renderer2, ElementRef } from '@angular/core';
-
-@Component({
-  selector: 'jhi-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
-})
-export class SettingsComponent implements OnInit {
-  highContrast = false;
-
-  constructor(private renderer: Renderer2, private el: ElementRef) {}
-
-  ngOnInit(): void {}
-
-  toggleHighContrastMode(enableHighContrast: boolean): void {
-    this.highContrast = enableHighContrast;
-    const highContrastColor = '#00008b';
-    const defaultColor = 'white';
-    const rootElement = this.el.nativeElement.closest(':root');
-
-    if (enableHighContrast) {
-      this.renderer.setStyle(rootElement, '--background-color', highContrastColor);
-    } else {
-      this.renderer.setStyle(rootElement, '--background-color', defaultColor);
-    }
-  }
-}
-
- */
 import { Component, OnInit } from '@angular/core';
+import { ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'jhi-settings',
@@ -73,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
   highContrast = false;
+  selectedTextSize: string = 'medium';
 
   constructor() {}
 
@@ -93,6 +29,36 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
       }
+    }
+  }
+  @ViewChild('textSizeContainer') textSizeContainer!: ElementRef;
+
+  setTextSize() {
+    const container = this.textSizeContainer.nativeElement;
+    container.className = this.selectedTextSize;
+    this.setFontSize(container, this.selectedTextSize);
+  }
+
+  setFontSize(element: any, textSize: string) {
+    switch (textSize) {
+      case 'small':
+        element.style.fontSize = '0.8rem';
+        break;
+      case 'medium':
+        element.style.fontSize = '1rem';
+        break;
+      case 'large':
+        element.style.fontSize = '1.2rem';
+        break;
+      case 'extreme-large':
+        element.style.fontSize = '1.5rem';
+        break;
+    }
+
+    // Apply the font size to all child elements
+    const children = element.children;
+    for (let i = 0; i < children.length; i++) {
+      this.setFontSize(children[i], textSize);
     }
   }
 }
