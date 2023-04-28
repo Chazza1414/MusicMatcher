@@ -18,6 +18,9 @@ export class SettingsComponent implements OnInit {
     this.highContrast = enableHighContrast;
     const highContrastColor = '#00008b';
     const defaultColor = 'white';
+    const secondaryColor = 'Brown';
+    const thirdColor = 'yellow';
+    const setToWhite = 'white';
 
     const appBody = document.getElementById('app-body');
 
@@ -25,9 +28,15 @@ export class SettingsComponent implements OnInit {
       if (enableHighContrast) {
         appBody.style.setProperty('--background-color', highContrastColor);
         appBody.style.setProperty('--text-color', defaultColor);
+        appBody.style.setProperty('--secondary-color', secondaryColor);
+        appBody.style.setProperty('--third-color', thirdColor);
+        appBody.style.setProperty('--border-color', setToWhite);
       } else {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
+        appBody.style.setProperty('--secondary-color', secondaryColor);
+        appBody.style.setProperty('--third-color', thirdColor);
+        appBody.style.setProperty('--border-color', '#333');
       }
     }
   }
