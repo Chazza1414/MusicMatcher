@@ -8,11 +8,16 @@ import { ElementRef, ViewChild } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
   highContrast = false;
-  selectedTextSize: string = 'medium';
+  selectedTextSize: string;
 
-  constructor() {}
+  constructor() {
+    const savedTextSize = localStorage.getItem('selectedTextSize');
+    this.selectedTextSize = savedTextSize ? savedTextSize : 'medium';
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.applyTextSize();
+  }
 
   toggleHighContrastMode(enableHighContrast: boolean): void {
     this.highContrast = enableHighContrast;
@@ -40,34 +45,18 @@ export class SettingsComponent implements OnInit {
       }
     }
   }
-  @ViewChild('textSizeContainer') textSizeContainer!: ElementRef;
 
-  setTextSize() {
-    const container = this.textSizeContainer.nativeElement;
-    container.className = this.selectedTextSize;
-    this.setFontSize(container, this.selectedTextSize);
+  applyTextSize(): void {
+    const container = document.querySelector('.text-size-container');
+    if (container) {
+      container.className = `settings-container ${this.selectedTextSize}`;
+    }
   }
 
-  setFontSize(element: any, textSize: string) {
-    switch (textSize) {
-      case 'small':
-        element.style.fontSize = '0.8rem';
-        break;
-      case 'medium':
-        element.style.fontSize = '1rem';
-        break;
-      case 'large':
-        element.style.fontSize = '1.2rem';
-        break;
-      case 'extreme-large':
-        element.style.fontSize = '1.5rem';
-        break;
-    }
-
-    // Apply the font size to all child elements
-    const children = element.children;
-    for (let i = 0; i < children.length; i++) {
-      this.setFontSize(children[i], textSize);
-    }
+  setTextSize(size: string): void {
+    this.selectedTextSize = size;
+    // Save the text size to local storage
+    localStorage.setItem('selectedTextSize', size);
+    this.applyTextSize();
   }
 }

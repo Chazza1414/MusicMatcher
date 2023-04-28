@@ -23,10 +23,38 @@
               <div>
                 <label>Select text size:</label>
                 <div>
-                  <input [(ngModel)]="selectedTextSize" type="radio" value="small" name="textSize" /> Small
-                  <input [(ngModel)]="selectedTextSize" type="radio" value="medium" name="textSize" /> Medium
-                  <input [(ngModel)]="selectedTextSize" type="radio" value="large" name="textSize" /> Large
-                  <input [(ngModel)]="selectedTextSize" type="radio" value="extreme-large" name="textSize" /> Extreme Large
+                  <input
+                    [(ngModel)]="selectedTextSize"
+                    (change)="setTextSize(selectedTextSize)"
+                    type="radio"
+                    value="small"
+                    name="textSize"
+                  />
+                  Small
+                  <input
+                    [(ngModel)]="selectedTextSize"
+                    (change)="setTextSize(selectedTextSize)"
+                    type="radio"
+                    value="medium"
+                    name="textSize"
+                  />
+                  Medium
+                  <input
+                    [(ngModel)]="selectedTextSize"
+                    (change)="setTextSize(selectedTextSize)"
+                    type="radio"
+                    value="large"
+                    name="textSize"
+                  />
+                  Large
+                  <input
+                    [(ngModel)]="selectedTextSize"
+                    (change)="setTextSize(selectedTextSize)"
+                    type="radio"
+                    value="extreme-large"
+                    name="textSize"
+                  />
+                  Extreme Large
                 </div>
               </div>
             </form>
