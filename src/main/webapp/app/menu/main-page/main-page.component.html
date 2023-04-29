@@ -2,7 +2,7 @@
 <div class="container">
   <div class="top-row">
     <div class="top-left">
-      <button class="round-button like-dislike" id="like-button">Like</button>
+      <button class="round-button like-dislike" id="like-button" (click)="likePressed()">Like</button>
     </div>
     <div *ngIf="dataLoaded | async">
       <div class="top-middle">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="top-right">
-      <button class="round-button like-dislike" id="dislike-button">Dislike</button>
+      <button class="round-button like-dislike" id="dislike-button" (click)="dislikePressed()">Dislike</button>
     </div>
   </div>
 

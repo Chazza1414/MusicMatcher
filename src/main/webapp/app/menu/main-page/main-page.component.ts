@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { InitialTrainingComponent } from '../../initial-training/initial-training.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { waitForAsync } from '@angular/core/testing';
@@ -133,34 +133,29 @@ export class MainPageComponent implements OnInit {
     this.outArtist = artist;
     this.outTitle = title;
     this.outPreview = previewUrl;*/
-    document.addEventListener('keydown', this.handleKeyPress.bind(this));
-    const likeButton = document.getElementById('like-button');
-    const dislikeButton = document.getElementById('dislike-button');
-    if (likeButton) {
-      likeButton.addEventListener('click', () => this.toggleActiveButton('like-button'));
-    }
-    if (dislikeButton) {
-      dislikeButton.addEventListener('click', () => this.toggleActiveButton('dislike-button'));
-    }
   }
 
+  // Function to handle key presses
+  @HostListener('window:keydown', ['$event'])
   handleKeyPress(event: KeyboardEvent): void {
     if (event.key === 'ArrowLeft') {
-      document.getElementById('like-button')?.click();
-      this.toggleActiveButton('like-button');
+      //document.getElementById('like-button')?.click();
+      //this.toggleActiveButton('like-button');
+      this.likePressed();
     } else if (event.key === 'ArrowRight') {
-      document.getElementById('dislike-button')?.click();
-      this.toggleActiveButton('dislike-button');
+      //document.getElementById('dislike-button')?.click();
+      //this.toggleActiveButton('dislike-button');
+      this.dislikePressed();
     }
   }
 
-  toggleActiveButton(buttonId: string): void {
-    const button = document.getElementById(buttonId);
-    if (button) {
-      button.classList.toggle('active');
-      setTimeout(() => {
-        button.classList.remove('active');
-      }, 200);
-    }
+  // Function to handle Like button press
+  likePressed(): void {
+    console.log('Pressed! (Like)');
+  }
+
+  // Function to handle Dislike button press
+  dislikePressed(): void {
+    console.log('Pressed! (Dislike)');
   }
 }
