@@ -20,6 +20,7 @@ h4 {
   --secondary-color: #964b00;
   --third-color: #050a30;
   --border-color: #333;
+  --initial-training-background-color: #c7fdff;
 }
 
 body {
@@ -86,6 +87,7 @@ Generic styles
   padding: 1.5%;
   margin-top: 20px;
   border: none;
+  background-color: var(--background-color);
 }
 
 .error {

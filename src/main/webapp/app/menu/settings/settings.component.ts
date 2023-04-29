@@ -38,12 +38,14 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--secondary-color', secondaryColor);
         appBody.style.setProperty('--third-color', thirdColor);
         appBody.style.setProperty('--border-color', setToWhite);
+        appBody.style.setProperty('--initial-training-background-color', thirdColor);
       } else {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
         appBody.style.setProperty('--secondary-color', secondaryColor);
         appBody.style.setProperty('--third-color', thirdColor);
         appBody.style.setProperty('--border-color', '#333');
+        appBody.style.setProperty('--initial-training-background-color', '#c7fdff');
       }
     }
   }

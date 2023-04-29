@@ -1,5 +1,5 @@
 .page-container {
-  background-color: white;
+  background-color: var(--background-color);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -7,17 +7,17 @@
 }
 
 #left-column {
-  background-color: #c7fdff;
+  background-color: var(--initial-training-background-color);
   width: 33%;
   height: 80vh;
   margin-right: 5px;
 }
 #center-column {
-  background-color: #c7fdff;
+  background-color: var(--initial-training-background-color);
   width: 33%;
 }
 #right-column {
-  background-color: #c7fdff;
+  background-color: var(--initial-training-background-color);
   width: 33%;
   margin-left: 5px;
 }
