@@ -3,14 +3,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { RecommendService } from './recommend.service';
 import { SpotifyWebApi } from 'spotify-web-api-ts';
 import { ISong, NewSong } from '../entities/song/song.model';
-import { SongUpdateComponent } from '../entities/song/update/song-update.component';
-import { SongService } from '../entities/song/service/song.service';
-//import * as angSpot from 'angular-spotify';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
 var client_secret = 'e54bd430c6a6428e8355dba28e1f7a9f'; // Your secret
 var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
-//var redirect_uri = 'https://musicmatcher.bham.team/initial-training'; // Your redirect uri
 var scope = 'user-read-private user-read-email playlist-read-private user-top-read';
 var apiUrl = '/api/spotify/auth';
 var returnCode = '';
@@ -200,6 +196,12 @@ export class InitialTrainingComponent implements OnInit {
   }
 
   async submitForm() {
+    // let selectedGenres = this.outGenreArray.filter(opt => opt.checked);
+    // let selectedPlaylists = this.outPlaylistArray.filter(opt => opt.checked);
+    // let selectedSongs = this.outSongArray.filter(opt => opt.checked);
+    //
+    // songRec = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
+
     let selectedGenres = this.outGenreArray.filter(opt => opt.checked);
     let selectedPlaylists = this.outPlaylistArray.filter(opt => opt.checked);
     let selectedSongs = this.outSongArray.filter(opt => opt.checked);
@@ -207,17 +209,11 @@ export class InitialTrainingComponent implements OnInit {
     //console.log("HELLO");
     //this.outTextVar = this.outTextVar + 'submitted';
 
-    songRec = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
-
-    //window.location.href = "/main-page";
-    for (let i = 0; i < songArray.length; i++) {
-      //this.outTextVar = this.outTextVar + songArray[i].songName;
-    }
-    //this.outTextVar = this.outTextVar + songArray[0].spotifySongId;
-
-    // await this.recommendService.makeSongEntities(accessToken, [{name: "", id: "3dnP0JxCgygwQH9Gm7q7nb", checked: false}]).then(data => {
-    //   this.outTextVar = this.outTextVar + data[0].spotifySongId;
-    // })
+    this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres).then(rec => {
+      songRec = rec;
+      setTimeout(() => (window.location.href = '/main-page'), 1000);
+      //;
+    });
   }
 
   returnRefreshToken(): string {
