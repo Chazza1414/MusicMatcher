@@ -235,6 +235,7 @@ export class ProfileComponent implements OnInit {
     this.fetchProfile(this.InitialComponent.outAccessToken).then(data => this.populateUI(data));
     this.fetchTopArtists(this.InitialComponent.outAccessToken).then(data => this.populateTop1Artists(data));
     this.fetchTopArtists(this.InitialComponent.outAccessToken).then(data => this.populateTop2Artists(data));
+    this.fetchTopArtists(this.InitialComponent.outAccessToken).then(data => this.populateTop3Artists(data));
     this.fetchTopTracks(this.InitialComponent.outAccessToken).then(data => this.populateTop1Tracks(data));
     this.fetchTopTracks(this.InitialComponent.outAccessToken).then(data => this.populateTop2Tracks(data));
     this.fetchTopTracks(this.InitialComponent.outAccessToken).then(data => this.populateTop3Tracks(data));
