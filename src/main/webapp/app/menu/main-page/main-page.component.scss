@@ -39,6 +39,11 @@
   }
 }
 
+.round-button.active {
+  background-color: var(--text-color);
+  color: var(--background-color);
+}
+
 .top-middle {
   grid-column: 2 / 3;
   grid-row: 1 / 2;

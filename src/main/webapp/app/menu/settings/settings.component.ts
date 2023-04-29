@@ -28,6 +28,8 @@ export class SettingsComponent implements OnInit {
     const setToWhite = 'white';
 
     const appBody = document.getElementById('app-body');
+    console.log('yh');
+    console.log(appBody);
 
     if (appBody) {
       if (enableHighContrast) {

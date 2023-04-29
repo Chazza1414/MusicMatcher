@@ -133,5 +133,34 @@ export class MainPageComponent implements OnInit {
     this.outArtist = artist;
     this.outTitle = title;
     this.outPreview = previewUrl;*/
+    document.addEventListener('keydown', this.handleKeyPress.bind(this));
+    const likeButton = document.getElementById('like-button');
+    const dislikeButton = document.getElementById('dislike-button');
+    if (likeButton) {
+      likeButton.addEventListener('click', () => this.toggleActiveButton('like-button'));
+    }
+    if (dislikeButton) {
+      dislikeButton.addEventListener('click', () => this.toggleActiveButton('dislike-button'));
+    }
+  }
+
+  handleKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'ArrowLeft') {
+      document.getElementById('like-button')?.click();
+      this.toggleActiveButton('like-button');
+    } else if (event.key === 'ArrowRight') {
+      document.getElementById('dislike-button')?.click();
+      this.toggleActiveButton('dislike-button');
+    }
+  }
+
+  toggleActiveButton(buttonId: string): void {
+    const button = document.getElementById(buttonId);
+    if (button) {
+      button.classList.toggle('active');
+      setTimeout(() => {
+        button.classList.remove('active');
+      }, 200);
+    }
   }
 }
