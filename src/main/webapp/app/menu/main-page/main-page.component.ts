@@ -18,6 +18,20 @@ let previewUrl: string = '';
 })
 export class MainPageComponent implements OnInit {
   constructor(private initComp: InitialTrainingComponent, private http: HttpClient) {}
+  likeButtonPressed = false;
+  dislikeButtonPressed = false;
+
+  likePressed(): void {
+    this.likeButtonPressed = true;
+    this.dislikeButtonPressed = false;
+    console.log('Like Pressed!');
+  }
+
+  dislikePressed(): void {
+    this.likeButtonPressed = false;
+    this.dislikeButtonPressed = true;
+    console.log('Dislike Pressed!');
+  }
 
   getRefreshToken() {
     refreshToken = this.initComp.returnRefreshToken();
@@ -148,7 +162,7 @@ export class MainPageComponent implements OnInit {
       this.dislikePressed();
     }
   }
-
+  /*
   // Function to handle Like button press
   likePressed(): void {
     console.log('Pressed! (Like)');
@@ -158,4 +172,6 @@ export class MainPageComponent implements OnInit {
   dislikePressed(): void {
     console.log('Pressed! (Dislike)');
   }
+
+  */
 }
