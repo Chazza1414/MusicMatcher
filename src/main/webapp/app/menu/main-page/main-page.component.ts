@@ -132,10 +132,6 @@ export class MainPageComponent implements OnInit {
     return allAssign;
   }
 
-  async getSong(song: any) {
-    return song;
-  }
-
   populateAlbum(song: any) {
     if (song.album.images[0]) {
       const albumImage = new Image(300, 300);
