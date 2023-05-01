@@ -5,6 +5,7 @@ import { SpotifyWebApi } from 'spotify-web-api-ts';
 import { ISong, NewSong } from '../entities/song/song.model';
 import { SongUpdateComponent } from '../entities/song/update/song-update.component';
 import { SongService } from '../entities/song/service/song.service';
+import { AccountService } from '../core/auth/account.service';
 //import * as angSpot from 'angular-spotify';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
@@ -80,7 +81,7 @@ for (var i = 0; i < 16; i++) {
 })
 @Injectable()
 export class InitialTrainingComponent implements OnInit {
-  constructor(private http: HttpClient, private recommendService: RecommendService) {}
+  constructor(private http: HttpClient, private recommendService: RecommendService, private accountService: AccountService) {}
 
   //creates a URL for the user to log into spotify
   getUrlReady(state: string): string {
@@ -217,6 +218,17 @@ export class InitialTrainingComponent implements OnInit {
     let selectedGenres = this.outGenreArray.filter(opt => opt.checked);
     let selectedPlaylists = this.outPlaylistArray.filter(opt => opt.checked);
     let selectedSongs = this.outSongArray.filter(opt => opt.checked);
+
+    // this.accountService.identity().subscribe(data => {
+    //   // @ts-ignore
+    //   console.log(data.id);
+    // });
+    //
+    // const req = this.http.get("/api/users", { responseType: 'json'});
+    //
+    // req.subscribe((data: any) => {
+    //   console.log("DATA" + data[0].id);
+    // });
 
     //console.log("HELLO");
     //this.outTextVar = this.outTextVar + 'submitted';
