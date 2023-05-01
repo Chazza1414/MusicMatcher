@@ -17,6 +17,7 @@ var returnCode = '';
 var accessToken = '';
 let refreshToken: string = '';
 let songRec: string = '';
+let userMusicProfile: musicProfile;
 
 //instance of the spotify api node from: https://github.com/thelinmichael/spotify-web-api-node
 var spotifyApi = new SpotifyWebApi({
@@ -43,6 +44,19 @@ interface playlist {
   name: string;
   id: string;
   checked: boolean;
+}
+
+interface musicProfile {
+  acousticness: number;
+  danceability: number;
+  energy: number;
+  instrumentalness: number;
+  loudness: number;
+  speechiness: number;
+  tempo: number;
+  valence: number;
+  genres: string[];
+  songTotal: number;
 }
 
 var playlistArray: playlist[] = [];
@@ -206,8 +220,7 @@ export class InitialTrainingComponent implements OnInit {
 
     //console.log("HELLO");
     //this.outTextVar = this.outTextVar + 'submitted';
-
-    songRec = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
+    userMusicProfile = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
 
     //setTimeout(() => window.location.href = "/main-page", 1000);
 
@@ -228,6 +241,10 @@ export class InitialTrainingComponent implements OnInit {
 
   returnSongRec(): string {
     return songRec;
+  }
+
+  returnUMP(): musicProfile {
+    return userMusicProfile;
   }
 
   outTextVar = textVar;

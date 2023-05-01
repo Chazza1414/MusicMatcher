@@ -19,6 +19,18 @@ public interface SongRepository extends JpaRepository<Song, Long> {
     @Query("select song from Song song where song.user.login = ?#{principal.username}")
     List<Song> findByUserIsCurrentUser();
 
+    @Query("select song from Song song where song.user.login = ?#{principal.username} and song.songName = 'liked'")
+    List<Song> findByUserIsCurrentUserAndLiked();
+
+    @Query("select song from Song song where song.user.login = ?#{principal.username} and song.songName = 'disliked'")
+    List<Song> findByUserIsCurrentUserAndDisliked();
+
+    @Query(
+        "select song from Song song where song.user.login = ?#{principal.username} " +
+        "and (song.songName = 'disliked' or song.songName = 'initial')"
+    )
+    List<Song> findByUserIsCurrentUserAndLikedAndInitial();
+
     default Optional<Song> findOneWithEagerRelationships(Long id) {
         return this.findOneWithToOneRelationships(id);
     }

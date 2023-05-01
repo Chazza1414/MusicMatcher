@@ -213,9 +213,66 @@ let userMusicProfile: musicProfile = emptyMusicProfile;
   providedIn: 'root',
 })
 export class RecommendService {
-  constructor(private http: HttpClient, private accountService: AccountService, private userService: UserService) {}
+  constructor(private http: HttpClient, private accountService: AccountService) {}
 
-  async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<string> {
+  /*
+    on init:
+    get all songs from db where initial and liked
+    get all
+
+    get all attributes of songs
+   */
+
+  async mainPageRec(accessToken: string, outSongArray: NewSong[], useableGenreArray: string[]): Promise<string> {
+    let songRecs = await this.getSeedSongs(
+      accessToken,
+      outSongArray[this.getRandomInInterval(outSongArray.length)].spotifySongId,
+      outSongArray[this.getRandomInInterval(outSongArray.length)].spotifyArtistId,
+      useableGenreArray[this.getRandomInInterval(useableGenreArray.length)]
+    );
+
+    //console.log(songRecs);
+
+    let recSongIds: string[] = [];
+    for (let i = 0; i < recSongLimit; i++) {
+      //console.log(songRecs.tracks[i].id);
+      recSongIds.push(songRecs.tracks[i].id);
+    }
+
+    let recSongFeatures: musicProfile[] = [];
+
+    for (let i = 0; i < recSongLimit; i++) {
+      let data = await this.getOneSongAttribute(accessToken, recSongIds[i]);
+      try {
+        recSongFeatures.push({
+          acousticness: data.audio_features[0].acousticness,
+          danceability: data.audio_features[0].danceability,
+          energy: data.audio_features[0].energy,
+          instrumentalness: data.audio_features[0].instrumentalness,
+          loudness: data.audio_features[0].loudness,
+          speechiness: data.audio_features[0].speechiness,
+          tempo: data.audio_features[0].tempo,
+          valence: data.audio_features[0].valence,
+          genres: [],
+          songTotal: 1,
+        });
+        //console.log(tempMusicProfile);
+      } catch (e) {
+        console.log('Error building music profile: ' + e);
+      }
+      //recSongFeatures.push(tempMusicProfile);
+    }
+
+    let songProfiles: songProfile[] = [];
+
+    for (let i = 0; i < recSongLimit; i++) {
+      songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
+    }
+
+    return this.getBestRecommendation(songProfiles).songId;
+  }
+
+  async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<musicProfile> {
     var outSongArray: NewSong[] = [];
 
     // this.createSongs({ id: null, spotifySongId: 'test', spotifyArtistId: 'test',
@@ -267,9 +324,10 @@ export class RecommendService {
 
     userMusicProfile.genres = userMusicProfile.genres.concat(useableGenreArray);
 
+    //add all initial training songs to database
     if (outSongArray.length != 0) {
       for (let i = 0; i < outSongArray.length; i++) {
-        this.createSongs(outSongArray[i]);
+        this.createSong(outSongArray[i]);
       }
     }
 
@@ -319,18 +377,20 @@ export class RecommendService {
 
     userMusicProfile = await this.getSongAttributes(accessToken, outSongArray, userMusicProfile);
 
-    let songProfiles: songProfile[] = [];
+    // let songProfiles: songProfile[] = [];
+    //
+    // for (let i = 0; i < recSongLimit; i++) {
+    //   songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
+    // }
 
-    for (let i = 0; i < recSongLimit; i++) {
-      songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
-    }
+    //console.log('rec = ' + this.getBestRecommendation(songProfiles).songId);
 
-    console.log('rec = ' + this.getBestRecommendation(songProfiles).songId);
+    //return this.getBestRecommendation(songProfiles).songId;
 
-    return this.getBestRecommendation(songProfiles).songId;
+    return userMusicProfile;
   }
 
-  createSongs(song: NewSong) {
+  createSong(song: NewSong) {
     let userId: number = 0;
     let username: string = '';
 
@@ -352,6 +412,7 @@ export class RecommendService {
       //   artistName: 'test', songName: 'test', user: {id: userId, login: username} };
 
       song.user = { id: userId, login: username };
+      song.songName = 'initial';
 
       let req = this.http.post<ISong>('/api/songs', song, { observe: 'response' });
       req.subscribe(data => {

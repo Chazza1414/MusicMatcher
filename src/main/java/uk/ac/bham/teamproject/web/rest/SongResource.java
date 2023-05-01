@@ -157,14 +157,6 @@ public class SongResource {
     @GetMapping("/songs")
     public List<Song> getAllSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Songs");
-        //        try {
-        //            System.out.println(songRepository.findByUserIsCurrentUser());
-        //        }
-        //        catch (Exception e) {
-        //            System.out.println(e);
-        //        }
-        //System.out.println(songRepository.findAll());
-        //System.out.println(songRepository.getAllSongsCharlie());
         return songRepository.findByUserIsCurrentUser();
     }
 
