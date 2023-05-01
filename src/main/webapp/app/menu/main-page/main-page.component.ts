@@ -51,8 +51,9 @@ export class MainPageComponent implements OnInit {
     console.log('accessToken is from getRecom: ' + accessToken);
     const data = await this.getTrack(accessToken);
     console.log(data);
+    return data;
 
-    image = data.album.images[0].url;
+    /*image = data.album.images[0].url;
     console.log('image url: ' + image);
     for (let i = 0; i < data.artists.length; i++) {
       if (i == 0) artist = data.artists[0].name;
@@ -69,7 +70,7 @@ export class MainPageComponent implements OnInit {
 
     collected = true;
 
-    return collected;
+    return collected;*/
   }
 
   async getAccessToken(refreshToken: string): Promise<string> {
@@ -94,6 +95,9 @@ export class MainPageComponent implements OnInit {
     let newUrl = 'https://api.spotify.com/v1/tracks/' + this.getTrackId();
     console.log('token is: ' + token);
     let result = await fetch(newUrl, { method: 'GET', headers: { Authorization: 'Bearer ' + token } });
+    /*console.log("result from getTrack is: " + await result.json().then(data => {
+      console.log("data=" + data.toString());
+    }));*/
     return await result.json();
   }
 
@@ -128,6 +132,40 @@ export class MainPageComponent implements OnInit {
     return allAssign;
   }
 
+  async getSong(song: any) {
+    return song;
+  }
+
+  populateAlbum(song: any) {
+    if (song.album.images[0]) {
+      const albumImage = new Image(300, 300);
+      albumImage.src = song.album.images[0].url;
+      document.getElementById('musicCover')!.appendChild(albumImage);
+      console.log('album loaded');
+    }
+    document.getElementById('imgUrl')!.innerText = song.album.images[0]?.url ?? '(no ablum image)';
+  }
+
+  populateArtist(song: any) {
+    let artist: string = '';
+    if (song.artists[0]) {
+      for (let i = 0; i < song.artists.length; i++) {
+        if (i == 0) artist = song.artists[0].name;
+        else artist = artist + ', ' + song.artists[i].name;
+      }
+      console.log('Artists are: ' + artist);
+    }
+    document.getElementById('artists')!.innerText = artist;
+  }
+
+  populateTitle(song: any) {
+    if (song.name) {
+      title = song.name;
+    }
+    document.getElementById('title')!.innerText = title;
+    console.log('Song name is: ' + title);
+  }
+
   ngOnInit(): void {
     //let accessToken = "";
     //this.getRefreshToken();
@@ -137,7 +175,10 @@ export class MainPageComponent implements OnInit {
     //   this.getRecom(data);
     // });
     let accessToken = this.initComp.returnAccessToken();
-    this.getRecom(accessToken);
+    this.getRecom(accessToken).then(data => this.populateAlbum(data));
+    this.getRecom(accessToken).then(data => this.populateArtist(data));
+    this.getRecom(accessToken).then(data => this.populateTitle(data));
+
     //let dataCollected: Promise<boolean> = this.getRecom(accessToken)
     //waitForAsync(this.getRecom);
     this.isDataLoaded();
