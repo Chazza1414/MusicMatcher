@@ -30,12 +30,7 @@
                 <i class="fas fa-play-circle play-button" *ngIf="!isPlaying(i)" (click)="onPlayButtonClick(i)"></i>
                 <i class="fas fa-stop-circle play-button" *ngIf="isPlaying(i)" (click)="onPlayButtonClick(i)"></i>
                 <div class="heart-container">
-                  <i
-                    class="fa-solid fa-heart-crack add-to-disliked-songs-button"
-                    [ngClass]="{ transparent: song.isDisliked }"
-                    (click)="onAddToDislikedSongsButtonClick(song)"
-                  >
-                  </i>
+                  <i class="fa-solid fa-heart-crack add-to-disliked-songs-button" (click)="onAddToDislikedSongsButtonClick(song)"> </i>
                 </div>
               </td>
             </tr>

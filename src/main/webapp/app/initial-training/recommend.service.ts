@@ -3,6 +3,9 @@ import { SpotifyWebApi } from 'spotify-web-api-ts';
 import { ISong, NewSong } from '../entities/song/song.model';
 import { isDevMode } from '@angular/core';
 import { environment } from '@ng-bootstrap/ng-bootstrap/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { EntityResponseType } from '../entities/song/service/song.service';
+import { Observable } from 'rxjs';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
 var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
@@ -208,10 +211,12 @@ let userMusicProfile: musicProfile = emptyMusicProfile;
   providedIn: 'root',
 })
 export class RecommendService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<string> {
     var outSongArray: NewSong[] = [];
+
+    this.createSongs();
 
     console.log('dev mode' + isDevMode());
 
@@ -230,6 +235,14 @@ export class RecommendService {
       //console.log("out" + playlistSongsArray[0].spotifySongId);
       outSongArray = outSongArray.concat(playlistSongsArray);
     }
+
+    //write songs to database
+
+    // let params = new HttpParams();
+    // params = params.append('song', {id: 123, spotify_song_id: 123, song_name: 123, spotify_artist_id: 123, artist_name: 123});
+    //
+    // //create the http get request to our api endpoint
+    // const req = this.http.get('/api/songs', { responseType: 'text', params });
 
     let genreArray = await this.getAllArtistGenres(accessToken, playlistSongsArray.concat(outSongArray));
 
@@ -306,6 +319,15 @@ export class RecommendService {
     console.log('rec = ' + this.getBestRecommendation(songProfiles).songId);
 
     return this.getBestRecommendation(songProfiles).songId;
+  }
+
+  createSongs() {
+    let song: NewSong = { id: null, spotifySongId: 'test', spotifyArtistId: 'test', artistName: 'test', songName: 'test' };
+
+    let req = this.http.post<ISong>('/api/songs', song, { observe: 'response' });
+    req.subscribe(data => {
+      console.log(data);
+    });
   }
 
   async getSongJson(accessToken: string, songString: string): Promise<any> {
