@@ -27,7 +27,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     @Query(
         "select song from Song song where song.user.login = ?#{principal.username} " +
-        "and (song.songName = 'disliked' or song.songName = 'initial')"
+        "and (song.songName = 'liked' or song.songName = 'initial')"
     )
     List<Song> findByUserIsCurrentUserAndLikedAndInitial();
 
