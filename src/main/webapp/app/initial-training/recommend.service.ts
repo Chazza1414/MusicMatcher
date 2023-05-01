@@ -207,7 +207,7 @@ const emptySong: NewSong = {
   artistName: '',
 };
 
-let userMusicProfile: musicProfile = emptyMusicProfile;
+//let userMusicProfile: musicProfile = emptyMusicProfile;
 
 @Injectable({
   providedIn: 'root',
@@ -223,7 +223,12 @@ export class RecommendService {
     get all attributes of songs
    */
 
-  async mainPageRec(accessToken: string, outSongArray: NewSong[], useableGenreArray: string[]): Promise<string> {
+  async mainPageRec(
+    accessToken: string,
+    outSongArray: NewSong[],
+    useableGenreArray: string[],
+    userMusicProfile: musicProfile
+  ): Promise<string> {
     let songRecs = await this.getSeedSongs(
       accessToken,
       outSongArray[this.getRandomInInterval(outSongArray.length)].spotifySongId,
@@ -269,10 +274,12 @@ export class RecommendService {
       songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
     }
 
-    return this.getBestRecommendation(songProfiles).songId;
+    return this.getBestRecommendation(songProfiles, userMusicProfile).songId;
   }
 
-  async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<musicProfile> {
+  async generateUMP(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<musicProfile> {
+    let userMusicProfile: musicProfile = emptyMusicProfile;
+
     var outSongArray: NewSong[] = [];
 
     // this.createSongs({ id: null, spotifySongId: 'test', spotifyArtistId: 'test',
@@ -616,7 +623,7 @@ export class RecommendService {
     return await result.json();
   }
 
-  getBestRecommendation(songProfiles: songProfile[]): songProfile {
+  getBestRecommendation(songProfiles: songProfile[], userMusicProfile: musicProfile): songProfile {
     let nearestDistance: number = 1000000;
     let nearestSong: songProfile = { songId: '', attributes: emptyMusicProfile };
 

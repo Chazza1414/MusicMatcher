@@ -220,7 +220,7 @@ export class InitialTrainingComponent implements OnInit {
 
     //console.log("HELLO");
     //this.outTextVar = this.outTextVar + 'submitted';
-    userMusicProfile = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
+    userMusicProfile = await this.recommendService.generateUMP(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
 
     //setTimeout(() => window.location.href = "/main-page", 1000);
 
