@@ -6,6 +6,8 @@ import { environment } from '@ng-bootstrap/ng-bootstrap/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { EntityResponseType } from '../entities/song/service/song.service';
 import { Observable } from 'rxjs';
+import { AccountService } from '../core/auth/account.service';
+import { UserService } from '../entities/user/user.service';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
 var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
@@ -211,14 +213,15 @@ let userMusicProfile: musicProfile = emptyMusicProfile;
   providedIn: 'root',
 })
 export class RecommendService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private accountService: AccountService, private userService: UserService) {}
 
   async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<string> {
     var outSongArray: NewSong[] = [];
 
-    this.createSongs();
+    // this.createSongs({ id: null, spotifySongId: 'test', spotifyArtistId: 'test',
+    //   artistName: 'test', songName: 'test' });
 
-    console.log('dev mode' + isDevMode());
+    //console.log('dev mode' + isDevMode());
 
     if (!isDevMode()) {
       redirect_uri = 'https://musicmatcher.bham.team/initial-training';
@@ -263,6 +266,12 @@ export class RecommendService {
     }
 
     userMusicProfile.genres = userMusicProfile.genres.concat(useableGenreArray);
+
+    if (outSongArray.length != 0) {
+      for (let i = 0; i < outSongArray.length; i++) {
+        this.createSongs(outSongArray[i]);
+      }
+    }
 
     let songRecs = await this.getSeedSongs(
       accessToken,
@@ -321,12 +330,33 @@ export class RecommendService {
     return this.getBestRecommendation(songProfiles).songId;
   }
 
-  createSongs() {
-    let song: NewSong = { id: null, spotifySongId: 'test', spotifyArtistId: 'test', artistName: 'test', songName: 'test' };
+  createSongs(song: NewSong) {
+    let userId: number = 0;
+    let username: string = '';
 
-    let req = this.http.post<ISong>('/api/songs', song, { observe: 'response' });
-    req.subscribe(data => {
-      console.log(data);
+    //get the current user's username
+    this.accountService.identity().subscribe(data => {
+      // @ts-ignore
+      username = data.login;
+    });
+
+    //use the username to get the user's id
+    const req2 = this.http.get('/api/admin/users/' + username, { responseType: 'json' });
+
+    req2.subscribe((data: any) => {
+      //console.log(JSON.stringify(data));
+      userId = data.id;
+      //console.log("user id = " + userId);
+
+      // let song: NewSong = { id: null, spotifySongId: 'test', spotifyArtistId: 'test',
+      //   artistName: 'test', songName: 'test', user: {id: userId, login: username} };
+
+      song.user = { id: userId, login: username };
+
+      let req = this.http.post<ISong>('/api/songs', song, { observe: 'response' });
+      req.subscribe(data => {
+        console.log('' + data);
+      });
     });
   }
 

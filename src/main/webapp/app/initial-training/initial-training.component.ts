@@ -209,6 +209,8 @@ export class InitialTrainingComponent implements OnInit {
 
     songRec = await this.recommendService.recommendSong(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
 
+    //setTimeout(() => window.location.href = "/main-page", 1000);
+
     //this.outTextVar = this.outTextVar + songArray[0].spotifySongId;
 
     // await this.recommendService.makeSongEntities(accessToken, [{name: "", id: "3dnP0JxCgygwQH9Gm7q7nb", checked: false}]).then(data => {

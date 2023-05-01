@@ -14,6 +14,8 @@ import uk.ac.bham.teamproject.domain.Song;
  */
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
+    //    @Query("select song from Song song where song.user.login = ?#{principal.username}")
+    //    List<Song> findByUserIsCurrentUser();
     @Query("select song from Song song where song.user.login = ?#{principal.username}")
     List<Song> findByUserIsCurrentUser();
 
