@@ -160,6 +160,12 @@ public class SongResource {
         return songRepository.findByUserIsCurrentUser();
     }
 
+    @GetMapping("/mainpagesongs")
+    public List<Song> getAllMainPageSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all Songs");
+        return songRepository.findByUserIsCurrentUserAndLikedAndInitial();
+    }
+
     /**
      * {@code GET  /songs/:id} : get the "id" song.
      *
