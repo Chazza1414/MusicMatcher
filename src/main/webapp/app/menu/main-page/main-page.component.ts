@@ -166,6 +166,16 @@ export class MainPageComponent implements OnInit {
     console.log('Song name is: ' + title);
   }
 
+  populatePreview(song: any) {
+    if (song.preview_url) {
+      const playback = new Audio(song.preview_url);
+      playback.src = song.preview_url;
+      document.getElementById('previewUrl')!.appendChild(playback);
+      console.log('playback loaded');
+      playback.play();
+    }
+  }
+
   ngOnInit(): void {
     //let accessToken = "";
     //this.getRefreshToken();
@@ -178,6 +188,7 @@ export class MainPageComponent implements OnInit {
     this.getRecom(accessToken).then(data => this.populateAlbum(data));
     this.getRecom(accessToken).then(data => this.populateArtist(data));
     this.getRecom(accessToken).then(data => this.populateTitle(data));
+    this.getRecom(accessToken).then(data => this.populatePreview(data));
 
     //let dataCollected: Promise<boolean> = this.getRecom(accessToken)
     //waitForAsync(this.getRecom);
