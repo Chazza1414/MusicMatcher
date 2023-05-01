@@ -129,6 +129,64 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  async fetchMyAlbums(token: string): Promise<any> {
+    const result = await fetch('https://api.spotify.com/v1/me/albums', {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    return await result.json();
+  }
+
+  populateMyAlbums(myAlbums: any) {
+    if (myAlbums.items[0].album.images[0]) {
+      const topImage = new Image(106, 106);
+      topImage.src = myAlbums.items[0].album.images[0].url;
+      document.getElementById('myAlbum1')!.appendChild(topImage);
+    }
+    if (myAlbums.items[1].album.images[0]) {
+      const topImage = new Image(106, 106);
+      topImage.src = myAlbums.items[1].album.images[0].url;
+      document.getElementById('myAlbum2')!.appendChild(topImage);
+    }
+    if (myAlbums.items[2].album.images[0]) {
+      const topImage = new Image(106, 106);
+      topImage.src = myAlbums.items[2].album.images[0].url;
+      document.getElementById('myAlbum3')!.appendChild(topImage);
+    }
+    document.getElementById('Album1')!.innerText = myAlbums.items[0].album.name;
+    document.getElementById('Album2')!.innerText = myAlbums.items[1].album.name;
+    document.getElementById('Album3')!.innerText = myAlbums.items[2].album.name;
+  }
+
+  async fetchFollowedArtist(token: string): Promise<any> {
+    const result = await fetch('https://api.spotify.com/v1/me/following?type=artist', {
+      method: 'GET',
+      headers: { Authorization: 'Bearer ' + token },
+    });
+    return await result.json();
+  }
+
+  populateFollowedArtists(followedArtists: any) {
+    if (followedArtists.artists.items[0].images[0]) {
+      const topImage = new Image(106, 106);
+      topImage.src = followedArtists.artists.items[0].images[0].url;
+      document.getElementById('followedArtist1')!.appendChild(topImage);
+    }
+    if (followedArtists.artists.items[1].images[0]) {
+      const topImage = new Image(106, 106);
+      topImage.src = followedArtists.artists.items[1].images[0].url;
+      document.getElementById('followedArtist2')!.appendChild(topImage);
+    }
+    if (followedArtists.artists.items[2].images[0]) {
+      const topImage = new Image(106, 106);
+      topImage.src = followedArtists.artists.items[2].images[0].url;
+      document.getElementById('followedArtist3')!.appendChild(topImage);
+    }
+    document.getElementById('followedArtistName1')!.innerText = followedArtists.artists.items[0].name;
+    document.getElementById('followedArtistName2')!.innerText = followedArtists.artists.items[1].name;
+    document.getElementById('followedArtistName3')!.innerText = followedArtists.artists.items[2].name;
+  }
+
   async createChart() {
     const topTracks = await this.fetchTopMoreTracks(this.InitialComponent.outAccessToken);
     const trackNames = topTracks.map(track => track.name);
@@ -224,6 +282,8 @@ export class ProfileComponent implements OnInit {
     this.fetchProfile(this.InitialComponent.outAccessToken).then(data => this.populateUI(data));
     this.fetchTopArtists(this.InitialComponent.outAccessToken).then(data => this.populateTop1Artists(data));
     this.fetchTopTracks(this.InitialComponent.outAccessToken).then(data => this.populateTop1Tracks(data));
+    this.fetchMyAlbums(this.InitialComponent.outAccessToken).then(data => this.populateMyAlbums(data));
+    this.fetchFollowedArtist(this.InitialComponent.outAccessToken).then(data => this.populateFollowedArtists(data));
     this.createChart();
     this.createArtistChart();
 
