@@ -10,6 +10,9 @@
       <div class="top-middle">
         <!--<img src="music-cover.jpg" alt="Music Cover" style="width: 300px; height: 300px" />-->
         <div id="musicCover"></div>
+        <div class="title1" id="title"></div>
+        <div class="title2" id="artists"></div>
+
         <!--this should be modified as a parameter, the music cover should be taken from Spotify-->
       </div>
     </div>
@@ -30,9 +33,7 @@
     <div *ngIf="dataLoaded | async">
       <div class="bottom-middle">
         <!--<h2>{{ outTitle }}</h2>-->
-        <div id="title"></div>
         <!--<h3>{{ outArtist }}</h3>-->
-        <div id="artists"></div>
         <!--<audio controls autoplay>
           <source src="{{ outPreview }}" type="audio/mpeg" />
           The preview is not working.
