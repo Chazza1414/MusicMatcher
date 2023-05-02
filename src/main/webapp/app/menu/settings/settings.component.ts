@@ -41,6 +41,10 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--initial-training-background-color', thirdColor);
         appBody.style.setProperty('--blacktowhite-color', '#000000');
         appBody.style.setProperty('--lightgreytoblack-color', '#000000');
+        appBody.style.setProperty('--completewhite', '#23395d');
+        appBody.style.setProperty('--like-song-color', '#23395d');
+        appBody.style.setProperty('--playbutton-color', '#ffffff');
+        appBody.style.setProperty('--playbutton2-color', '#FFFF00');
       } else {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
@@ -50,6 +54,10 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--initial-training-background-color', '#c7fdff');
         appBody.style.setProperty('--blacktowhite-color', '#c7fdff');
         appBody.style.setProperty('--lightgreytoblack-color', '#D3D3D3');
+        appBody.style.setProperty('--completewhite', '#ffffff');
+        appBody.style.setProperty('--like-song-color', '#d3d3d3');
+        appBody.style.setProperty('--playbutton-color', '#0d122b');
+        appBody.style.setProperty('--playbutton2-color', '#0000FF');
       }
     }
   }
