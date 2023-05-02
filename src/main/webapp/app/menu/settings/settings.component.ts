@@ -39,6 +39,8 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--third-color', thirdColor);
         appBody.style.setProperty('--border-color', setToWhite);
         appBody.style.setProperty('--initial-training-background-color', thirdColor);
+        appBody.style.setProperty('--blacktowhite-color', '#000000');
+        appBody.style.setProperty('--lightgreytoblack-color', '#000000');
       } else {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
@@ -46,6 +48,8 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--third-color', thirdColor);
         appBody.style.setProperty('--border-color', '#333');
         appBody.style.setProperty('--initial-training-background-color', '#c7fdff');
+        appBody.style.setProperty('--blacktowhite-color', '#c7fdff');
+        appBody.style.setProperty('--lightgreytoblack-color', '#D3D3D3');
       }
     }
   }

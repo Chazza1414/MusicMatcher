@@ -8,14 +8,14 @@ section {
 
 /* add black line between each section */
 section:not(:last-child) {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--text-color);
   padding-bottom: 20px;
   margin-bottom: 20px;
 }
 
 /* style for the header and main sections */
 header {
-  background-color: var(--background-color);
+  background-color: var(--blacktowhite-color);
   padding: 20px;
 }
 
@@ -25,7 +25,13 @@ main {
   padding: 20px;
   background-color: var(--background-color);
   border-radius: 10px;
+  border-color: var(--border-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.button {
+  background-color: var(--blacktowhite-color);
+  color: var(--text-color);
 }
 
 /* style for the switch */
