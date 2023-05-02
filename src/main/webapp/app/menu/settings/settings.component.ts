@@ -27,6 +27,7 @@ export class SettingsComponent implements OnInit {
 
   toggleHighContrastMode(enableHighContrast: boolean): void {
     this.highContrast = enableHighContrast;
+    this.speak(this.highContrast ? 'Set to High Contrast' : 'Set to Default');
     const highContrastColor = '#00008b';
     const defaultColor = 'white';
     const secondaryColor = 'Brown';
@@ -79,6 +80,7 @@ export class SettingsComponent implements OnInit {
 
   setTextSize(size: string): void {
     this.selectedTextSize = size;
+    this.speak(`Set to ${size}`);
     // Save the text size to local storage
     localStorage.setItem('selectedTextSize', size);
     this.applyTextSize();
@@ -92,6 +94,17 @@ export class SettingsComponent implements OnInit {
 
     this.voiceOverEnabled = enableVoiceOver;
     const readableTitles = document.querySelectorAll('.readable-title');
+
+    /*
+    if (this.voiceOverEnabled) {
+      this.attachOrRemoveFocusListeners(true);
+      this.speak('Audio Description turned on');
+    } else {
+      this.attachFocusListeners(false);
+      this.speak('Audio Description turned off');
+    }
+
+     */
 
     if (this.voiceOverEnabled) {
       readableTitles.forEach(el => el.addEventListener('mouseover', this.readText as EventListener));
@@ -113,4 +126,11 @@ export class SettingsComponent implements OnInit {
       window.speechSynthesis.speak(speech);
     }
   };
+
+  speak(text: string): void {
+    if (this.speechSynthesisSupported && this.voiceOverEnabled) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    }
+  }
 }
