@@ -2,6 +2,150 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { InitialTrainingComponent } from '../../initial-training/initial-training.component';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { waitForAsync } from '@angular/core/testing';
+import { ISong, NewSong } from '../../entities/song/song.model';
+import { RecommendService } from '../../initial-training/recommend.service';
+
+interface musicProfile {
+  acousticness: number;
+  danceability: number;
+  energy: number;
+  instrumentalness: number;
+  loudness: number;
+  speechiness: number;
+  tempo: number;
+  valence: number;
+  genres: string[];
+  songTotal: number;
+}
+
+const seedGenreArray: string[] = [
+  'acoustic',
+  'afrobeat',
+  'alt-rock',
+  'alternative',
+  'ambient',
+  'anime',
+  'black-metal',
+  'bluegrass',
+  'blues',
+  'bossanova',
+  'brazil',
+  'breakbeat',
+  'british',
+  'cantopop',
+  'chicago-house',
+  'children',
+  'chill',
+  'classical',
+  'club',
+  'comedy',
+  'country',
+  'dance',
+  'dancehall',
+  'death-metal',
+  'deep-house',
+  'detroit-techno',
+  'disco',
+  'disney',
+  'drum-and-bass',
+  'dub',
+  'dubstep',
+  'edm',
+  'electro',
+  'electronic',
+  'emo',
+  'folk',
+  'forro',
+  'french',
+  'funk',
+  'garage',
+  'german',
+  'gospel',
+  'goth',
+  'grindcore',
+  'groove',
+  'grunge',
+  'guitar',
+  'happy',
+  'hard-rock',
+  'hardcore',
+  'hardstyle',
+  'heavy-metal',
+  'hip-hop',
+  'holidays',
+  'honky-tonk',
+  'house',
+  'idm',
+  'indian',
+  'indie',
+  'indie-pop',
+  'industrial',
+  'iranian',
+  'j-dance',
+  'j-idol',
+  'j-pop',
+  'j-rock',
+  'jazz',
+  'k-pop',
+  'kids',
+  'latin',
+  'latino',
+  'malay',
+  'mandopop',
+  'metal',
+  'metal-misc',
+  'metalcore',
+  'minimal-techno',
+  'movies',
+  'mpb',
+  'new-age',
+  'new-release',
+  'opera',
+  'pagode',
+  'party',
+  'philippines-opm',
+  'piano',
+  'pop',
+  'pop-film',
+  'post-dubstep',
+  'power-pop',
+  'progressive-house',
+  'psych-rock',
+  'punk',
+  'punk-rock',
+  'r-n-b',
+  'rainy-day',
+  'reggae',
+  'reggaeton',
+  'road-trip',
+  'rock',
+  'rock-n-roll',
+  'rockabilly',
+  'romance',
+  'sad',
+  'salsa',
+  'samba',
+  'sertanejo',
+  'show-tunes',
+  'singer-songwriter',
+  'ska',
+  'sleep',
+  'songwriter',
+  'soul',
+  'soundtracks',
+  'spanish',
+  'study',
+  'summer',
+  'swedish',
+  'synth-pop',
+  'tango',
+  'techno',
+  'trance',
+  'trip-hop',
+  'turkish',
+  'work-out',
+  'world-music',
+];
 
 //let accessToken: string = '';
 let refreshToken: string = '';
@@ -17,7 +161,7 @@ let previewUrl: string = '';
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit {
-  constructor(private initComp: InitialTrainingComponent, private http: HttpClient) {}
+  constructor(private initComp: InitialTrainingComponent, private http: HttpClient, private recommendService: RecommendService) {}
   likeButtonPressed = false;
   dislikeButtonPressed = false;
 
@@ -43,17 +187,17 @@ export class MainPageComponent implements OnInit {
     return trackId;
   }
 
-  async getRecom(accessToken: string) {
-    let previewUrl: string = '';
-    let collected: boolean = false;
-    console.log(this.initComp.returnSongRec());
-    //console.log("Refresh token: " + refreshToken);
-    console.log('accessToken is from getRecom: ' + accessToken);
-    const data = await this.getTrack(accessToken);
-    console.log(data);
-    return data;
+  // async getRecom(accessToken: string) {
+  //   let previewUrl: string = '';
+  //   let collected: boolean = false;
+  //   console.log(this.initComp.returnSongRec());
+  //   //console.log("Refresh token: " + refreshToken);
+  //   console.log('accessToken is from getRecom: ' + accessToken);
+  //   const data = await this.getTrack(accessToken);
+  //   console.log(data);
+  //   return data;
 
-    /*image = data.album.images[0].url;
+  /*image = data.album.images[0].url;
     console.log('image url: ' + image);
     for (let i = 0; i < data.artists.length; i++) {
       if (i == 0) artist = data.artists[0].name;
@@ -71,7 +215,7 @@ export class MainPageComponent implements OnInit {
     collected = true;
 
     return collected;*/
-  }
+  //}
 
   async getAccessToken(refreshToken: string): Promise<string> {
     let params2 = new HttpParams();
@@ -91,8 +235,8 @@ export class MainPageComponent implements OnInit {
     return token;
   }
 
-  async getTrack(token: string): Promise<any> {
-    let newUrl = 'https://api.spotify.com/v1/tracks/' + this.getTrackId();
+  async getTrack(token: string, songId: string): Promise<any> {
+    let newUrl = 'https://api.spotify.com/v1/tracks/' + songId;
     console.log('token is: ' + token);
     let result = await fetch(newUrl, { method: 'GET', headers: { Authorization: 'Bearer ' + token } });
     /*console.log("result from getTrack is: " + await result.json().then(data => {
@@ -139,7 +283,7 @@ export class MainPageComponent implements OnInit {
       document.getElementById('musicCover')!.appendChild(albumImage);
       console.log('album loaded');
     }
-    document.getElementById('imgUrl')!.innerText = song.album.images[0]?.url ?? '(no ablum image)';
+    //document.getElementById('imgUrl')!.innerText = song.album.images[0]?.url ?? '(no ablum image)';
   }
 
   populateArtist(song: any) {
@@ -181,14 +325,45 @@ export class MainPageComponent implements OnInit {
     //   this.getRecom(data);
     // });
     let accessToken = this.initComp.returnAccessToken();
-    this.getRecom(accessToken).then(data => this.populateAlbum(data));
+    let userMP: musicProfile = this.initComp.returnUMP();
+    let songList: NewSong[] = [];
+    let genres: string[] = [];
+    let songId: string = '';
+    const req = this.http.get('/api/mainpagesongs', { responseType: 'json' });
+    req.subscribe((data: Object) => {
+      songList = data as NewSong[];
+      console.log(songList);
+      this.recommendService.getAllArtistGenres(accessToken, songList).then(data => {
+        genres = data;
+        console.log(genres);
+        let useableGenreArray: string[] = [];
+        for (let i = 0; i < genres.length; i++) {
+          if (seedGenreArray.includes(genres[i])) {
+            useableGenreArray.push(genres[i]);
+          }
+        }
+        this.recommendService.mainPageRec(accessToken, songList, useableGenreArray, userMP).then(data => {
+          songId = data;
+          console.log(songId);
+          this.getTrack(accessToken, songId).then(data => {
+            let songData: any = data;
+            console.log(data);
+            this.populateAlbum(songData);
+            this.populateArtist(songData);
+            this.populateTitle(songData);
+            this.populatePreview(songData);
+          });
+        });
+      });
+    });
+
+    /*this.getRecom(accessToken).then(data => this.populateAlbum(data));
     this.getRecom(accessToken).then(data => this.populateArtist(data));
     this.getRecom(accessToken).then(data => this.populateTitle(data));
-    this.getRecom(accessToken).then(data => this.populatePreview(data));
+    this.getRecom(accessToken).then(data => this.populatePreview(data));*/
 
     //let dataCollected: Promise<boolean> = this.getRecom(accessToken)
     //waitForAsync(this.getRecom);
-    this.isDataLoaded();
     //this.isDataLoaded();
 
     /*this.outImage = image;
