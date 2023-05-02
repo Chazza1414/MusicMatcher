@@ -15,28 +15,30 @@
         </thead>
       </table>
     </div>
-    <div class="scrollable-table">
-      <!-- make it scrollable-->
-      <table class="song-table">
-        <tbody>
-          <ng-container *ngFor="let song of songs; let i = index">
-            <tr class="song-item">
-              <td class="song-info-title">{{ song.songName }}</td>
-              <td class="song-info-time">N/A</td>
-              <td class="song-info-artist">{{ song.artistName }}</td>
-              <td class="song-info-album">N/A</td>
-              <td class="song-info-genre">N/A</td>
-              <td class="song-actions">
-                <i class="fas fa-play-circle play-button" *ngIf="!isPlaying(i)" (click)="onPlayButtonClick(i)"></i>
-                <i class="fas fa-stop-circle play-button" *ngIf="isPlaying(i)" (click)="onPlayButtonClick(i)"></i>
-                <div class="heart-container">
-                  <i class="fa-solid fa-heart-crack add-to-disliked-songs-button" (click)="onAddToDislikedSongsButtonClick(song)"> </i>
-                </div>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
+    <div *ngIf="songInfoArray.length > 0">
+      <div class="scrollable-table">
+        <!-- make it scrollable-->
+        <table class="song-table">
+          <tbody>
+            <ng-container *ngFor="let song of getSongInfoArray()">
+              <tr class="song-item">
+                <td class="song-info-title">{{ song.title }}</td>
+                <td class="song-info-time">{{ song.time }}</td>
+                <td class="song-info-artist">{{ song.artist }}</td>
+                <td class="song-info-album">{{ song.album }}</td>
+                <td class="song-info-genre">{{ song.genre }}</td>
+                <td class="song-actions">
+                  <i class="fas fa-play-circle play-button" *ngIf="!isPlaying(song)" (click)="onPlayButtonClick(song)"></i>
+                  <i class="fas fa-stop-circle play-button" *ngIf="isPlaying(song)" (click)="onPlayButtonClick(song)"></i>
+                  <div class="heart-container">
+                    <i class="fa-solid fa-heart-crack add-to-disliked-songs-button" (click)="onAddToDislikedSongsButtonClick(song)"> </i>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
