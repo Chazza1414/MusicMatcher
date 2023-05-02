@@ -156,6 +156,8 @@ let title: string = '';
 let previewUrl: string = '';
 let currentId: string = '';
 let currentArtistId: string = '';
+let prevPreview: HTMLAudioElement;
+let firstSong: boolean = false;
 //let counter: number = 0;
 
 @Component({
@@ -304,7 +306,7 @@ export class MainPageComponent implements OnInit {
   outImage: string = image;
   outArtist: string = artist;
   outTitle: string = title;
-  outPreview: string = 'https://p.scdn.co/mp3-preview/8589bc33c59716cb36846da5615fee1f3b6a615e?cid=420af6bafdcf44398328b920c4c7dd97';
+  outPreview: string = '';
   //outPreview: string = previewUrl;
   /*outImage: string = '';
   outArtist: string = '';
@@ -323,7 +325,7 @@ export class MainPageComponent implements OnInit {
     counter++;
     this.outTitle = title;
     counter++;
-    this.outPreview = 'https://p.scdn.co/mp3-preview/1d1ee7f7728856cbf44b2957b85fdfd69a83904b?cid=420af6bafdcf44398328b920c4c7dd97';
+    //this.outPreview = 'https://p.scdn.co/mp3-preview/1d1ee7f7728856cbf44b2957b85fdfd69a83904b?cid=420af6bafdcf44398328b920c4c7dd97';
     counter++;
 
     if (counter == 4) allAssign = true;
@@ -363,14 +365,21 @@ export class MainPageComponent implements OnInit {
     console.log('Song name is: ' + title);
   }
 
-  populatePreview(song: any) {
-    if (song.preview_url) {
-      const playback = new Audio(song.preview_url);
-      playback.src = song.preview_url;
-      document.getElementById('previewUrl')!.appendChild(playback);
-      console.log('playback loaded');
-      playback.play();
-    }
+  populatePreview(song: any): HTMLAudioElement {
+    //if (song.preview_url) {
+    if (firstSong) prevPreview.pause();
+    const playback = new Audio(song.preview_url);
+    playback.src = song.preview_url;
+    document.getElementById('previewUrl')!.appendChild(playback);
+    console.log('playback loaded');
+    playback.play();
+    firstSong = true;
+    return playback;
+
+    // let url: string = song.preview_url;
+    // console.log("preview url is: " + url);
+    // this.outPreview = url;
+    //}
   }
 
   enterArtistId(song: any) {
@@ -412,7 +421,7 @@ export class MainPageComponent implements OnInit {
             this.populateAlbum(songData);
             this.populateArtist(songData);
             this.populateTitle(songData);
-            this.populatePreview(songData);
+            prevPreview = this.populatePreview(songData);
             this.enterArtistId(songData);
           });
         });
