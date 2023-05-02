@@ -11,11 +11,14 @@ export class SettingsComponent implements OnInit {
   selectedTextSize: string;
   voiceOverEnabled = false;
   voiceOver = window.speechSynthesis;
+  speechSynthesisSupported: boolean;
+
   voiceOverUtterance = new SpeechSynthesisUtterance();
 
   constructor() {
     const savedTextSize = localStorage.getItem('selectedTextSize');
     this.selectedTextSize = savedTextSize ? savedTextSize : 'medium';
+    this.speechSynthesisSupported = 'speechSynthesis' in window;
   }
 
   ngOnInit(): void {
@@ -82,25 +85,32 @@ export class SettingsComponent implements OnInit {
   }
 
   toggleVoiceOver(enableVoiceOver: boolean): void {
-    if (!('speechSynthesis' in window)) {
+    if (!this.speechSynthesisSupported) {
       console.warn('Your browser does not support the Web Speech API.');
+      return;
     }
 
     this.voiceOverEnabled = enableVoiceOver;
+    const readableTitles = document.querySelectorAll('.readable-title');
+
     if (this.voiceOverEnabled) {
-      document.addEventListener('mouseover', this.readText);
+      readableTitles.forEach(el => el.addEventListener('mouseover', this.readText as EventListener));
     } else {
-      document.removeEventListener('mouseover', this.readText);
+      readableTitles.forEach(el => el.removeEventListener('mouseover', this.readText as EventListener));
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
     }
   }
 
   readText = (event: MouseEvent): void => {
-    if (this.voiceOverEnabled) {
-      const target = event.target as HTMLElement;
-      if (target && target.textContent) {
-        this.voiceOverUtterance.text = target.textContent;
-        this.voiceOver.speak(this.voiceOverUtterance);
-      }
+    if (!this.voiceOverEnabled) return;
+
+    const targetElement = event.target as HTMLElement;
+    const textToRead = targetElement.tagName === 'SECTION' ? targetElement.getAttribute('title') : targetElement.textContent;
+
+    if (textToRead) {
+      const speech = new SpeechSynthesisUtterance(textToRead);
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
+      window.speechSynthesis.speak(speech);
     }
   };
 }
