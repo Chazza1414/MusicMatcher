@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { waitForAsync } from '@angular/core/testing';
 import { ISong, NewSong } from '../../entities/song/song.model';
 import { RecommendService } from '../../initial-training/recommend.service';
+import { AccountService } from '../../core/auth/account.service';
 
 interface musicProfile {
   acousticness: number;
@@ -153,6 +154,8 @@ let image: string = '';
 let artist: string = '';
 let title: string = '';
 let previewUrl: string = '';
+let currentId: string = '';
+let currentArtistId: string = '';
 //let counter: number = 0;
 
 @Component({
@@ -161,19 +164,72 @@ let previewUrl: string = '';
   styleUrls: ['./main-page.component.scss'],
 })
 export class MainPageComponent implements OnInit {
-  constructor(private initComp: InitialTrainingComponent, private http: HttpClient, private recommendService: RecommendService) {}
+  constructor(
+    private initComp: InitialTrainingComponent,
+    private http: HttpClient,
+    private recommendService: RecommendService,
+    private accountService: AccountService
+  ) {}
   likeButtonPressed = false;
   dislikeButtonPressed = false;
 
   likePressed(): void {
     this.likeButtonPressed = true;
     this.dislikeButtonPressed = false;
+
+    let newSong: NewSong = { id: null, spotifySongId: currentId, spotifyArtistId: currentArtistId, artistName: 'null', songName: 'liked' };
+    let username: string = '';
+    let userId: number = 0;
+
+    this.accountService.identity().subscribe(data => {
+      // @ts-ignore
+      username = data.login;
+      // @ts-ignore
+      userId = data.id;
+
+      newSong.user = { id: userId, login: username };
+
+      let req = this.http.post<ISong>('/api/songs', newSong, { observe: 'response' });
+      req.subscribe(data => {
+        console.log('' + data);
+        console.log('Song added, getting new song');
+        this.newLoad();
+      });
+    });
+
     console.log('Like Pressed!');
   }
 
   dislikePressed(): void {
     this.likeButtonPressed = false;
     this.dislikeButtonPressed = true;
+
+    let newSong: NewSong = {
+      id: null,
+      spotifySongId: currentId,
+      spotifyArtistId: currentArtistId,
+      artistName: 'null',
+      songName: 'disliked',
+    };
+    let username: string = '';
+    let userId: number = 0;
+
+    this.accountService.identity().subscribe(data => {
+      // @ts-ignore
+      username = data.login;
+      // @ts-ignore
+      userId = data.id;
+
+      newSong.user = { id: userId, login: username };
+
+      let req = this.http.post<ISong>('/api/songs', newSong, { observe: 'response' });
+      req.subscribe(data => {
+        console.log('' + data);
+        console.log('Song added, getting new song');
+        this.newLoad();
+      });
+    });
+
     console.log('Dislike Pressed!');
   }
 
@@ -278,10 +334,11 @@ export class MainPageComponent implements OnInit {
 
   populateAlbum(song: any) {
     if (song.album.images[0]) {
-      const albumImage = new Image(300, 300);
-      albumImage.src = song.album.images[0].url;
-      document.getElementById('musicCover')!.appendChild(albumImage);
-      console.log('album loaded');
+      // const albumImage = new Image(300, 300);
+      // albumImage.src = song.album.images[0].url;
+      // document.getElementById('musicCover')!.appendChild(albumImage);
+      // console.log('album loaded');
+      this.outImage = song.album.images[0].url;
     }
     //document.getElementById('imgUrl')!.innerText = song.album.images[0]?.url ?? '(no ablum image)';
   }
@@ -316,14 +373,14 @@ export class MainPageComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    //let accessToken = "";
-    //this.getRefreshToken();
-    // this.getAccessToken(refreshToken).then(data => {
-    //   //accessToken = data;
-    //   console.log("on init access token" + data);
-    //   this.getRecom(data);
-    // });
+  enterArtistId(song: any) {
+    if (song.artists[0].id) {
+      currentArtistId = song.artists[0].id;
+      console.log('Artist id is: ' + currentArtistId);
+    }
+  }
+
+  newLoad(): void {
     let accessToken = this.initComp.returnAccessToken();
     let userMP: musicProfile = this.initComp.returnUMP();
     let songList: NewSong[] = [];
@@ -332,7 +389,7 @@ export class MainPageComponent implements OnInit {
     const req = this.http.get('/api/mainpagesongs', { responseType: 'json' });
     req.subscribe((data: Object) => {
       songList = data as NewSong[];
-      console.log(songList);
+      //console.log(songList);
       this.recommendService.getAllArtistGenres(accessToken, songList).then(data => {
         genres = data;
         console.log(genres);
@@ -344,6 +401,7 @@ export class MainPageComponent implements OnInit {
         }
         this.recommendService.mainPageRec(accessToken, songList, useableGenreArray, userMP).then(data => {
           songId = data;
+          currentId = songId;
           console.log(songId);
           this.getTrack(accessToken, songId).then(data => {
             let songData: any = data;
@@ -352,10 +410,56 @@ export class MainPageComponent implements OnInit {
             this.populateArtist(songData);
             this.populateTitle(songData);
             this.populatePreview(songData);
+            this.enterArtistId(songData);
           });
         });
       });
     });
+  }
+
+  ngOnInit(): void {
+    //let accessToken = "";
+    //this.getRefreshToken();
+    // this.getAccessToken(refreshToken).then(data => {
+    //   //accessToken = data;
+    //   console.log("on init access token" + data);
+    //   this.getRecom(data);
+    // });
+
+    this.newLoad();
+
+    // let accessToken = this.initComp.returnAccessToken();
+    // let userMP: musicProfile = this.initComp.returnUMP();
+    // let songList: NewSong[] = [];
+    // let genres: string[] = [];
+    // let songId: string = '';
+    // const req = this.http.get('/api/mainpagesongs', { responseType: 'json' });
+    // req.subscribe((data: Object) => {
+    //   songList = data as NewSong[];
+    //   console.log(songList);
+    //   this.recommendService.getAllArtistGenres(accessToken, songList).then(data => {
+    //     genres = data;
+    //     console.log(genres);
+    //     let useableGenreArray: string[] = [];
+    //     for (let i = 0; i < genres.length; i++) {
+    //       if (seedGenreArray.includes(genres[i])) {
+    //         useableGenreArray.push(genres[i]);
+    //       }
+    //     }
+    //     this.recommendService.mainPageRec(accessToken, songList, useableGenreArray, userMP).then(data => {
+    //       songId = data;
+    //       console.log(songId);
+    //       this.getTrack(accessToken, songId).then(data => {
+    //         let songData: any = data;
+    //         console.log(data);
+    //         this.populateAlbum(songData);
+    //         this.populateArtist(songData);
+    //         this.populateTitle(songData);
+    //         this.populatePreview(songData);
+    //       });
+    //     });
+    //   });
+    // });
 
     /*this.getRecom(accessToken).then(data => this.populateAlbum(data));
     this.getRecom(accessToken).then(data => this.populateArtist(data));
