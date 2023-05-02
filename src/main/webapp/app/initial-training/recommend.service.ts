@@ -562,6 +562,7 @@ export class RecommendService {
 
     for (let i = 0; i < songArray.length; i++) {
       artistIds.push(<string>songArray[i].spotifyArtistId);
+      //console.log(songArray[i]);
     }
 
     let artistIdString: string = '';
