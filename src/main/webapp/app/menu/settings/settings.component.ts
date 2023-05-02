@@ -45,6 +45,7 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--like-song-color', '#23395d');
         appBody.style.setProperty('--playbutton-color', '#ffffff');
         appBody.style.setProperty('--playbutton2-color', '#FFFF00');
+        appBody.style.setProperty('--link-to-gdpr-color', '#FFFF00');
       } else {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
@@ -58,6 +59,7 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--like-song-color', '#d3d3d3');
         appBody.style.setProperty('--playbutton-color', '#0d122b');
         appBody.style.setProperty('--playbutton2-color', '#0000FF');
+        appBody.style.setProperty('--link-to-gdpr-color', '#533f03');
       }
     }
   }
