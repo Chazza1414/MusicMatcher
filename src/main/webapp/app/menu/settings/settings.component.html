@@ -62,10 +62,11 @@
           <section>
             <h2 class="section-title">Audio Description</h2>
             <label class="switch">
-              <input type="checkbox" />
+              <input type="checkbox" #voiceOverCheckbox (change)="toggleVoiceOver(voiceOverCheckbox.checked)" />
               <span class="slider"></span>
             </label>
           </section>
+
           <section>
             <h2 class="section-title">Volume</h2>
             <div class="volume">

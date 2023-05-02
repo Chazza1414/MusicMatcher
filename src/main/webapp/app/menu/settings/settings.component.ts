@@ -9,6 +9,9 @@ import { ElementRef, ViewChild } from '@angular/core';
 export class SettingsComponent implements OnInit {
   highContrast = false;
   selectedTextSize: string;
+  voiceOverEnabled = false;
+  voiceOver = window.speechSynthesis;
+  voiceOverUtterance = new SpeechSynthesisUtterance();
 
   constructor() {
     const savedTextSize = localStorage.getItem('selectedTextSize');
@@ -77,4 +80,27 @@ export class SettingsComponent implements OnInit {
     localStorage.setItem('selectedTextSize', size);
     this.applyTextSize();
   }
+
+  toggleVoiceOver(enableVoiceOver: boolean): void {
+    if (!('speechSynthesis' in window)) {
+      console.warn('Your browser does not support the Web Speech API.');
+    }
+
+    this.voiceOverEnabled = enableVoiceOver;
+    if (this.voiceOverEnabled) {
+      document.addEventListener('mouseover', this.readText);
+    } else {
+      document.removeEventListener('mouseover', this.readText);
+    }
+  }
+
+  readText = (event: MouseEvent): void => {
+    if (this.voiceOverEnabled) {
+      const target = event.target as HTMLElement;
+      if (target && target.textContent) {
+        this.voiceOverUtterance.text = target.textContent;
+        this.voiceOver.speak(this.voiceOverUtterance);
+      }
+    }
+  };
 }
