@@ -219,19 +219,6 @@ export class InitialTrainingComponent implements OnInit {
     let selectedPlaylists = this.outPlaylistArray.filter(opt => opt.checked);
     let selectedSongs = this.outSongArray.filter(opt => opt.checked);
 
-    // this.accountService.identity().subscribe(data => {
-    //   // @ts-ignore
-    //   console.log(data.id);
-    // });
-    //
-    // const req = this.http.get("/api/users", { responseType: 'json'});
-    //
-    // req.subscribe((data: any) => {
-    //   console.log("DATA" + data[0].id);
-    // });
-
-    //console.log("HELLO");
-    //this.outTextVar = this.outTextVar + 'submitted';
     userMusicProfile = await this.recommendService.generateUMP(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
 
     //setTimeout(() => window.location.href = "/main-page", 1000);

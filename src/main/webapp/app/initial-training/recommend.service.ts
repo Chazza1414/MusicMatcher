@@ -401,24 +401,13 @@ export class RecommendService {
     let userId: number = 0;
     let username: string = '';
 
-    //get the current user's username
+    //get the current user's username and id
     this.accountService.identity().subscribe(data => {
       // @ts-ignore
       username = data.login;
       // @ts-ignore
       userId = data.id;
     });
-
-    //use the username to get the user's id
-    //const req2 = this.http.get('/api/admin/users/' + username, { responseType: 'json' });
-
-    // req2.subscribe((data: any) => {
-    //   //console.log(JSON.stringify(data));
-    //   userId = data.id;
-    //console.log("user id = " + userId);
-
-    // let song: NewSong = { id: null, spotifySongId: 'test', spotifyArtistId: 'test',
-    //   artistName: 'test', songName: 'test', user: {id: userId, login: username} };
 
     song.user = { id: userId, login: username };
     song.songName = 'initial';
