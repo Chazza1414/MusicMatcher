@@ -501,6 +501,8 @@ export class RecommendService {
 
     let songIdString: string = '';
 
+    userMusicProfile.songTotal = songIds.length;
+
     for (let j = 0; j < songIds.length; j = j + maxIds) {
       songIdString = '';
       if (songIds.length == 1) {
@@ -526,7 +528,6 @@ export class RecommendService {
         userMusicProfile.speechiness += data.audio_features[0].speechiness;
         userMusicProfile.tempo += data.audio_features[0].tempo;
         userMusicProfile.valence += data.audio_features[0].valence;
-        userMusicProfile.songTotal += 1;
       } catch (e) {
         console.log('Error building music profile: ' + e);
       }
@@ -541,7 +542,7 @@ export class RecommendService {
     userMusicProfile.tempo = userMusicProfile.tempo / userMusicProfile.songTotal;
     userMusicProfile.valence = userMusicProfile.valence / userMusicProfile.songTotal;
 
-    console.log('music profile' + userMusicProfile.songTotal);
+    //console.log('music profile' + userMusicProfile.songTotal);
 
     return userMusicProfile;
   }
@@ -555,6 +556,8 @@ export class RecommendService {
   async getAllArtistGenres(accessToken: string, songArray: NewSong[]): Promise<string[]> {
     let artistIds: string[] = [];
     let genres: string[] = [];
+
+    //console.log(accessToken);
 
     if (songArray.length == 0) {
       return [];

@@ -382,7 +382,8 @@ export class MainPageComponent implements OnInit {
 
   newLoad(): void {
     let accessToken = this.initComp.returnAccessToken();
-    let userMP: musicProfile = this.initComp.returnUMP();
+    //console.log("access token: " + accessToken);
+
     let songList: NewSong[] = [];
     let genres: string[] = [];
     let songId: string = '';
@@ -392,13 +393,15 @@ export class MainPageComponent implements OnInit {
       //console.log(songList);
       this.recommendService.getAllArtistGenres(accessToken, songList).then(data => {
         genres = data;
-        console.log(genres);
+        //console.log(genres);
         let useableGenreArray: string[] = [];
         for (let i = 0; i < genres.length; i++) {
           if (seedGenreArray.includes(genres[i])) {
             useableGenreArray.push(genres[i]);
           }
         }
+        let userMP: musicProfile = this.initComp.returnUMP();
+        //console.log("user music profile: " + userMP);
         this.recommendService.mainPageRec(accessToken, songList, useableGenreArray, userMP).then(data => {
           songId = data;
           currentId = songId;

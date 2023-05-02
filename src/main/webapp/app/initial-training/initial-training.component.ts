@@ -6,19 +6,20 @@ import { ISong, NewSong } from '../entities/song/song.model';
 import { SongUpdateComponent } from '../entities/song/update/song-update.component';
 import { SongService } from '../entities/song/service/song.service';
 import { AccountService } from '../core/auth/account.service';
+import { Router } from '@angular/router';
 //import * as angSpot from 'angular-spotify';
 
-var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
-var client_secret = 'e54bd430c6a6428e8355dba28e1f7a9f'; // Your secret
-var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
+let client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
+let client_secret = 'e54bd430c6a6428e8355dba28e1f7a9f'; // Your secret
+let redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
 //var redirect_uri = 'https://musicmatcher.bham.team/initial-training'; // Your redirect uri
-var scope = 'user-read-private user-read-email playlist-read-private user-top-read user-library-read user-follow-read';
-var apiUrl = '/api/spotify/auth';
-var returnCode = '';
-var accessToken = '';
+let scope = 'user-read-private user-read-email playlist-read-private user-top-read user-library-read user-follow-read';
+let returnCode = '';
+let accessToken = '';
 let refreshToken: string = '';
 let songRec: string = '';
 let userMusicProfile: musicProfile;
+let buttonVisible: boolean = false;
 
 //instance of the spotify api node from: https://github.com/thelinmichael/spotify-web-api-node
 var spotifyApi = new SpotifyWebApi({
@@ -105,8 +106,6 @@ export class InitialTrainingComponent implements OnInit {
     window.location.href = this.getUrlReady(state);
   }
 
-  async accessToken() {}
-
   getRefreshToken() {
     if (!isDevMode()) {
       redirect_uri = 'https://musicmatcher.bham.team/initial-training';
@@ -181,24 +180,6 @@ export class InitialTrainingComponent implements OnInit {
     //spotifyApi.tracks.getTrack(id)
   }
 
-  getAccessToken() {
-    //create parameters that we want returned to us
-    let params = new HttpParams();
-    params = params.append('testParam', returnCode);
-
-    //create the http get request to our api endpoint
-    const req = this.http.get(apiUrl, { responseType: 'text', params });
-
-    //request is executed when subscribe is called
-    //return value 'token' is the access token
-    req.subscribe(token => {
-      spotifyApi.setAccessToken(token);
-      accessToken = token;
-
-      //get the login in user's playlists
-    });
-  }
-
   getUserPlaylists() {
     //use the spotify api dependency to make calls easily, see top of file for creation of object
     spotifyApi.playlists.getMyPlaylists(/* add parameters in here*/).then(
@@ -219,9 +200,13 @@ export class InitialTrainingComponent implements OnInit {
     let selectedPlaylists = this.outPlaylistArray.filter(opt => opt.checked);
     let selectedSongs = this.outSongArray.filter(opt => opt.checked);
 
+    //console.log("get here");
+
     userMusicProfile = await this.recommendService.generateUMP(accessToken, selectedPlaylists, selectedSongs, selectedGenres);
 
-    //setTimeout(() => window.location.href = "/main-page", 1000);
+    this.outButtonVisible = true;
+
+    //setTimeout(() => window.location.href = "/main-page", 2000);
 
     //this.outTextVar = this.outTextVar + songArray[0].spotifySongId;
 
@@ -251,6 +236,7 @@ export class InitialTrainingComponent implements OnInit {
   outGenreArray: genre[] = genreArray;
   outPlaylistArray: playlist[] = playlistArray;
   outAccessToken: string = accessToken;
+  outButtonVisible: boolean = buttonVisible;
 
   playlistItem: boolean = true;
 
