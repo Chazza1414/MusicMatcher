@@ -51,6 +51,10 @@ export class SongService {
   queryLikedSongs(): Observable<EntityArrayResponseType> {
     return this.http.get<ISong[]>(`/api/liked-songs`, { observe: 'response' });
   }
+  queryDislikedSongs(): Observable<EntityArrayResponseType> {
+    return this.http.get<ISong[]>(`/api/disliked-songs`, { observe: 'response' });
+  }
+
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });

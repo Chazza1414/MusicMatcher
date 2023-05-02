@@ -171,6 +171,11 @@ public class SongResource {
         log.debug("REST request to get all liked Songs");
         return songRepository.findByUserIsCurrentUserAndLiked();
     }
+    @GetMapping("/disliked-songs")
+    public List<Song> getAllDislikedSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all disliked Songs");
+        return songRepository.findByUserIsCurrentUserAndDisliked();
+    }
 
     /**
      * {@code GET  /songs/:id} : get the "id" song.
