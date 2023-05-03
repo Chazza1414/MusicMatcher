@@ -106,9 +106,8 @@ export class DislikedSongsComponent implements OnInit{
       if (data && data.body) {
         const spotifySongIds = data.body.map((song: ISong) => song.spotifySongId);
         const spotifySongIdsFiltered = spotifySongIds.filter(id => id !== null && id !== undefined) as string[];
-        this.getSongInfo(spotifySongIdsFiltered, token).then(songInfoArray => {
-          // Get the latest 10 elements and reverse the order
-          this.songInfoArray = this.formatTime(songInfoArray).slice(-10).reverse();
+        this.getSongInfo(spotifySongIdsFiltered.slice(0,10), token).then(songInfoArray => {
+          this.songInfoArray = this.formatTime(songInfoArray).reverse();
           console.log(this.songInfoArray);
         });
       }
