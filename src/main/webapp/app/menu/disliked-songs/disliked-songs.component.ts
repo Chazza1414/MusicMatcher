@@ -76,7 +76,7 @@ export class DislikedSongsComponent implements OnInit {
         const spotifySongIdsFiltered = spotifySongIds.filter(id => id !== null && id !== undefined) as string[];
         this.getSongInfo(spotifySongIdsFiltered, token).then(songInfoArray => {
           this.songInfoArray = this.formatTime(songInfoArray);
-          this.songInfoArray = this.formatTime(songInfoArray).slice(-10).reverse();
+          this.songInfoArray = this.songInfoArray.slice(-10).reverse();
           console.log(this.songInfoArray);
         });
       }
