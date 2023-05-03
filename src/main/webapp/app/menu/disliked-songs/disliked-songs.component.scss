@@ -7,10 +7,10 @@ body {
   height: 100%;
 }
 
-
 h2 {
   text-align: center;
   font-size: 2rem;
+  font-weight: bold;
   padding: 10px 0;
   margin-bottom: 0.5rem;
   border-bottom: 1px solid #3a3f4b;
@@ -33,7 +33,7 @@ h2 {
   overflow-y: auto;
 }
 .song-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2; /* Light gray close to white */
+  background-color: var(--like-song-color); /* Light gray close to white */
 }
 
 .song-list-item {
@@ -70,6 +70,7 @@ h2 {
   width: 20%;
   font-weight: bold;
   text-align: left;
+  color: var(--text-color);
 }
 
 .song-info-time,
@@ -78,6 +79,7 @@ h2 {
 .song-info-genre {
   width: 16%;
   text-align: left;
+  color: var(--text-color);
 }
 .song-table {
   width: 100%;
@@ -102,10 +104,11 @@ h2 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  color: var(--text-color);
 }
 
 .play-button {
-  color: #0d122b;
+  color: var(--playbutton-color);
   font-size: 24px; // Increase the font size to make the icon bigger
   cursor: pointer;
   margin-left: 0px;
@@ -118,7 +121,7 @@ h2 {
   text-align: center;
 }
 .add-to-liked-songs-button {
-  color: #0d122b;
+  color: var(--playbutton-color);
   font-size: 24px; // Increase the font size to make the icon bigger
   cursor: pointer;
   margin-right: 15px;
@@ -126,11 +129,11 @@ h2 {
 }
 
 .play-button:hover {
-  color: blue;
+  color: var(--playbutton2-color);
 }
 
 .add-to-liked-songs-button:hover {
-  color: blue;
+  color: var(--playbutton2-color);
 }
 
 .now-playing {
@@ -138,7 +141,7 @@ h2 {
   bottom: 20px; /* Adjust this value to change the distance from the bottom */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #fff;
+  background-color: var(--blacktowhite-color);
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -189,4 +192,3 @@ h2 {
 .transparent {
   opacity: 0;
 } //makes heart icon transparent after clicked
-

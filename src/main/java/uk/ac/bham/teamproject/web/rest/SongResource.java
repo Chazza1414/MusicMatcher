@@ -160,6 +160,24 @@ public class SongResource {
         return songRepository.findByUserIsCurrentUser();
     }
 
+    @GetMapping("/mainpagesongs")
+    public List<Song> getAllMainPageSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all main page Songs");
+        return songRepository.findByUserIsCurrentUserAndLikedAndInitial();
+    }
+
+    @GetMapping("/liked-songs")
+    public List<Song> getAllLikedSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all liked Songs");
+        return songRepository.findByUserIsCurrentUserAndLiked();
+    }
+
+    @GetMapping("/disliked-songs")
+    public List<Song> getAllDislikedSongs(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
+        log.debug("REST request to get all disliked Songs");
+        return songRepository.findByUserIsCurrentUserAndDisliked();
+    }
+
     /**
      * {@code GET  /songs/:id} : get the "id" song.
      *

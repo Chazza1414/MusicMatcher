@@ -1,5 +1,5 @@
 .page-container {
-  background-color: white;
+  background-color: var(--background-color);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -7,17 +7,17 @@
 }
 
 #left-column {
-  background-color: #c7fdff;
+  background-color: var(--initial-training-background-color);
   width: 33%;
   height: 80vh;
   margin-right: 5px;
 }
 #center-column {
-  background-color: #c7fdff;
+  background-color: var(--initial-training-background-color);
   width: 33%;
 }
 #right-column {
-  background-color: #c7fdff;
+  background-color: var(--initial-training-background-color);
   width: 33%;
   margin-left: 5px;
 }
@@ -64,7 +64,7 @@
 }
 body {
   font-family: 'Open Sans';
-  background: white;
+  background: var(--lightgreytoblack-color);
   color: #ecf0f1;
   line-height: 1.618em;
 }
@@ -85,6 +85,7 @@ body {
   top: 0;
   left: 30px;
   float: left;
+  background-color: var(--background-color);
 }
 .select-item {
   position: relative;
@@ -156,7 +157,7 @@ div {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: white;
+  background-color: var(--background-color);
   margin: 5px;
   border-radius: 5px;
 }
@@ -225,4 +226,9 @@ div {
 .button-30:active {
   box-shadow: #d6d6e7 0 3px 7px inset;
   transform: translateY(2px);
+}
+
+.info-container {
+  border-radius: 25px;
+  horiz-align: center;
 }

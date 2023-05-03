@@ -59,6 +59,13 @@
                 </label>
               </div>
             </div>
+            <div class="info-container">
+              <br />
+              <p>Select playlists, songs and genres that you want to get recommendations for</p>
+            </div>
+            <div class="flex-container-column" [ngSwitch]="outButtonVisible">
+              <button class="button-30" routerLink="/main-page" *ngSwitchCase="true">Go To Main Page!</button>
+            </div>
           </div>
           <div id="spotify-container" class="button-container">
             <a>

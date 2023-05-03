@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';  //Aki Added
+import { BehaviorSubject } from 'rxjs'; //Aki Added
 
 import { isPresent } from 'app/core/util/operators';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
@@ -48,6 +48,13 @@ export class SongService {
     return this.http.get<ISong[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  queryLikedSongs(): Observable<EntityArrayResponseType> {
+    return this.http.get<ISong[]>(`/api/liked-songs`, { observe: 'response' });
+  }
+  queryDislikedSongs(): Observable<EntityArrayResponseType> {
+    return this.http.get<ISong[]>(`/api/disliked-songs`, { observe: 'response' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
@@ -90,11 +97,11 @@ export class SongService {
 
   removeLikedSong(song: ISong): void {
     const currentSongs = this._likedSongs.getValue();
-    this._likedSongs.next(currentSongs.filter((s) => s !== song));
+    this._likedSongs.next(currentSongs.filter(s => s !== song));
   }
   removeDislikedSong(song: ISong): void {
     const currentSongs = this._dislikedSongs.getValue();
-    this._dislikedSongs.next(currentSongs.filter((s) => s !== song));
+    this._dislikedSongs.next(currentSongs.filter(s => s !== song));
   }
 }
 /* eslint-disable @typescript-eslint/member-ordering */

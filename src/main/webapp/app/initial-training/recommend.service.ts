@@ -3,6 +3,11 @@ import { SpotifyWebApi } from 'spotify-web-api-ts';
 import { ISong, NewSong } from '../entities/song/song.model';
 import { isDevMode } from '@angular/core';
 import { environment } from '@ng-bootstrap/ng-bootstrap/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { EntityResponseType } from '../entities/song/service/song.service';
+import { Observable } from 'rxjs';
+import { AccountService } from '../core/auth/account.service';
+import { UserService } from '../entities/user/user.service';
 
 var client_id = '420af6bafdcf44398328b920c4c7dd97'; // Your client id
 var redirect_uri = 'http://localhost:9000/initial-training'; // Your redirect uri
@@ -202,18 +207,85 @@ const emptySong: NewSong = {
   artistName: '',
 };
 
-let userMusicProfile: musicProfile = emptyMusicProfile;
+//let userMusicProfile: musicProfile = emptyMusicProfile;
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecommendService {
-  constructor() {}
+  constructor(private http: HttpClient, private accountService: AccountService) {}
 
-  async recommendSong(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<string> {
+  /*
+    on init:
+    get all songs from db where initial and liked
+    get all
+
+    get all attributes of songs
+   */
+
+  async mainPageRec(
+    accessToken: string,
+    outSongArray: NewSong[],
+    useableGenreArray: string[],
+    userMusicProfile: musicProfile
+  ): Promise<string> {
+    let songRecs = await this.getSeedSongs(
+      accessToken,
+      outSongArray[this.getRandomInInterval(outSongArray.length)].spotifySongId,
+      outSongArray[this.getRandomInInterval(outSongArray.length)].spotifyArtistId,
+      useableGenreArray[this.getRandomInInterval(useableGenreArray.length)]
+    );
+
+    //console.log(songRecs);
+
+    let recSongIds: string[] = [];
+    for (let i = 0; i < recSongLimit; i++) {
+      //console.log(songRecs.tracks[i].id);
+      recSongIds.push(songRecs.tracks[i].id);
+    }
+
+    let recSongFeatures: musicProfile[] = [];
+
+    for (let i = 0; i < recSongLimit; i++) {
+      let data = await this.getOneSongAttribute(accessToken, recSongIds[i]);
+      try {
+        recSongFeatures.push({
+          acousticness: data.audio_features[0].acousticness,
+          danceability: data.audio_features[0].danceability,
+          energy: data.audio_features[0].energy,
+          instrumentalness: data.audio_features[0].instrumentalness,
+          loudness: data.audio_features[0].loudness,
+          speechiness: data.audio_features[0].speechiness,
+          tempo: data.audio_features[0].tempo,
+          valence: data.audio_features[0].valence,
+          genres: [],
+          songTotal: 1,
+        });
+        //console.log(tempMusicProfile);
+      } catch (e) {
+        console.log('Error building music profile: ' + e);
+      }
+      //recSongFeatures.push(tempMusicProfile);
+    }
+
+    let songProfiles: songProfile[] = [];
+
+    for (let i = 0; i < recSongLimit; i++) {
+      songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
+    }
+
+    return this.getBestRecommendation(songProfiles, userMusicProfile).songId;
+  }
+
+  async generateUMP(accessToken: string, playlists: playlist[], songs: song[], genres: genre[]): Promise<musicProfile> {
+    let userMusicProfile: musicProfile = emptyMusicProfile;
+
     var outSongArray: NewSong[] = [];
 
-    console.log('dev mode' + isDevMode());
+    // this.createSongs({ id: null, spotifySongId: 'test', spotifyArtistId: 'test',
+    //   artistName: 'test', songName: 'test' });
+
+    //console.log('dev mode' + isDevMode());
 
     if (!isDevMode()) {
       redirect_uri = 'https://musicmatcher.bham.team/initial-training';
@@ -230,6 +302,14 @@ export class RecommendService {
       //console.log("out" + playlistSongsArray[0].spotifySongId);
       outSongArray = outSongArray.concat(playlistSongsArray);
     }
+
+    //write songs to database
+
+    // let params = new HttpParams();
+    // params = params.append('song', {id: 123, spotify_song_id: 123, song_name: 123, spotify_artist_id: 123, artist_name: 123});
+    //
+    // //create the http get request to our api endpoint
+    // const req = this.http.get('/api/songs', { responseType: 'text', params });
 
     let genreArray = await this.getAllArtistGenres(accessToken, playlistSongsArray.concat(outSongArray));
 
@@ -250,6 +330,13 @@ export class RecommendService {
     }
 
     userMusicProfile.genres = userMusicProfile.genres.concat(useableGenreArray);
+
+    //add all initial training songs to database
+    if (outSongArray.length != 0) {
+      for (let i = 0; i < outSongArray.length; i++) {
+        this.createSong(outSongArray[i]);
+      }
+    }
 
     let songRecs = await this.getSeedSongs(
       accessToken,
@@ -297,15 +384,39 @@ export class RecommendService {
 
     userMusicProfile = await this.getSongAttributes(accessToken, outSongArray, userMusicProfile);
 
-    let songProfiles: songProfile[] = [];
+    // let songProfiles: songProfile[] = [];
+    //
+    // for (let i = 0; i < recSongLimit; i++) {
+    //   songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
+    // }
 
-    for (let i = 0; i < recSongLimit; i++) {
-      songProfiles[i] = { songId: recSongIds[i], attributes: recSongFeatures[i] };
-    }
+    //console.log('rec = ' + this.getBestRecommendation(songProfiles).songId);
 
-    console.log('rec = ' + this.getBestRecommendation(songProfiles).songId);
+    //return this.getBestRecommendation(songProfiles).songId;
 
-    return this.getBestRecommendation(songProfiles).songId;
+    return userMusicProfile;
+  }
+
+  createSong(song: NewSong) {
+    let userId: number = 0;
+    let username: string = '';
+
+    //get the current user's username and id
+    this.accountService.identity().subscribe(data => {
+      // @ts-ignore
+      username = data.login;
+      // @ts-ignore
+      userId = data.id;
+    });
+
+    song.user = { id: userId, login: username };
+    song.songName = 'initial';
+
+    let req = this.http.post<ISong>('/api/songs', song, { observe: 'response' });
+    req.subscribe(data => {
+      console.log('' + data);
+    });
+    //});
   }
 
   async getSongJson(accessToken: string, songString: string): Promise<any> {
@@ -390,6 +501,8 @@ export class RecommendService {
 
     let songIdString: string = '';
 
+    userMusicProfile.songTotal = songIds.length;
+
     for (let j = 0; j < songIds.length; j = j + maxIds) {
       songIdString = '';
       if (songIds.length == 1) {
@@ -415,7 +528,6 @@ export class RecommendService {
         userMusicProfile.speechiness += data.audio_features[0].speechiness;
         userMusicProfile.tempo += data.audio_features[0].tempo;
         userMusicProfile.valence += data.audio_features[0].valence;
-        userMusicProfile.songTotal += 1;
       } catch (e) {
         console.log('Error building music profile: ' + e);
       }
@@ -430,7 +542,7 @@ export class RecommendService {
     userMusicProfile.tempo = userMusicProfile.tempo / userMusicProfile.songTotal;
     userMusicProfile.valence = userMusicProfile.valence / userMusicProfile.songTotal;
 
-    console.log('music profile' + userMusicProfile.songTotal);
+    //console.log('music profile' + userMusicProfile.songTotal);
 
     return userMusicProfile;
   }
@@ -445,12 +557,15 @@ export class RecommendService {
     let artistIds: string[] = [];
     let genres: string[] = [];
 
+    //console.log(accessToken);
+
     if (songArray.length == 0) {
       return [];
     }
 
     for (let i = 0; i < songArray.length; i++) {
       artistIds.push(<string>songArray[i].spotifyArtistId);
+      //console.log(songArray[i]);
     }
 
     let artistIdString: string = '';
@@ -503,7 +618,7 @@ export class RecommendService {
     return await result.json();
   }
 
-  getBestRecommendation(songProfiles: songProfile[]): songProfile {
+  getBestRecommendation(songProfiles: songProfile[], userMusicProfile: musicProfile): songProfile {
     let nearestDistance: number = 1000000;
     let nearestSong: songProfile = { songId: '', attributes: emptyMusicProfile };
 

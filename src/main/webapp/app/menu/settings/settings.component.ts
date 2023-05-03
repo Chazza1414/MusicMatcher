@@ -9,10 +9,16 @@ import { ElementRef, ViewChild } from '@angular/core';
 export class SettingsComponent implements OnInit {
   highContrast = false;
   selectedTextSize: string;
+  voiceOverEnabled = false;
+  voiceOver = window.speechSynthesis;
+  speechSynthesisSupported: boolean;
+
+  voiceOverUtterance = new SpeechSynthesisUtterance();
 
   constructor() {
     const savedTextSize = localStorage.getItem('selectedTextSize');
     this.selectedTextSize = savedTextSize ? savedTextSize : 'medium';
+    this.speechSynthesisSupported = 'speechSynthesis' in window;
   }
 
   ngOnInit(): void {
@@ -21,6 +27,7 @@ export class SettingsComponent implements OnInit {
 
   toggleHighContrastMode(enableHighContrast: boolean): void {
     this.highContrast = enableHighContrast;
+    this.speak(this.highContrast ? 'Set to High Contrast' : 'Set to Default');
     const highContrastColor = '#00008b';
     const defaultColor = 'white';
     const secondaryColor = 'Brown';
@@ -28,6 +35,8 @@ export class SettingsComponent implements OnInit {
     const setToWhite = 'white';
 
     const appBody = document.getElementById('app-body');
+    console.log('yh');
+    console.log(appBody);
 
     if (appBody) {
       if (enableHighContrast) {
@@ -36,12 +45,28 @@ export class SettingsComponent implements OnInit {
         appBody.style.setProperty('--secondary-color', secondaryColor);
         appBody.style.setProperty('--third-color', thirdColor);
         appBody.style.setProperty('--border-color', setToWhite);
+        appBody.style.setProperty('--initial-training-background-color', thirdColor);
+        appBody.style.setProperty('--blacktowhite-color', '#000000');
+        appBody.style.setProperty('--lightgreytoblack-color', '#000000');
+        appBody.style.setProperty('--completewhite', '#23395d');
+        appBody.style.setProperty('--like-song-color', '#23395d');
+        appBody.style.setProperty('--playbutton-color', '#ffffff');
+        appBody.style.setProperty('--playbutton2-color', '#FFFF00');
+        appBody.style.setProperty('--link-to-gdpr-color', '#FFFF00');
       } else {
         appBody.style.setProperty('--background-color', defaultColor);
         appBody.style.setProperty('--text-color', '#333');
         appBody.style.setProperty('--secondary-color', secondaryColor);
         appBody.style.setProperty('--third-color', thirdColor);
         appBody.style.setProperty('--border-color', '#333');
+        appBody.style.setProperty('--initial-training-background-color', '#c7fdff');
+        appBody.style.setProperty('--blacktowhite-color', '#c7fdff');
+        appBody.style.setProperty('--lightgreytoblack-color', '#D3D3D3');
+        appBody.style.setProperty('--completewhite', '#ffffff');
+        appBody.style.setProperty('--like-song-color', '#d3d3d3');
+        appBody.style.setProperty('--playbutton-color', '#0d122b');
+        appBody.style.setProperty('--playbutton2-color', '#0000FF');
+        appBody.style.setProperty('--link-to-gdpr-color', '#533f03');
       }
     }
   }
@@ -55,8 +80,57 @@ export class SettingsComponent implements OnInit {
 
   setTextSize(size: string): void {
     this.selectedTextSize = size;
+    this.speak(`Set to ${size}`);
     // Save the text size to local storage
     localStorage.setItem('selectedTextSize', size);
     this.applyTextSize();
+  }
+
+  toggleVoiceOver(enableVoiceOver: boolean): void {
+    if (!this.speechSynthesisSupported) {
+      console.warn('Your browser does not support the Web Speech API.');
+      return;
+    }
+
+    this.voiceOverEnabled = enableVoiceOver;
+    const readableTitles = document.querySelectorAll('.readable-title');
+
+    /*
+    if (this.voiceOverEnabled) {
+      this.attachOrRemoveFocusListeners(true);
+      this.speak('Audio Description turned on');
+    } else {
+      this.attachFocusListeners(false);
+      this.speak('Audio Description turned off');
+    }
+
+     */
+
+    if (this.voiceOverEnabled) {
+      readableTitles.forEach(el => el.addEventListener('mouseover', this.readText as EventListener));
+    } else {
+      readableTitles.forEach(el => el.removeEventListener('mouseover', this.readText as EventListener));
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
+    }
+  }
+
+  readText = (event: MouseEvent): void => {
+    if (!this.voiceOverEnabled) return;
+
+    const targetElement = event.target as HTMLElement;
+    const textToRead = targetElement.tagName === 'SECTION' ? targetElement.getAttribute('title') : targetElement.textContent;
+
+    if (textToRead) {
+      const speech = new SpeechSynthesisUtterance(textToRead);
+      window.speechSynthesis.cancel(); // Cancel any ongoing speech
+      window.speechSynthesis.speak(speech);
+    }
+  };
+
+  speak(text: string): void {
+    if (this.speechSynthesisSupported && this.voiceOverEnabled) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utterance);
+    }
   }
 }

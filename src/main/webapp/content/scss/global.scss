@@ -20,6 +20,16 @@ h4 {
   --secondary-color: #964b00;
   --third-color: #050a30;
   --border-color: #333;
+  --initial-training-background-color: #c7fdff;
+  --likesong-color: #f2f2f2;
+  --blacktowhite-color: #c7fdff;
+  --lightgreytoblack-color: #d3d3d3;
+  --like-song-color: #d3d3d3;
+  --completewhite: #ffffff;
+  --playbutton-color: #0d122b;
+  --playbutton2-color: blue;
+  --link-to-gdpr-color: #533f03;
+  --link-to-gdpr-color2: #ff0000;
 }
 
 body {
@@ -29,12 +39,12 @@ body {
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
 a {
-  color: #533f03;
+  color: var(--link-to-gdpr-color);
   font-weight: bold;
 }
 
 a:hover {
-  color: #533f03;
+  color: var(--link-to-gdpr-color2);
 }
 
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
@@ -86,6 +96,7 @@ Generic styles
   padding: 1.5%;
   margin-top: 20px;
   border: none;
+  background-color: var(--background-color);
 }
 
 .error {

@@ -4,51 +4,40 @@
     <div class="table-header">
       <table class="song-table">
         <thead>
-        <tr>
-          <th class="song-info-title">Title</th>
-          <th class="song-info-time">Time</th>
-          <th class="song-info-artist">Artist</th>
-          <th class="song-info-album">Album</th>
-          <th class="song-info-genre">Genre</th>
-          <th class="song-actions">Actions</th>
-        </tr>
+          <tr>
+            <th class="song-info-title">Title</th>
+            <th class="song-info-time">Time</th>
+            <th class="song-info-artist">Artist</th>
+            <th class="song-info-album">Album</th>
+            <th class="song-info-genre">Genre</th>
+            <th class="song-actions">Actions</th>
+          </tr>
         </thead>
       </table>
     </div>
-    <div class="scrollable-table"> <!-- make it scrollable-->
-      <table class="song-table">
-        <tbody>
-        <ng-container *ngFor="let song of songs; let i = index">
-          <tr class="song-item">
-            <td class="song-info-title">{{ song.songName }}</td>
-            <td class="song-info-time">N/A</td>
-            <td class="song-info-artist">{{ song.artistName }}</td>
-            <td class="song-info-album">N/A</td>
-            <td class="song-info-genre">N/A</td>
-            <td class="song-actions">
-              <i
-                class="fas fa-play-circle play-button"
-                *ngIf="!isPlaying(i)"
-                (click)="onPlayButtonClick(i)"
-              ></i>
-              <i
-                class="fas fa-stop-circle play-button"
-                *ngIf="isPlaying(i)"
-                (click)="onPlayButtonClick(i)"
-              ></i>
-              <div class="heart-container">
-                <i class="fa-solid fa-heart add-to-liked-songs-button"
-                   [ngClass]="{'transparent': song.isLiked}"
-                   (click)="onAddToLikedSongsButtonClick(song)">
-
-                </i>
-
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-        </tbody>
-      </table>
+    <div *ngIf="songInfoArray.length > 0">
+      <div class="scrollable-table">
+        <table class="song-table">
+          <tbody>
+            <ng-container *ngFor="let song of getSongInfoArray(); let i = index">
+              <tr class="song-item">
+                <td class="song-info-title">{{ song.title }}</td>
+                <td class="song-info-time">{{ song.time }}</td>
+                <td class="song-info-artist">{{ song.artist }}</td>
+                <td class="song-info-album">{{ song.album }}</td>
+                <td class="song-info-genre">{{ song.genre }}</td>
+                <td class="song-actions">
+                  <i class="fas fa-play-circle play-button" *ngIf="!isPlaying(i)" (click)="onPlayButtonClick(i)"></i>
+                  <i class="fas fa-stop-circle play-button" *ngIf="isPlaying(i)" (click)="onPlayButtonClick(i)"></i>
+                  <div class="heart-container">
+                    <i class="fa-solid fa-heart add-to-liked-songs-button" (click)="onAddToLikedSongsButtonClick(song)"> </i>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
@@ -56,24 +45,15 @@
   <div class="song-info">
     <img class="song-image" src="https://via.placeholder.com/60" alt="Album Art" />
     <div class="song-details">
-      <p class="song-title">{{ currentSong.songName }}</p>
-      <p class="song-artist">{{ currentSong.artistName }}</p>
+      <p class="song-title">{{ currentSong.title }}</p>
+      <p class="song-artist">{{ currentSong.artist }}</p>
     </div>
   </div>
   <div class="song-popup-actions">
-    <i
-      class="fas fa-play-circle play-button"
-      *ngIf="!currentSong"
-      (click)="onPlayButtonClick(currentlyPlayingIndex)"
-    ></i>
-    <i
-      class="fas fa-stop-circle play-button"
-      *ngIf="currentSong"
-      (click)="onPlayButtonClick(currentlyPlayingIndex)"
-    ></i>
+    <i class="fas fa-play-circle play-button" *ngIf="!currentSong" (click)="onPlayButtonClick(currentlyPlayingIndex)"></i>
+    <i class="fas fa-stop-circle play-button" *ngIf="currentSong" (click)="onPlayButtonClick(currentlyPlayingIndex)"></i>
   </div>
   <div class="progress-container">
     <progress class="playing-progress" [value]="progress" max="100"></progress>
   </div>
 </div>
-

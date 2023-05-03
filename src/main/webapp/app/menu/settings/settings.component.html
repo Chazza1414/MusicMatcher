@@ -9,16 +9,16 @@
     <body>
       <div [ngClass]="{ 'high-contrast': highContrast }">
         <header>
-          <h1 class="section-title">Settings</h1>
+          <h1 class="section-title readable-title">Settings</h1>
         </header>
         <main>
           <section>
-            <h2 class="section-title">High Contrast Mode</h2>
-            <button (click)="toggleHighContrastMode(false)">Default</button>
-            <button (click)="toggleHighContrastMode(true)">High Contrast</button>
+            <h2 class="section-title readable-title">High Contrast Mode</h2>
+            <button class="readable-title" (click)="toggleHighContrastMode(false)">Default</button>
+            <button class="readable-title" (click)="toggleHighContrastMode(true)">High Contrast</button>
           </section>
           <section>
-            <h2 class="section-title">Text Size</h2>
+            <h2 class="section-title readable-title">Text Size</h2>
             <form>
               <div>
                 <label>Select text size:</label>
@@ -30,7 +30,7 @@
                     value="small"
                     name="textSize"
                   />
-                  Small
+                  <span class="readable-title">Small</span>
                   <input
                     [(ngModel)]="selectedTextSize"
                     (change)="setTextSize(selectedTextSize)"
@@ -38,7 +38,7 @@
                     value="medium"
                     name="textSize"
                   />
-                  Medium
+                  <span class="readable-title">Medium</span>
                   <input
                     [(ngModel)]="selectedTextSize"
                     (change)="setTextSize(selectedTextSize)"
@@ -46,7 +46,7 @@
                     value="large"
                     name="textSize"
                   />
-                  Large
+                  <span class="readable-title">Large</span>
                   <input
                     [(ngModel)]="selectedTextSize"
                     (change)="setTextSize(selectedTextSize)"
@@ -54,28 +54,29 @@
                     value="extreme-large"
                     name="textSize"
                   />
-                  Extreme Large
+                  <span class="readable-title">Extreme Large</span>
                 </div>
               </div>
             </form>
           </section>
           <section>
-            <h2 class="section-title">Audio Description</h2>
+            <h2 class="section-title readable-title">Audio Description</h2>
             <label class="switch">
-              <input type="checkbox" />
+              <input type="checkbox" #voiceOverCheckbox (change)="toggleVoiceOver(voiceOverCheckbox.checked)" />
               <span class="slider"></span>
             </label>
           </section>
+
           <section>
-            <h2 class="section-title">Volume</h2>
+            <h2 class="section-title readable-title">Volume</h2>
             <div class="volume">
               <img src="sound.jpg" alt="sound icon" />
               <input type="range" min="0" max="100" value="50" />
             </div>
           </section>
           <section>
-            <h2 class="section-title">Version</h2>
-            <p>1.0</p>
+            <h2 class="section-title readable-title">Version</h2>
+            <p class="readable-title">1.0</p>
           </section>
         </main>
       </div>

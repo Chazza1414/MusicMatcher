@@ -16,13 +16,19 @@
 
 <!-- Navigation to Liked Song Page -->
 <div class="vertical">
-  <p class="fontDesign recentSongPos">Recent Liked Song</p>
+  <p class="fontDesign recentSongPos">Your Recent Album</p>
   <div class="hoverItem">
-    <button class="lButton lButtonPos" aria-hidden="true" routerLink="/liked-songs">To Liked Song Page ></button>
+    <button class="lButton lButtonPos" aria-hidden="true" href="/liked-songs"></button>
   </div>
-  <div class="pBox f1Pos"></div>
-  <div class="pBox f2Pos"></div>
-  <div class="pBox f3Pos"></div>
+  <div class="pBox f1Pos" id="myAlbum1">
+    <p id="Album1" class="al1"></p>
+  </div>
+  <div class="pBox f2Pos" id="myAlbum2">
+    <p id="Album2" class="al2"></p>
+  </div>
+  <div class="pBox f3Pos" id="myAlbum3">
+    <p id="Album3" class="al3"></p>
+  </div>
   <p class="fontDesign tPos1">Top Song For You</p>
   <div class="pBox f4Pos" id="track2"></div>
   <div class="pBox f5Pos" id="track1"></div>
@@ -34,13 +40,19 @@
 
 <!-- Second line For Navigation to Disliked Song Page-->
 <div class="vertical2">
-  <p class="fontDesign recentDisliked">Recent Disliked Song</p>
+  <p class="fontDesign recentDisliked">Your Followed Artist</p>
   <div class="hoverItem">
-    <button class="lButton lButtonPos" routerLink="/disliked-songs">To Disliked Song Page ></button>
+    <button class="lButton lButtonPos" routerLink="/disliked-songs"></button>
   </div>
-  <div class="pBox f1Pos"></div>
-  <div class="pBox f2Pos"></div>
-  <div class="pBox f3Pos"></div>
+  <div class="pBox f1Pos" id="followedArtist1">
+    <p id="followedArtistName1" class="al1"></p>
+  </div>
+  <div class="pBox f2Pos" id="followedArtist2">
+    <p id="followedArtistName2" class="al2"></p>
+  </div>
+  <div class="pBox f3Pos" id="followedArtist3">
+    <p id="followedArtistName3" class="al3"></p>
+  </div>
 
   <!-- Artist Container-->
   <p class="fontDesign tPos2">Top Artist For You</p>
@@ -60,11 +72,11 @@
 <div class="horizontal">
   <div class="artistChart">
     <p class="aLetter">Favorite Artist</p>
-    <canvas id="myChart"></canvas>
+    <canvas id="myChart1"></canvas>
   </div>
 
   <div class="songChart">
     <p class="sLetter">Favorite Song</p>
-    <canvas id="myChart1"></canvas>
+    <canvas id="myChart"></canvas>
   </div>
 </div>
