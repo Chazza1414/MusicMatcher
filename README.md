@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # teamproject
 
 ## Developed by:
@@ -267,3 +268,7 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 
 
 Omar 15/02/2023
+=======
+# MusicMatcher
+Music recommendation application using the Spotify API
+>>>>>>> baa810c4d4bc511e07a254250820c153b9731396
