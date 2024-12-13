@@ -8,3 +8,6 @@ MusicMatcher is a music recommendation application that analyses the user's musi
 
 It is a web-based application with an Angular front end, Springboot backend and a PostgreSQL database, all generated using JHipster.
 The project heavily relies on the Spotify API which is used to load the user library, return track information and many other things.
+
+This is the link for the University repository where commits and issues were created:
+https://git.cs.bham.ac.uk/team-projects-2022-23/teamai49-22
