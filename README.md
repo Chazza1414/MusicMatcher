@@ -11,3 +11,23 @@ The project heavily relies on the Spotify API which is used to load the user lib
 
 This is the link for the University repository where commits and issues were created:
 https://git.cs.bham.ac.uk/team-projects-2022-23/teamai49-22
+
+## Usage
+
+**This project is currently broken!**  
+This is due to a few reasons:
+
+- The Spotify authentication for the application has expired
+- Running locally was configured for the production environment (small changes needed)
+
+To run this project locally use the following steps:
+
+1. Clone the project onto your machine
+2. From the parent directory run `.\mvnw` (on Windows), this will take some time
+
+### Dependencies
+
+Ensure the following has been installed prior to running:
+
+1. Java - set the JAVA_HOME environment variable
+2. NodeJS
